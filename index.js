@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const path = require('path')
 const exphbs = require('express-handlebars')
 const todoRoutes = require('./routes/todos')
+const keys = require('./config/keys')
 
 const PORT = process.env.PORT || 3000
 
@@ -20,12 +21,12 @@ app.set('views', 'views')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(todoRoutes)
+app.use('/api', todoRoutes)
 
 async function start() {
   try {
     await mongoose.connect(
-      'mongodb+srv://Sargis:998866aion+@cluster0.hc3gp.mongodb.net/todos',
+      keys.mongoTudo,
       {
         useNewUrlParser: true,
         useFindAndModify: false

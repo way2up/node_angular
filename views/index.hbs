@@ -4,7 +4,7 @@
 <ul>
   {{#each todos}}
   <li class="todo">
-    <form action="/complete" method="POST">
+    <form action="/api/complete" method="POST">
       <label>
         {{#if completed}}
         <input type="checkbox" checked name="completed">

@@ -17,3 +17,4 @@
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\" "
   },`
+  9) `$ npm run dev` for run app server  (localhost: 3000) and client (localhost: 4200) side 
