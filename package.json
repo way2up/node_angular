@@ -14,8 +14,11 @@
   "author": "Sargis Sargsyan",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
+    "express-validator": "^6.12.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.6"
   },
   "devDependencies": {

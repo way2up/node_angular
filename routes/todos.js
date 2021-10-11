@@ -20,12 +20,14 @@ router.get('/create', (req, res) => {
 })
 
 router.post('/create', async (req, res) => {
+ 
   const todo = new Todo({
     title: req.body.title
   })
-
   await todo.save()
-  res.redirect('/')
+  // res.status(201).json(todo)
+
+  res.redirect('/api')
 })
 
 router.post('/complete', async (req, res) => {
@@ -34,7 +36,7 @@ router.post('/complete', async (req, res) => {
   todo.completed = !!req.body.completed
   await todo.save()
 
-  res.redirect('/')
+  res.redirect('/api')
 })
 
 module.exports = router

@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const path = require('path')
 const exphbs = require('express-handlebars')
 const todoRoutes = require('./routes/todos')
+const authRoutes = require('./routes/authRouter')
 const keys = require('./config/keys')
 
 const PORT = process.env.PORT || 3000
@@ -18,10 +19,12 @@ app.set('view engine', 'hbs')
 app.set('views', 'views')
 
 // for parse body
+app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/api', todoRoutes)
+app.use('/api', authRoutes)
 
 async function start() {
   try {
