@@ -19,7 +19,9 @@
     "express-handlebars": "^3.1.0",
     "express-validator": "^6.12.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.6.6"
+    "mongoose": "^5.6.6",
+    "passport": "^0.5.0",
+    "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
     "concurrently": "^6.3.0",
