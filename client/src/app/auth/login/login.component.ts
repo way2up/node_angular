@@ -20,24 +20,31 @@ export class LoginComponent implements OnInit, OnDestroy {
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     })
+
+    this.auth.getUsers().subscribe(
+      (data) => console.log(data),
+      error => {
+        console.warn(error);
+      }
+    )
+
   }
 
-  onSubmit() {
-    console.log(this.form.value)
-
-    // this.form.disable();
-
-    //  this.aSub =  this.auth.login(this.form.value).subscribe(
-    //     () => console.log('Login Success'),
-    //     error => {
-    //       console.warn(error);
-    //       this.form.enable();
-    //     }
-    //   );
+  onLogin() {
+    this.form.disable();
+    this.aSub = this.auth.login(this.form.value).subscribe(
+      (data) => {
+        console.log(data)
+        console.log(this.aSub)
+      },
+      error => {
+        console.warn(error);
+        this.form.enable();
+      }
+    );
   }
 
   ngOnDestroy() {
-
     if (this.aSub) {
       this.aSub.unsubscribe();
     }

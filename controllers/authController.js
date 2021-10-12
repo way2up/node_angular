@@ -51,14 +51,14 @@ class authController {
         }
     }
 
-    // async getUsers(req, res) {
-    //     try {
-    //         const users = await User.find()
-    //         res.json(users)
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
+    async getUsers(req, res) {
+        try {
+            const users = await User.find()
+            res.status(200).json(users)
+        } catch (e) {
+            console.log(e)
+        }
+    }
 }
 
 module.exports = new authController()
