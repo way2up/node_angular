@@ -9,11 +9,9 @@ import { tap } from 'rxjs/internal/operators';
 })
 export class AuthService {
 
-
     public token = null;
 
     constructor(private http: HttpClient) { }
-
 
     login(user: User): Observable<{ token: string }> {
         return this.http.post<{ token: string }>('/api/login', user).pipe(

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
@@ -11,22 +12,15 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 export class LoginComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
-  aSub: Subscription
+  aSub: Subscription;
 
-  constructor(private auth: AuthService) { }
+  constructor(public router: Router, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     })
-
-    this.auth.getUsers().subscribe(
-      (data) => console.log(data),
-      error => {
-        console.warn(error);
-      }
-    )
 
   }
 
@@ -35,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.aSub = this.auth.login(this.form.value).subscribe(
       (data) => {
         console.log(data)
-        console.log(this.aSub)
+        this.router.navigate(['/home']);
       },
       error => {
         console.warn(error);

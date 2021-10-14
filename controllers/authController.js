@@ -43,7 +43,7 @@ class authController {
                 email: user.email,
                 userId: user._id,
             }, keys.jwt , {expiresIn: "4h"})
-            return res.status(200).json({token})
+            return res.status(200).json({token,user})
             // return res.json({message: "login succsess "})
         } catch (e) {
             console.log(e)
