@@ -6,4 +6,6 @@ export interface Vacancy {
     city: string,
     address: string,
     telephone: string,
+    fileName: string
+
 }

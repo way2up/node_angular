@@ -8,6 +8,7 @@ const schema = new Schema({
     city: {type: String, required: false},
     address: {type: String, required: false},
     telephone: {type: String, required: false},
+    fileName: {type: String, required: false}
 })
 
 module.exports = model('Vacancy', schema)

@@ -13,4 +13,8 @@ export class VacancyService {
         return this.http.post('/api/setVacancy', vacancy);
     }
 
+    uploadFile(file) {
+        return this.http.post('/api/upload', file);
+    }
+
 }

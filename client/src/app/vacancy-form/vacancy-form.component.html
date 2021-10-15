@@ -50,7 +50,7 @@
         </div> -->
         <div class="form-group mt-3">
             <label class="mr-4">Upload your CV: <span class="reqField">*</span></label>
-            <input type="file" name="file">
+            <input type="file" name="file" (change)="fileChange($event)"  accept=".docx, .pdf">
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
