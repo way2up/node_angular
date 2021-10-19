@@ -4,11 +4,11 @@ const schema = new Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     email: {type: String, unique: true, required: true},
-    stack: {type: String, required: true},
+    position: {type: String, required: true},
     city: {type: String, required: false},
     address: {type: String, required: false},
     telephone: {type: String, required: false},
-    fileName: {type: String, required: false}
+    fileName: {type: String | null | undefined, required: false}
 })
 
 module.exports = model('Vacancy', schema)

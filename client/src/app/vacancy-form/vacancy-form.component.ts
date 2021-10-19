@@ -10,7 +10,7 @@ import { VacancyService } from '../shared/services/vacancy.service';
 export class VacancyFormComponent implements OnInit {
 
   public form: FormGroup;
-  public selectedStack = 'Select Your Stack';
+  public selectedPosition = 'Select Position';
   public uploadedFiles: Array<File>;
   public uploadFileName: string;
 
@@ -29,8 +29,8 @@ export class VacancyFormComponent implements OnInit {
     })
   }
 
-  selectStack(data: string): void {
-    this.selectedStack = data;
+  selectPosition(data: string): void {
+    this.selectedPosition = data;
   }
 
   fileChange(element) {
@@ -59,17 +59,17 @@ export class VacancyFormComponent implements OnInit {
 
   setVacancy() {
     this.form.disable();
-    if (this.selectedStack === 'Select Your Stack') {
-      alert('Select Your Stack');
+    if (this.selectedPosition === 'Select Position') {
+      alert('Select Your Position');
       this.form.enable();
       return;
     }
-    if (!this.uploadFileName) {
-      alert('Upload CV');
-      this.form.enable();
-      return;
-    }
-    this.form.value.stack = this.selectedStack;
+    // if (!this.uploadFileName) {
+    //   alert('Upload CV, it should be in PDF format only');
+    //   this.form.enable();
+    //   return;
+    // }
+    this.form.value.position = this.selectedPosition;
     this.form.value.fileName = this.uploadFileName;
     console.log(this.form.value)
     this.vacancyService.setVacancy(this.form.value).subscribe(

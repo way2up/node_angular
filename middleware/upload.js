@@ -6,7 +6,7 @@ const storage = new GridFsStorage({
     url: keys.mongoTudo,
     options: { useNewUrlParser: true, useUnifiedTopology: true },
     file: (req, file) => {
-        const match = ["image/png", "image/jpeg", "image/docx", "image/pdf"];
+        const match = ["image/png", "image/jpeg", "application/docx", "application/pdf"];
 
         if (match.indexOf(file.mimetype) === -1) {
             const filename = `${Date.now()}-any-name-${file.originalname}`;
