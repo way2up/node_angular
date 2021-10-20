@@ -3,7 +3,7 @@ const {GridFsStorage} = require('multer-gridfs-storage');
 const keys = require('../config/keys')
 
 const storage = new GridFsStorage({
-    url: keys.mongoTudo,
+    url: keys.mongoHR_Tool,
     options: { useNewUrlParser: true, useUnifiedTopology: true },
     file: (req, file) => {
         const match = ["image/png", "image/jpeg", "application/docx", "application/pdf"];
