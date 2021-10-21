@@ -9,6 +9,7 @@ router.post('/registration', controllerAuth.registration);
 router.post('/login', controllerAuth.login);
 router.get('/getUsers', controllerAuth.getUsers);
 router.post('/setVacancy', controllerVacancy.setVacancy);
+router.get('/getVacancies', controllerVacancy.getVacancies);
 
 // vacancy   --- reqVacancies
 

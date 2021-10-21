@@ -20,9 +20,11 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { VacancyFormComponent } from './vacancy-form/vacancy-form.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, VacancyFormComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -39,6 +41,8 @@ import {
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule,
   ],
   bootstrap: [AppComponent],
 })

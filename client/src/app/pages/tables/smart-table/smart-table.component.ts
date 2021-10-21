@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 
 import { SmartTableData } from '../../../@core/data/smart-table';
+import { VacancyService } from '../../../@core/data/vacancy.service';
 
 @Component({
   selector: 'ngx-smart-table',
@@ -55,9 +56,20 @@ export class SmartTableComponent {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableData) {
+  constructor(private service: SmartTableData, private vacancyService: VacancyService) {
     const data = this.service.getData();
+    console.log(data);
     this.source.load(data);
+    this.getVacancies();
+  }
+
+  getVacancies() {
+    this.vacancyService.getVacancies().subscribe(
+      (data) => console.log(data),
+      error => {
+        console.warn(error);
+      }
+    )
   }
 
   onDeleteConfirm(event): void {

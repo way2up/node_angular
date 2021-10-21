@@ -203,7 +203,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'grid-outline',
     children: [
       {
-        title: 'Smart Table',
+        title: 'Candidates',
         link: '/pages/tables/smart-table',
       },
       {

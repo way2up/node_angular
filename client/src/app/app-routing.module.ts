@@ -9,7 +9,13 @@ import {
   NbResetPasswordComponent,
 } from '@nebular/auth';
 
+import { VacancyFormComponent } from './vacancy-form/vacancy-form.component';
+
 export const routes: Routes = [
+  {
+    path: 'vacancy',
+    component: VacancyFormComponent
+  },
   {
     path: 'pages',
     loadChildren: () => import('./pages/pages.module')
@@ -45,6 +51,7 @@ export const routes: Routes = [
       },
     ],
   },
+  
   { path: '', redirectTo: 'pages', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },
 ];
