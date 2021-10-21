@@ -35,11 +35,9 @@ export class VacancyFormComponent implements OnInit {
 
   fileChange(element) {
     this.uploadedFiles = element.target.files;
-    console.log(this.uploadedFiles[0]);
 
     const formData = new FormData();
     for (var i = 0; i < this.uploadedFiles.length; i++) {
-      console.log(this.uploadedFiles[i]);
       formData.append('file', this.uploadedFiles[i]);
     }
     // formData.forEach((value, key) => {

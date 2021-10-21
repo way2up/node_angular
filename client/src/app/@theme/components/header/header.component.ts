@@ -78,7 +78,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   changeTheme(themeName: string) {
     this.themeService.changeTheme(themeName);
-    console.log(this.userPictureOnly);
   }
 
   toggleSidebar(): boolean {

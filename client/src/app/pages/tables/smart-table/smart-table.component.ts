@@ -58,14 +58,13 @@ export class SmartTableComponent {
 
   constructor(private service: SmartTableData, private vacancyService: VacancyService) {
     const data = this.service.getData();
-    console.log(data);
     this.source.load(data);
     this.getVacancies();
   }
 
   getVacancies() {
     this.vacancyService.getVacancies().subscribe(
-      (data) => console.log(data),
+      (data) => (data),
       error => {
         console.warn(error);
       }
