@@ -11,6 +11,8 @@ import { VacancyService } from '../../../@core/data/vacancy.service';
 })
 export class SmartTableComponent {
 
+  public candidates: Array<any>;
+
   settings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -27,10 +29,10 @@ export class SmartTableComponent {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'number',
-      },
+      // _id: {
+      //   title: 'ID',
+      //   type: 'number',
+      // },
       firstName: {
         title: 'First Name',
         type: 'string',
@@ -39,36 +41,57 @@ export class SmartTableComponent {
         title: 'Last Name',
         type: 'string',
       },
-      username: {
-        title: 'Username',
-        type: 'string',
-      },
       email: {
         title: 'E-mail',
         type: 'string',
       },
-      age: {
-        title: 'Age',
-        type: 'number',
+      position: {
+        title: 'Position',
+        type: 'string',
       },
+      view: {
+        title: 'View more',
+        type: 'html',
+      }
     },
+    // actions: {
+    //   custom: [
+    //     {
+    //       name: 'yourAction',
+    //       title: '-->',
+    //     }
+    //   ],
+    // }
   };
 
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private service: SmartTableData, private vacancyService: VacancyService) {
     const data = this.service.getData();
-    this.source.load(data);
+    // console.log(data)
+    // this.source.load(data);
     this.getVacancies();
   }
 
   getVacancies() {
     this.vacancyService.getVacancies().subscribe(
-      (data) => (data),
+      (data: Array<any>) => {
+        this.candidates = data;
+        this.candidates = this.candidates.map(item => {
+          item.view = `<span (click)="seeMore($event)"><i  class="far fa-address-card"></i></span>`;
+          return item;
+        })
+        this.source.load(this.candidates);
+        console.log(this.candidates)
+      },
       error => {
         console.warn(error);
       }
     )
+  }
+
+  seeMore(item) {
+    console.log(item)
   }
 
   onDeleteConfirm(event): void {
@@ -77,5 +100,9 @@ export class SmartTableComponent {
     } else {
       event.confirm.reject();
     }
+  }
+
+  onUserRowSelect(item) {
+    // console.log(item)
   }
 }

@@ -11,6 +11,9 @@ export class SmartTableService extends SmartTableData {
     username: '@mdo',
     email: 'mdo@gmail.com',
     age: '28',
+    a:4,
+    b:'asd',
+    c:true
   }, {
     id: 2,
     firstName: 'Jacob',

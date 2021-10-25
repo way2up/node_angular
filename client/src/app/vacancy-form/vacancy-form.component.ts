@@ -56,10 +56,10 @@ export class VacancyFormComponent implements OnInit {
   }
 
   setVacancy() {
-    this.form.disable();
+    // this.form.disable();
     if (this.selectedPosition === 'Select Position') {
       alert('Select Your Position');
-      this.form.enable();
+      // this.form.enable();
       return;
     }
     // if (!this.uploadFileName) {

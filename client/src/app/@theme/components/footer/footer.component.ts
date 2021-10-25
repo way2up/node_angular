@@ -8,10 +8,10 @@ import { Component } from '@angular/core';
       Created with ♥ by <b><a href="https://way2up.am/index" target="_blank">WAY2UP</a></b> 2021
     </span>
     <div class="socials">
-      <a href="#" target="_blank" class="ion ion-social-github"></a>
-      <a href="#" target="_blank" class="ion ion-social-facebook"></a>
-      <a href="#" target="_blank" class="ion ion-social-twitter"></a>
-      <a href="#" target="_blank" class="ion ion-social-linkedin"></a>
+      <a href="javascript:;"  class="ion ion-social-github"></a>
+      <a href="javascript:;" class="ion ion-social-facebook"></a>
+      <a href="javascript:;" class="ion ion-social-twitter"></a>
+      <a href="javascript:;" class="ion ion-social-linkedin"></a>
     </div>
   `,
 })
