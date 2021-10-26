@@ -49,6 +49,10 @@ export class SmartTableComponent {
         title: 'Position',
         type: 'string',
       },
+      date: {
+        title: 'Date',
+        type: 'string',
+      },
       view: {
         title: 'View more',
         type: 'html',
@@ -81,6 +85,9 @@ export class SmartTableComponent {
           item.view = `<span (click)="seeMore($event)"><i  class="far fa-address-card"></i></span>`;
           return item;
         })
+        // this.sortedItems = items.sort((a: any, b: any) =>
+        //   new Date(a.date).getTime() - new Date(b.date).getTime()
+        // );
         this.source.load(this.candidates);
         console.log(this.candidates)
       },

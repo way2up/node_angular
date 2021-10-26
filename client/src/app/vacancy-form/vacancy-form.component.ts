@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VacancyService } from '../@core/data/vacancy.service';
+import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-vacancy-form',
@@ -14,11 +15,10 @@ export class VacancyFormComponent implements OnInit {
   public uploadedFiles: Array<File>;
   public uploadFileName: string;
 
-  constructor(private vacancyService: VacancyService) { }
+  constructor(private vacancyService: VacancyService, public datepipe: DatePipe) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
-
       firstName: new FormControl(null, [Validators.required]),
       lastName: new FormControl(null, [Validators.required]),
       email: new FormControl(null, [Validators.required, Validators.email]),
@@ -67,8 +67,13 @@ export class VacancyFormComponent implements OnInit {
     //   this.form.enable();
     //   return;
     // }
+    let date=new Date();
+    let date_Now =this.datepipe.transform(date, 'yyyy-MM-dd, h:mm');
+    // console.log(latest_date)
+    // console.log(new Date(latest_date))
     this.form.value.position = this.selectedPosition;
     this.form.value.fileName = this.uploadFileName;
+    this.form.value.date = date_Now;
     console.log(this.form.value)
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {

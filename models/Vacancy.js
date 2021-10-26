@@ -8,7 +8,8 @@ const schema = new Schema({
     city: {type: String, required: false},
     address: {type: String, required: false},
     telephone: {type: String, required: false},
-    fileName: {type: String | null | undefined, required: false}
+    fileName: {type: String | null | undefined, required: false},
+    date: {type: String, required: false},
 })
 
 module.exports = model('Vacancy', schema)
