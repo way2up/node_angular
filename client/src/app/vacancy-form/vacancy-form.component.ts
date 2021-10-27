@@ -12,8 +12,19 @@ export class VacancyFormComponent implements OnInit {
 
   public form: FormGroup;
   public selectedPosition = 'Select Position';
+  public selectedSkill = 'Select Skill';
+  public selectedRating = 'Select Rating';
   public uploadedFiles: Array<File>;
   public uploadFileName: string;
+  public positionArr = ['Frontend', 'Backend', 'Full Stack', 'HR', 'QA', 'UI/UX', 'Project manager', 'Team leader'];
+  public skillArr = [
+    'HTML/CSS', 'Analytical', 'Responsive design', 'React', 'React Native', 'Flutter', 'Angular', 'Git',
+    'JavaScript ', 'Interpersonal', 'Testing and debugging', 'Back-end basics', 'Search engine'
+  ];
+  public ratingArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+  public skillAndRatingArr = [
+    { skill: 'Select Skill', rating: 'Select Rating', showRating: false }
+  ]
 
   constructor(private vacancyService: VacancyService, public datepipe: DatePipe) { }
 
@@ -26,11 +37,28 @@ export class VacancyFormComponent implements OnInit {
       address: new FormControl(null, [Validators.required]),
       telephone: new FormControl(null, [Validators.required]),
       // file: new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    })
+    });
   }
 
   selectPosition(data: string): void {
     this.selectedPosition = data;
+  }
+
+  selectSkill(name: string, index: number): void {
+    this.skillAndRatingArr[index].skill = name;
+    this.skillAndRatingArr[index].showRating = true;
+  }
+
+  selectRating(name: string, index: number): void {
+    this.skillAndRatingArr[index].rating = name;
+    let newRow = { skill: 'Select Skill', rating: 'Select Rating', showRating: false };
+    if ((index + 1) === this.skillAndRatingArr.length) {
+      this.skillAndRatingArr.push(newRow);
+    }
+  }
+
+  removeRowSkill(index: number): void {
+    this.skillAndRatingArr.splice(index, 1);
   }
 
   fileChange(element) {
@@ -67,13 +95,13 @@ export class VacancyFormComponent implements OnInit {
     //   this.form.enable();
     //   return;
     // }
-    let date=new Date();
-    let date_Now =this.datepipe.transform(date, 'yyyy-MM-dd, h:mm');
-    // console.log(latest_date)
-    // console.log(new Date(latest_date))
+    let date = new Date();
+    let date_Now = this.datepipe.transform(date, 'yyyy-MM-dd, h:mm');
     this.form.value.position = this.selectedPosition;
     this.form.value.fileName = this.uploadFileName;
     this.form.value.date = date_Now;
+    this.skillAndRatingArr.pop();
+    this.form.value.skills = this.skillAndRatingArr;
     console.log(this.form.value)
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {

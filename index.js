@@ -71,7 +71,7 @@ app.use('/api', uploadRoutes)
 async function start() {
   try {
     await mongoose.connect(
-      keys.mongoHR_Tool2,
+      keys.mongoHR_Tool3,
       {
         useNewUrlParser: true,
         useFindAndModify: false
