@@ -10,7 +10,13 @@ import { DatePipe } from '@angular/common'
 })
 export class VacancyFormComponent implements OnInit {
 
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
+
   public form: FormGroup;
+  
   public selectedPosition = 'Select Position';
   public selectedSkill = 'Select Skill';
   public selectedRating = 'Select Rating';
@@ -38,6 +44,7 @@ export class VacancyFormComponent implements OnInit {
       telephone: new FormControl(null, [Validators.required]),
       // file: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     });
+
   }
 
   selectPosition(data: string): void {

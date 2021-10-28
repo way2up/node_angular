@@ -9,17 +9,16 @@ import {
   NbResetPasswordComponent,
 } from '@nebular/auth';
 
-import { VacancyFormComponent } from './vacancy-form/vacancy-form.component';
-
 export const routes: Routes = [
-  {
-    path: 'vacancy',
-    component: VacancyFormComponent
-  },
   {
     path: 'pages',
     loadChildren: () => import('./pages/pages.module')
       .then(m => m.PagesModule),
+  },
+  {
+    path: 'vacancy',
+    loadChildren: () => import('./vacancy-form/vacancy-form.module')
+      .then(m => m.VacancyFormModule),
   },
   {
     path: 'auth',
@@ -61,8 +60,12 @@ const config: ExtraOptions = {
 };
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, config)],
-  exports: [RouterModule],
+  imports: [
+    RouterModule.forRoot(routes, config),
+  ],
+  exports: [
+    RouterModule,
+  ],
 })
 export class AppRoutingModule {
 }
