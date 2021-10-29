@@ -10,13 +10,8 @@ import { DatePipe } from '@angular/common'
 })
 export class VacancyFormComponent implements OnInit {
 
-  range = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl()
-  });
-
   public form: FormGroup;
-  
+
   public selectedPosition = 'Select Position';
   public selectedSkill = 'Select Skill';
   public selectedRating = 'Select Rating';
@@ -30,7 +25,8 @@ export class VacancyFormComponent implements OnInit {
   public ratingArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   public skillAndRatingArr = [
     { skill: 'Select Skill', rating: 'Select Rating', showRating: false }
-  ]
+  ];
+  public educationArr: Array<any>;
 
   constructor(private vacancyService: VacancyService, public datepipe: DatePipe) { }
 
@@ -45,10 +41,22 @@ export class VacancyFormComponent implements OnInit {
       // file: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     });
 
+    this.educationArr = [
+      {
+        name: '',
+        date: new FormGroup({
+          start: new FormControl(),
+          end: new FormControl()
+        })
+      }
+    ];
+
   }
 
   selectPosition(data: string): void {
     this.selectedPosition = data;
+    // console.log(this.range1.value);
+    // console.log(this.range1);
   }
 
   selectSkill(name: string, index: number): void {
@@ -66,6 +74,21 @@ export class VacancyFormComponent implements OnInit {
 
   removeRowSkill(index: number): void {
     this.skillAndRatingArr.splice(index, 1);
+  }
+
+  addEducation(): void {
+    let newEducation = {
+      name: '',
+      date: new FormGroup({
+        start: new FormControl(),
+        end: new FormControl()
+      })
+    }
+    this.educationArr.push(newEducation);
+  }
+
+  removeEducation(index: number) {
+    this.educationArr.splice(index, 1);
   }
 
   fileChange(element) {
@@ -109,7 +132,32 @@ export class VacancyFormComponent implements OnInit {
     this.form.value.date = date_Now;
     this.skillAndRatingArr.pop();
     this.form.value.skills = this.skillAndRatingArr;
-    console.log(this.form.value)
+
+    this.educationArr.map(item => {
+      item.dateValue = item.date.value;
+      return item;
+    });
+
+    for (const element of this.educationArr) {
+      if (element.date.status === 'INVALID' || element.dateValue.start === null || element.dateValue.end === null) {
+        alert('Please note valid date, in education fields');
+        return false;
+      }
+
+    }
+
+    let education = [];
+    this.educationArr.map((item, index) => {
+      education[index] = {};
+      education[index][`name`] = item.name;
+      education[index][`dateValue`] = item.dateValue;
+      return item;
+    });
+
+    this.form.value.education = education;
+  
+    console.log(this.form.value);
+
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {
         console.log(data)

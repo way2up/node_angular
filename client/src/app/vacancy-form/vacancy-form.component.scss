@@ -1,10 +1,23 @@
 h1 {
-    font-size: 20px;
-    margin-top: 24px;
-    margin-bottom: 24px;
-  }
-  
-  img {
-  height: 40px;}
+  font-size: 20px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
 
-  .reqField {color: red;}
+img {
+  height: 40px;
+}
+
+.reqField {
+  color: red;
+}
+
+.education_name__input,
+.education_add__btn,
+.education_remove__btn {
+  height: 54px;
+}
+
+.education_add__btn {
+  width: 100%;
+}
