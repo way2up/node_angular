@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-md-6 offset-md-3 mt-5">
         <h1>Job Application Form</h1>
-        <form [formGroup]="form" (ngSubmit)="setVacancy()">
+        <form [formGroup]="form" (ngSubmit)="sendForm()">
             <div class="form-group">
                 <label for="exampleInputFirstName">First Name <span class="reqField">*</span></label>
                 <input type="text" name="firstName" formControlName="firstName" class="form-control"
@@ -82,13 +82,14 @@
             <div class="form-group">
                 <label for="inputCity">Education</label>
                 <ul class="list-group ">
-                    
+
                     <li class="list-group-item" *ngFor="let education of educationArr; let i = index">
                         <div class="row ">
                             <div class="col-4">
                                 <div class="input-group ">
                                     <input type="text" placeholder="Name" [(ngModel)]="education.name"
-                                     [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
+                                        [ngModelOptions]="{standalone: true}"
+                                        class="form-control education_name__input">
                                 </div>
                             </div>
 
@@ -103,16 +104,19 @@
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-date-range-picker #picker></mat-date-range-picker>
 
-                                    <mat-error *ngIf="education.date.controls.start.hasError('matStartDateInvalid')">Invalid
+                                    <mat-error *ngIf="education.date.controls.start.hasError('matStartDateInvalid')">
+                                        Invalid
                                         start date</mat-error>
-                                    <mat-error *ngIf="education.date.controls.end.hasError('matEndDateInvalid')">Invalid end
+                                    <mat-error *ngIf="education.date.controls.end.hasError('matEndDateInvalid')">Invalid
+                                        end
                                         date</mat-error>
                                 </mat-form-field>
 
                             </div>
 
                             <div class="col-2">
-                                <button type="button" class="btn btn-danger education_remove__btn" (click)="removeEducation(i)">Remove</button>
+                                <button type="button" class="btn btn-danger education_remove__btn"
+                                    (click)="removeEducation(i)">Remove</button>
                             </div>
 
                         </div>
@@ -120,7 +124,76 @@
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-12">
-                                <button type="button" class="btn btn-primary education_add__btn" (click)="addEducation()">Add</button>
+                                <button type="button" class="btn btn-primary education_add__btn"
+                                    (click)="addEducation()">Add</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label for="inputCity">Work experience</label>
+                <ul class="list-group ">
+
+                    <li class="list-group-item" *ngFor="let work of workExperienceArr; let i = index">
+                        <div class="row ">
+                            <div class="col-5">
+                                <div class="input-group ">
+                                    <input type="text" placeholder="Name" [(ngModel)]="work.name"
+                                        [ngModelOptions]="{standalone: true}"
+                                        class="form-control education_name__input">
+                                </div>
+                            </div>
+
+                            <div class="col-5">
+                                <div class="input-group ">
+                                    <input type="text" placeholder="Position" [(ngModel)]="work.position"
+                                        [ngModelOptions]="{standalone: true}"
+                                        class="form-control education_name__input">
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <button type="button" class="btn btn-danger education_remove__btn"
+                                    (click)="removeWorkExperience(i)">Remove</button>
+                            </div>
+
+                            <div class="col-6 mt-3">
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Enter a date range</mat-label>
+                                    <mat-date-range-input [formGroup]="work.date" [rangePicker]="picker">
+                                        <input matStartDate formControlName="start" placeholder="Start date">
+                                        <input matEndDate formControlName="end" placeholder="End date">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker></mat-date-range-picker>
+
+                                    <mat-error *ngIf="work.date.controls.start.hasError('matStartDateInvalid')">
+                                        Invalid
+                                        start date</mat-error>
+                                    <mat-error *ngIf="work.date.controls.end.hasError('matEndDateInvalid')">Invalid
+                                        end
+                                        date</mat-error>
+                                </mat-form-field>
+
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea class="form-control"  [ngModelOptions]="{standalone: true}" [(ngModel)]="work.description" maxlength="1000" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-primary education_add__btn"
+                                    (click)="addWorkExperience()">Add</button>
                             </div>
                         </div>
                     </li>
@@ -156,7 +229,6 @@
             </div>
             <button type="submit" class="btn btn-success">Save</button>
         </form>
-
 
     </div>
 </div>

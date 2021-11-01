@@ -10,6 +10,7 @@ export interface Vacancy {
     position:string,
     skills: Array<any>,
     education: Array<any>,
+    workExperience: Array<any>,
     city: string,
     address: string,
     telephone: string,

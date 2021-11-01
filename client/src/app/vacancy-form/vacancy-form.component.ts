@@ -11,7 +11,6 @@ import { DatePipe } from '@angular/common'
 export class VacancyFormComponent implements OnInit {
 
   public form: FormGroup;
-
   public selectedPosition = 'Select Position';
   public selectedSkill = 'Select Skill';
   public selectedRating = 'Select Rating';
@@ -27,6 +26,7 @@ export class VacancyFormComponent implements OnInit {
     { skill: 'Select Skill', rating: 'Select Rating', showRating: false }
   ];
   public educationArr: Array<any>;
+  public workExperienceArr: Array<any>;
 
   constructor(private vacancyService: VacancyService, public datepipe: DatePipe) { }
 
@@ -44,6 +44,18 @@ export class VacancyFormComponent implements OnInit {
     this.educationArr = [
       {
         name: '',
+        date: new FormGroup({
+          start: new FormControl(),
+          end: new FormControl()
+        })
+      }
+    ];
+
+    this.workExperienceArr = [
+      {
+        name: '',
+        description: '',
+        position: '',
         date: new FormGroup({
           start: new FormControl(),
           end: new FormControl()
@@ -91,6 +103,24 @@ export class VacancyFormComponent implements OnInit {
     this.educationArr.splice(index, 1);
   }
 
+  addWorkExperience(): void {
+    let newExperience = {
+      name: '',
+      description: '',
+      position: '',
+      date: new FormGroup({
+        start: new FormControl(),
+        end: new FormControl()
+      })
+    }
+    this.workExperienceArr.push(newExperience);
+  }
+
+  removeWorkExperience(index: number) {
+    this.workExperienceArr.splice(index, 1);
+  }
+
+
   fileChange(element) {
     this.uploadedFiles = element.target.files;
 
@@ -113,7 +143,7 @@ export class VacancyFormComponent implements OnInit {
       )
   }
 
-  setVacancy() {
+  sendForm() {
     // this.form.disable();
     if (this.selectedPosition === 'Select Position') {
       alert('Select Your Position');
@@ -138,14 +168,32 @@ export class VacancyFormComponent implements OnInit {
       return item;
     });
 
+    this.workExperienceArr.map(item => {
+      item.dateValue = item.date.value;
+      return item;
+    });
+
     for (const element of this.educationArr) {
       if (element.date.status === 'INVALID' || element.dateValue.start === null || element.dateValue.end === null) {
         alert('Please note valid date, in education fields');
         return false;
       }
-
     }
 
+    for (const element of this.workExperienceArr) {
+      if (element.date.status === 'INVALID' || element.dateValue.start === null || element.dateValue.end === null) {
+        alert('Please note valid date, in work experience fields');
+        return false;
+      }
+    }
+
+    this.convertEducation();
+    this.convertWorkExperience();
+    console.log(this.form.value);
+    this.putVacancy();
+  }
+
+  convertEducation() {
     let education = [];
     this.educationArr.map((item, index) => {
       education[index] = {};
@@ -155,8 +203,23 @@ export class VacancyFormComponent implements OnInit {
     });
 
     this.form.value.education = education;
-  
-    console.log(this.form.value);
+  }
+
+  convertWorkExperience() {
+    let workExperience = [];
+    this.workExperienceArr.map((item, index) => {
+      workExperience[index] = {};
+      workExperience[index][`name`] = item.name;
+      workExperience[index][`description`] = item.description;
+      workExperience[index][`position`] = item.position;
+      workExperience[index][`dateValue`] = item.dateValue;
+      return item;
+    });
+
+    this.form.value.workExperience = workExperience;
+  }
+
+  putVacancy() {
 
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {
