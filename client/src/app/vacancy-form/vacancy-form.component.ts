@@ -3,11 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Vacancy, VacancyService } from '../@core/data/vacancy.service';
 import { DatePipe } from '@angular/common'
 import { Observable } from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 
-import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import {MatDatepicker} from '@angular/material/datepicker';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
 
 // Depending on whether rollup is used, moment needs to be imported differently.
 // Since Moment.js doesn't have a default export, we normally need to import using the `* as`
@@ -15,7 +15,7 @@ import {MatDatepicker} from '@angular/material/datepicker';
 // the `default as` syntax.
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
-import { Moment} from 'moment';
+import { Moment } from 'moment';
 // import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 const moment = _moment;
@@ -46,7 +46,7 @@ export const MY_FORMATS = {
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
 
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
 export class VacancyFormComponent implements OnInit {
@@ -71,19 +71,13 @@ export class VacancyFormComponent implements OnInit {
   public workExperienceArr: Array<any>;
 
   myControlPosition = new FormControl();
-  optionsPosition: string[] =  ['Frontend', 'Backend', 'Full Stack', 'HR', 'QA', 'UI/UX', 'Project manager', 'Team leader'];
+  optionsPosition: string[] = ['Frontend', 'Backend', 'Full Stack', 'HR', 'QA', 'UI/UX', 'Project manager', 'Team leader'];
   filteredPositionOptions: Observable<string[]>;
 
   myControlSkils = new FormControl();
-  optionsSkils: string[] =  ['HTML/CSS', 'Analytical', 'Responsive design', 'React', 'React Native', 'Flutter', 'Angular', 'Git',
-  'JavaScript ', 'Interpersonal', 'Testing and debugging', 'Back-end basics', 'Search engine'];
+  optionsSkils: string[] = ['HTML/CSS', 'Analytical', 'Responsive design', 'React', 'React Native', 'Flutter', 'Angular', 'Git',
+    'JavaScript ', 'Interpersonal', 'Testing and debugging', 'Back-end basics', 'Search engine'];
   filteredSkilsOptions: Observable<string[]>;
-
-  // date start
-  date = new FormControl(moment());
-  date1 = new FormControl(moment());
-  minDate;
-  maxDate;
 
   constructor(private vacancyService: VacancyService, public datepipe: DatePipe) { }
 
@@ -104,10 +98,14 @@ export class VacancyFormComponent implements OnInit {
     this.educationArr = [
       {
         name: '',
-        date: new FormGroup({
-          start: new FormControl(),
-          end: new FormControl()
-        })
+        dateStart: new FormControl(moment()),
+        dateEnd: new FormControl(moment()),
+        startDate: null,
+        endDate: null,
+        // date: new FormGroup({
+        //   start: new FormControl(),
+        //   end: new FormControl()
+        // })
       }
     ];
 
@@ -116,37 +114,41 @@ export class VacancyFormComponent implements OnInit {
         name: '',
         description: '',
         position: '',
-        date: new FormGroup({
-          start: new FormControl(),
-          end: new FormControl()
-        })
+        dateStart: new FormControl(moment()),
+        dateEnd: new FormControl(moment()),
+        startDate: null,
+        endDate: null,
+        // date: new FormGroup({
+        //   start: new FormControl(),
+        //   end: new FormControl()
+        // })
       }
     ];
 
   }
 
-   _filterPosition(): void {
+  _filterPosition(): void {
     const foo1 = (value) => {
       const filterValue = value.toLowerCase();
       return this.optionsPosition.filter(option => option.toLowerCase().includes(filterValue));
     }
     this.filteredPositionOptions = this.myControlPosition.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => foo1(value))
-    );
+      .pipe(
+        startWith(''),
+        map(value => foo1(value))
+      );
   }
 
-   _filterSkils(): void {
+  _filterSkils(): void {
     const foo1 = (value) => {
       const filterValue = value.toLowerCase();
       return this.optionsSkils.filter(option => option.toLowerCase().includes(filterValue));
     }
     this.filteredSkilsOptions = this.myControlSkils.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => foo1(value))
-    );
+      .pipe(
+        startWith(''),
+        map(value => foo1(value))
+      );
   }
 
   selectPosition(data: string): void {
@@ -173,10 +175,10 @@ export class VacancyFormComponent implements OnInit {
   addEducation(): void {
     let newEducation = {
       name: '',
-      date: new FormGroup({
-        start: new FormControl(),
-        end: new FormControl()
-      })
+      dateStart: new FormControl(moment()),
+      dateEnd: new FormControl(moment()),
+      startDate: null,
+      endDate: null,
     }
     this.educationArr.push(newEducation);
   }
@@ -190,10 +192,10 @@ export class VacancyFormComponent implements OnInit {
       name: '',
       description: '',
       position: '',
-      date: new FormGroup({
-        start: new FormControl(),
-        end: new FormControl()
-      })
+      dateStart: new FormControl(moment()),
+      dateEnd: new FormControl(moment()),
+      startDate: null,
+      endDate: null,
     }
     this.workExperienceArr.push(newExperience);
   }
@@ -222,6 +224,66 @@ export class VacancyFormComponent implements OnInit {
       )
   }
 
+  chosenYearWorkStart(normalizedYear: Moment, index: number) {
+    const ctrlValue = this.workExperienceArr[index].dateStart.value;
+    ctrlValue.year(normalizedYear.year());
+    this.workExperienceArr[index].dateStart.setValue(ctrlValue);
+    this.workExperienceArr[index].startDate = this.datepipe.transform(this.workExperienceArr[index].dateStart.value._d, 'yyyy-MM');
+  }
+
+  chosenMonthWorkStart(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>, index: number) {
+    const ctrlValue = this.workExperienceArr[index].dateStart.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.workExperienceArr[index].dateStart.setValue(ctrlValue);
+    this.workExperienceArr[index].startDate = this.datepipe.transform(this.workExperienceArr[index].dateStart.value._d, 'yyyy-MM');
+    datepicker.close();
+  }
+
+  chosenYearWorkEnd(normalizedYear: Moment, index: number) {
+    const ctrlValue = this.workExperienceArr[index].dateEnd.value;
+    ctrlValue.year(normalizedYear.year());
+    this.workExperienceArr[index].dateEnd.setValue(ctrlValue);
+    this.workExperienceArr[index].endDate = this.datepipe.transform(this.workExperienceArr[index].dateEnd.value._d, 'yyyy-MM');
+  }
+
+  chosenMonthWorkEnd(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>, index: number) {
+    const ctrlValue = this.workExperienceArr[index].dateEnd.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.workExperienceArr[index].dateEnd.setValue(ctrlValue);
+    this.workExperienceArr[index].endDate = this.datepipe.transform(this.workExperienceArr[index].dateEnd.value._d, 'yyyy-MM');
+    datepicker.close();
+  }
+
+  chosenYearEducationStart(normalizedYear: Moment, index: number) {
+    const ctrlValue = this.educationArr[index].dateStart.value;
+    ctrlValue.year(normalizedYear.year());
+    this.educationArr[index].dateStart.setValue(ctrlValue);
+    this.educationArr[index].startDate = this.datepipe.transform(this.educationArr[index].dateStart.value._d, 'yyyy-MM');
+  }
+
+  chosenMonthEducationStart(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>, index: number) {
+    const ctrlValue = this.educationArr[index].dateStart.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.educationArr[index].dateStart.setValue(ctrlValue);
+    this.educationArr[index].startDate = this.datepipe.transform(this.educationArr[index].dateStart.value._d, 'yyyy-MM');
+    datepicker.close();
+  }
+
+  chosenYearEducationEnd(normalizedYear: Moment, index: number) {
+    const ctrlValue = this.educationArr[index].dateEnd.value;
+    ctrlValue.year(normalizedYear.year());
+    this.educationArr[index].dateEnd.setValue(ctrlValue);
+    this.educationArr[index].endDate = this.datepipe.transform(this.educationArr[index].dateEnd.value._d, 'yyyy-MM');
+  }
+
+  chosenMonthEducationEnd(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>, index: number) {
+    const ctrlValue = this.educationArr[index].dateEnd.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.educationArr[index].dateEnd.setValue(ctrlValue);
+    this.educationArr[index].endDate = this.datepipe.transform(this.educationArr[index].dateEnd.value._d, 'yyyy-MM');
+    datepicker.close();
+  }
+
   sendForm() {
     // this.form.disable();
     if (this.selectedPosition === 'Select Position') {
@@ -238,25 +300,15 @@ export class VacancyFormComponent implements OnInit {
     this.skillAndRatingArr.pop();
     this.form.value.skills = this.skillAndRatingArr;
 
-    this.educationArr.map(item => {
-      item.dateValue = item.date.value;
-      return item;
-    });
-
-    this.workExperienceArr.map(item => {
-      item.dateValue = item.date.value;
-      return item;
-    });
-
     for (const element of this.educationArr) {
-      if (element.date.status === 'INVALID' || element.dateValue.start === null || element.dateValue.end === null) {
+      if (element.dateStart.status === 'INVALID' || element.dateEnd.status === 'INVALID' || !element.startDate || !element.endDate) {
         alert('Please note valid date, in education fields');
         return false;
       }
     }
 
     for (const element of this.workExperienceArr) {
-      if (element.date.status === 'INVALID' || element.dateValue.start === null || element.dateValue.end === null) {
+      if (element.dateStart.status === 'INVALID' || element.dateEnd.status === 'INVALID' || !element.startDate || !element.endDate) {
         alert('Please note valid date, in work experience fields');
         return false;
       }
@@ -273,7 +325,8 @@ export class VacancyFormComponent implements OnInit {
     this.educationArr.map((item, index) => {
       education[index] = {};
       education[index][`name`] = item.name;
-      education[index][`dateValue`] = item.dateValue;
+      education[index][`startDate`] = item.startDate;
+      education[index][`endDate`] = item.endDate;
       return item;
     });
 
@@ -287,41 +340,12 @@ export class VacancyFormComponent implements OnInit {
       workExperience[index][`name`] = item.name;
       workExperience[index][`description`] = item.description;
       workExperience[index][`position`] = item.position;
-      workExperience[index][`dateValue`] = item.dateValue;
+      workExperience[index][`startDate`] = item.startDate;
+      workExperience[index][`endDate`] = item.endDate;
       return item;
     });
 
     this.form.value.workExperience = workExperience;
-  }
-
-  chosenYearHandlerStart(normalizedYear: Moment) {
-    const ctrlValue = this.date.value;
-    ctrlValue.year(normalizedYear.year());
-    this.date.setValue(ctrlValue);
-    this.minDate =  this.datepipe.transform(this.date.value._d, 'yyyy-MM');
-  }
-
-  chosenMonthHandlerStart(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-    const ctrlValue = this.date.value;
-    ctrlValue.month(normalizedMonth.month());
-    this.date.setValue(ctrlValue);
-    this.minDate =  this.datepipe.transform(this.date.value._d, 'yyyy-MM');
-    datepicker.close();
-  }
-
-  chosenYearHandlerEnd(normalizedYear: Moment) {
-    const ctrlValue = this.date1.value;
-    ctrlValue.year(normalizedYear.year());
-    this.date1.setValue(ctrlValue);
-    this.maxDate = this.datepipe.transform(this.date1.value._d, 'yyyy-MM');
-  }
-
-  chosenMonthHandlerEnd(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-    const ctrlValue = this.date1.value;
-    ctrlValue.month(normalizedMonth.month());
-    this.date1.setValue(ctrlValue);
-    this.maxDate = this.datepipe.transform(this.date1.value._d, 'yyyy-MM');
-    datepicker.close();
   }
 
   putVacancy() {

@@ -11,19 +11,17 @@
                 <label>Position <span class="reqField">*</span></label>
                 <form class="example-form">
                     <mat-form-field class="example-full-width" appearance="fill">
-                      <mat-label>Select Position</mat-label>
-                      <input type="text"
-                             placeholder="Pick one"
-                             matInput
-                             [formControl]="myControlPosition"
-                             [matAutocomplete]="auto">
-                      <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option (click)="selectPosition(option)" *ngFor="let option of filteredPositionOptions | async" [value]="option">
-                          {{option}}
-                        </mat-option>
-                      </mat-autocomplete>
+                        <mat-label>Select Position</mat-label>
+                        <input type="text" placeholder="Pick one" matInput [formControl]="myControlPosition"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option (click)="selectPosition(option)"
+                                *ngFor="let option of filteredPositionOptions | async" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
-                  </form>
+                </form>
             </div>
             <div class="form-group">
                 <label for="exampleInputFirstName">First Name <span class="reqField">*</span></label>
@@ -49,19 +47,17 @@
                             <div class="col-6">
                                 <form class="example-form">
                                     <mat-form-field class="example-full-width" appearance="fill">
-                                      <mat-label>Select Skill</mat-label>
-                                      <input type="text"
-                                             placeholder="Pick one"
-                                             matInput
-                                             [formControl]="myControlSkils"
-                                             [matAutocomplete]="auto">
-                                      <mat-autocomplete #auto="matAutocomplete">
-                                        <mat-option (click)="selectSkill(option,i)" *ngFor="let option of filteredSkilsOptions | async" [value]="option">
-                                          {{option}}
-                                        </mat-option>
-                                      </mat-autocomplete>
+                                        <mat-label>Select Skill</mat-label>
+                                        <input type="text" placeholder="Pick one" matInput
+                                            [formControl]="myControlSkils" [matAutocomplete]="auto">
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option (click)="selectSkill(option,i)"
+                                                *ngFor="let option of filteredSkilsOptions | async" [value]="option">
+                                                {{option}}
+                                            </mat-option>
+                                        </mat-autocomplete>
                                     </mat-form-field>
-                                  </form>
+                                </form>
 
                             </div>
                             <div class="col-4">
@@ -95,7 +91,7 @@
 
                     <li class="list-group-item" *ngFor="let education of educationArr; let i = index">
                         <div class="row ">
-                            <div class="col-4">
+                            <div class="col-10">
                                 <div class="input-group ">
                                     <input type="text" placeholder="Name" [(ngModel)]="education.name"
                                         [ngModelOptions]="{standalone: true}"
@@ -103,29 +99,35 @@
                                 </div>
                             </div>
 
-                            <div class="col-6">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Enter a date range</mat-label>
-                                    <mat-date-range-input [formGroup]="education.date" [rangePicker]="picker">
-                                        <input matStartDate formControlName="start" placeholder="Start date">
-                                        <input matEndDate formControlName="end" placeholder="End date">
-                                    </mat-date-range-input>
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-date-range-picker #picker></mat-date-range-picker>
-
-                                    <mat-error *ngIf="education.date.controls.start.hasError('matStartDateInvalid')">
-                                        Invalid
-                                        start date</mat-error>
-                                    <mat-error *ngIf="education.date.controls.end.hasError('matEndDateInvalid')">Invalid
-                                        end
-                                        date</mat-error>
-                                </mat-form-field>
-
-                            </div>
-
                             <div class="col-2">
                                 <button type="button" class="btn btn-danger education_remove__btn"
                                     (click)="removeEducation(i)">Remove</button>
+                            </div>
+                            
+                            <div class="col-5 mt-3">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Start Date</mat-label>
+                                    <input matInput [matDatepicker]="sd" [max]="education.endDate" [formControl]="education.dateStart">
+                                    <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
+                                    <mat-datepicker #sd startView="multi-year"
+                                        (yearSelected)="chosenYearEducationStart($event, i)"
+                                        (monthSelected)="chosenMonthEducationStart($event, sd, i)"
+                                        panelClass="example-month-picker">
+                                    </mat-datepicker>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-5 mt-3">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>End Date</mat-label>
+                                    <input matInput [matDatepicker]="ed" [min]="education.startDate" [formControl]="education.dateEnd">
+                                    <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
+                                    <mat-datepicker #ed startView="multi-year"
+                                        (yearSelected)="chosenYearEducationEnd($event, i)"
+                                        (monthSelected)="chosenMonthEducationEnd($event, ed, i)"
+                                        panelClass="example-month-picker">
+                                    </mat-datepicker>
+                                </mat-form-field>
                             </div>
 
                         </div>
@@ -168,31 +170,37 @@
                                     (click)="removeWorkExperience(i)">Remove</button>
                             </div>
 
-                            <div class="col-6 mt-3">
-
+                            <div class="col-5 mt-3">
                                 <mat-form-field appearance="fill">
-                                    <mat-label>Enter a date range</mat-label>
-                                    <mat-date-range-input [formGroup]="work.date" [rangePicker]="picker">
-                                        <input matStartDate formControlName="start" placeholder="Start date">
-                                        <input matEndDate formControlName="end" placeholder="End date">
-                                    </mat-date-range-input>
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-date-range-picker #picker></mat-date-range-picker>
-
-                                    <mat-error *ngIf="work.date.controls.start.hasError('matStartDateInvalid')">
-                                        Invalid
-                                        start date</mat-error>
-                                    <mat-error *ngIf="work.date.controls.end.hasError('matEndDateInvalid')">Invalid
-                                        end
-                                        date</mat-error>
+                                    <mat-label>Start Date</mat-label>
+                                    <input matInput [matDatepicker]="sd" [max]="work.endDate" [formControl]="work.dateStart">
+                                    <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
+                                    <mat-datepicker #sd startView="multi-year"
+                                        (yearSelected)="chosenYearWorkStart($event, i)"
+                                        (monthSelected)="chosenMonthWorkStart($event, sd, i)"
+                                        panelClass="example-month-picker">
+                                    </mat-datepicker>
                                 </mat-form-field>
+                            </div>
 
+                            <div class="col-5 mt-3">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>End Date</mat-label>
+                                    <input matInput [matDatepicker]="ed" [min]="work.startDate" [formControl]="work.dateEnd">
+                                    <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
+                                    <mat-datepicker #ed startView="multi-year"
+                                        (yearSelected)="chosenYearWorkEnd($event, i)"
+                                        (monthSelected)="chosenMonthWorkEnd($event, ed, i)"
+                                        panelClass="example-month-picker">
+                                    </mat-datepicker>
+                                </mat-form-field>
                             </div>
 
                             <div class="col-12">
                                 <div class="form-group">
                                     <label>Description</label>
-                                    <textarea class="form-control"  [ngModelOptions]="{standalone: true}" [(ngModel)]="work.description" maxlength="1000" rows="3"></textarea>
+                                    <textarea class="form-control" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="work.description" maxlength="1000" rows="3"></textarea>
                                 </div>
                             </div>
 
@@ -224,20 +232,14 @@
                 <input class="form-control" name="tel" formControlName="telephone" type="tel" value="+374"
                     id="example-tel-input">
             </div>
-            <!-- <div class="form-group">
-                <label for="example-date-input" class="col-3 col-form-label">Start Date</label>
-                <div class="col-10">
-                    <input class="form-control" name="starting_date" type="date" value="2020-02-01" id="example-date-input">
-                </div>
-            </div> -->
             <div class="form-group">
                 <label>Introduction text</label>
-                <textarea class="form-control"  [ngModelOptions]="{standalone: true}" [(ngModel)]="introductionText" maxlength="1000" rows="3"></textarea>
+                <textarea class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="introductionText"
+                    maxlength="1000" rows="3"></textarea>
             </div>
 
             <div class="form-group mt-3">
                 <label class="mr-4">Upload your CV:
-                    <!-- <span class="reqField">*</span> -->
                 </label>
                 <input type="file" name="file" (change)="fileChange($event)" accept=".pdf">
             </div>
@@ -246,46 +248,3 @@
 
     </div>
 </div>
-//
-<mat-form-field appearance="fill">
-    <mat-label>Start Date</mat-label>
-    <input matInput [matDatepicker]="sd" [max]="maxDate" [formControl]="date">
-    <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
-    <mat-datepicker #sd 
-                    startView="multi-year"
-                    (yearSelected)="chosenYearHandlerStart($event)"
-                    (monthSelected)="chosenMonthHandlerStart($event, sd)"
-                    panelClass="example-month-picker">
-    </mat-datepicker>
-  </mat-form-field>
-//
-<mat-form-field appearance="fill">
-    <mat-label>End Date</mat-label>
-    <input matInput [matDatepicker]="ed" [min]="minDate" [formControl]="date1">
-    <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
-    <mat-datepicker #ed 
-                    startView="multi-year"
-                    (yearSelected)="chosenYearHandlerEnd($event)"
-                    (monthSelected)="chosenMonthHandlerEnd($event, ed)"
-                    panelClass="example-month-picker">
-    </mat-datepicker>
-  </mat-form-field>
-
-  <!-- // 
-  <mat-form-field appearance="fill">
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [formGroup]="educationArr[0].date" [rangePicker]="picker">
-        <input matStartDate formControlName="start" placeholder="Start date">
-        <input matEndDate formControlName="end" placeholder="End date">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker startView="multi-year"></mat-date-range-picker>
-
-    <mat-error *ngIf="educationArr[0].date.controls.start.hasError('matStartDateInvalid')">
-        Invalid
-        start date</mat-error>
-    <mat-error *ngIf="educationArr[0].date.controls.end.hasError('matEndDateInvalid')">Invalid
-        end
-        date</mat-error>
-</mat-form-field> -->
-  
