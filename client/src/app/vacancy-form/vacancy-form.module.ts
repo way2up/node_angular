@@ -9,6 +9,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ThemeModule } from '../@theme/theme.module';
 import { NbMenuModule } from '@nebular/theme';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 
 
 const routes: Routes = [{
@@ -24,9 +26,10 @@ const routes: Routes = [{
         RouterModule.forChild(routes),
         ThemeModule,
         NbMenuModule,
-        // MatNativeDateModule,
         MatDatepickerModule,
         MatSelectModule,
+        MatAutocompleteModule,
+        MatInputModule,
     ],
     exports: [RouterModule],
     declarations: [

@@ -8,6 +8,24 @@
         <h1>Job Application Form</h1>
         <form [formGroup]="form" (ngSubmit)="sendForm()">
             <div class="form-group">
+                <label>Position <span class="reqField">*</span></label>
+                <form class="example-form">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                      <mat-label>Select Position</mat-label>
+                      <input type="text"
+                             placeholder="Pick one"
+                             matInput
+                             [formControl]="myControlPosition"
+                             [matAutocomplete]="auto">
+                      <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option (click)="selectPosition(option)" *ngFor="let option of filteredPositionOptions | async" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </form>
+            </div>
+            <div class="form-group">
                 <label for="exampleInputFirstName">First Name <span class="reqField">*</span></label>
                 <input type="text" name="firstName" formControlName="firstName" class="form-control"
                     id="exampleInputFirstName" placeholder="Enter your first name" required="required">
@@ -24,35 +42,27 @@
                     aria-describedby="emailHelp" placeholder="Enter your email address">
             </div>
             <div class="form-group">
-                <label>Position <span class="reqField">*</span></label>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{selectedPosition}}
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" *ngFor="let pos of positionArr" (click)="selectPosition(pos)"
-                            href="javascript:">{{pos}}</a>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
                 <label for="example-tel-input">Skills</label>
                 <ul class="list-group ">
                     <li class="list-group-item" *ngFor="let skillRating of skillAndRatingArr; let i = index">
                         <div class="row">
                             <div class="col-6">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        {{skillRating.skill}}
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" *ngFor="let skill of skillArr"
-                                            (click)="selectSkill(skill, i)" href="javascript:">{{skill}}</a>
-                                    </div>
-                                </div>
+                                <form class="example-form">
+                                    <mat-form-field class="example-full-width" appearance="fill">
+                                      <mat-label>Select Skill</mat-label>
+                                      <input type="text"
+                                             placeholder="Pick one"
+                                             matInput
+                                             [formControl]="myControlSkils"
+                                             [matAutocomplete]="auto">
+                                      <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option (click)="selectSkill(option,i)" *ngFor="let option of filteredSkilsOptions | async" [value]="option">
+                                          {{option}}
+                                        </mat-option>
+                                      </mat-autocomplete>
+                                    </mat-form-field>
+                                  </form>
+
                             </div>
                             <div class="col-4">
                                 <div class="dropdown" *ngIf='skillRating.showRating'>
@@ -94,7 +104,6 @@
                             </div>
 
                             <div class="col-6">
-
                                 <mat-form-field appearance="fill">
                                     <mat-label>Enter a date range</mat-label>
                                     <mat-date-range-input [formGroup]="education.date" [rangePicker]="picker">
@@ -221,6 +230,11 @@
                     <input class="form-control" name="starting_date" type="date" value="2020-02-01" id="example-date-input">
                 </div>
             </div> -->
+            <div class="form-group">
+                <label>Introduction text</label>
+                <textarea class="form-control"  [ngModelOptions]="{standalone: true}" [(ngModel)]="introductionText" maxlength="1000" rows="3"></textarea>
+            </div>
+
             <div class="form-group mt-3">
                 <label class="mr-4">Upload your CV:
                     <!-- <span class="reqField">*</span> -->
@@ -232,3 +246,46 @@
 
     </div>
 </div>
+//
+<mat-form-field appearance="fill">
+    <mat-label>Start Date</mat-label>
+    <input matInput [matDatepicker]="sd" [max]="maxDate" [formControl]="date">
+    <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
+    <mat-datepicker #sd 
+                    startView="multi-year"
+                    (yearSelected)="chosenYearHandlerStart($event)"
+                    (monthSelected)="chosenMonthHandlerStart($event, sd)"
+                    panelClass="example-month-picker">
+    </mat-datepicker>
+  </mat-form-field>
+//
+<mat-form-field appearance="fill">
+    <mat-label>End Date</mat-label>
+    <input matInput [matDatepicker]="ed" [min]="minDate" [formControl]="date1">
+    <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
+    <mat-datepicker #ed 
+                    startView="multi-year"
+                    (yearSelected)="chosenYearHandlerEnd($event)"
+                    (monthSelected)="chosenMonthHandlerEnd($event, ed)"
+                    panelClass="example-month-picker">
+    </mat-datepicker>
+  </mat-form-field>
+
+  <!-- // 
+  <mat-form-field appearance="fill">
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [formGroup]="educationArr[0].date" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start date">
+        <input matEndDate formControlName="end" placeholder="End date">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker startView="multi-year"></mat-date-range-picker>
+
+    <mat-error *ngIf="educationArr[0].date.controls.start.hasError('matStartDateInvalid')">
+        Invalid
+        start date</mat-error>
+    <mat-error *ngIf="educationArr[0].date.controls.end.hasError('matEndDateInvalid')">Invalid
+        end
+        date</mat-error>
+</mat-form-field> -->
+  

@@ -13,6 +13,7 @@ const schema = new Schema({
     telephone: {type: String, required: false},
     fileName: {type: String | null | undefined, required: false},
     date: {type: String, required: false},
+    introductionText: {type: String, required: false},
 })
 
 module.exports = model('Vacancy', schema)

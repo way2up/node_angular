@@ -16,6 +16,7 @@ export interface Vacancy {
     telephone: string,
     fileName: string,
     date: string,
+    introductionText: string,
 }
 
 @Injectable({

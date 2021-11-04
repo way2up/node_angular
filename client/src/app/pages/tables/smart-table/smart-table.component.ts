@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 
-import { SmartTableData } from '../../../@core/data/smart-table';
+// import { SmartTableData } from '../../../@core/data/smart-table';
 import { VacancyService } from '../../../@core/data/vacancy.service';
 
 @Component({
@@ -33,12 +33,8 @@ export class SmartTableComponent {
       //   title: 'ID',
       //   type: 'number',
       // },
-      firstName: {
-        title: 'First Name',
-        type: 'string',
-      },
-      lastName: {
-        title: 'Last Name',
+      name: {
+        title: 'Name',
         type: 'string',
       },
       email: {
@@ -70,8 +66,10 @@ export class SmartTableComponent {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableData, private vacancyService: VacancyService) {
-    const data = this.service.getData();
+  constructor(
+    // private service: SmartTableData,
+     private vacancyService: VacancyService) {
+    // const data = this.service.getData();
     // console.log(data)
     // this.source.load(data);
     this.getVacancies();
@@ -82,7 +80,8 @@ export class SmartTableComponent {
       (data: Array<any>) => {
         this.candidates = data;
         this.candidates = this.candidates.map(item => {
-          item.view = `<span (click)="seeMore($event)"><i  class="far fa-address-card"></i></span>`;
+          item.name = item.firstName + ' ' + item.lastName;
+           item.view = `<span (click)="seeMore($event)"><i  class="far fa-address-card"></i></span>`;
           return item;
         })
         // this.sortedItems = items.sort((a: any, b: any) =>
