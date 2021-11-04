@@ -58,15 +58,9 @@ export class VacancyFormComponent implements OnInit {
   public uploadedFiles: Array<File>;
   public uploadFileName: string;
   public introductionText: string;
-  // public positionArr = ['Frontend', 'Backend', 'Full Stack', 'HR', 'QA', 'UI/UX', 'Project manager', 'Team leader'];
-  public skillArr = [
-    'HTML/CSS', 'Analytical', 'Responsive design', 'React', 'React Native', 'Flutter', 'Angular', 'Git',
-    'JavaScript ', 'Interpersonal', 'Testing and debugging', 'Back-end basics', 'Search engine'
-  ];
+
   public ratingArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-  public skillAndRatingArr = [
-    { skill: 'Select Skill', rating: 'Select Rating', showRating: false }
-  ];
+
   public educationArr: Array<any>;
   public workExperienceArr: Array<any>;
 
@@ -74,7 +68,12 @@ export class VacancyFormComponent implements OnInit {
   optionsPosition: string[] = ['Frontend', 'Backend', 'Full Stack', 'HR', 'QA', 'UI/UX', 'Project manager', 'Team leader'];
   filteredPositionOptions: Observable<string[]>;
 
-  myControlSkils = new FormControl();
+  public skillAndRatingArr = [
+    { skill: 'Select Skill', myControlSkils: new FormControl(), rating: 'Select Rating' }
+  ];
+
+  // myControlSkils = new FormControl();
+  public newSkill: string;
   optionsSkils: string[] = ['HTML/CSS', 'Analytical', 'Responsive design', 'React', 'React Native', 'Flutter', 'Angular', 'Git',
     'JavaScript ', 'Interpersonal', 'Testing and debugging', 'Back-end basics', 'Search engine'];
   filteredSkilsOptions: Observable<string[]>;
@@ -102,10 +101,6 @@ export class VacancyFormComponent implements OnInit {
         dateEnd: new FormControl(moment()),
         startDate: null,
         endDate: null,
-        // date: new FormGroup({
-        //   start: new FormControl(),
-        //   end: new FormControl()
-        // })
       }
     ];
 
@@ -118,10 +113,6 @@ export class VacancyFormComponent implements OnInit {
         dateEnd: new FormControl(moment()),
         startDate: null,
         endDate: null,
-        // date: new FormGroup({
-        //   start: new FormControl(),
-        //   end: new FormControl()
-        // })
       }
     ];
 
@@ -144,7 +135,7 @@ export class VacancyFormComponent implements OnInit {
       const filterValue = value.toLowerCase();
       return this.optionsSkils.filter(option => option.toLowerCase().includes(filterValue));
     }
-    this.filteredSkilsOptions = this.myControlSkils.valueChanges
+    this.filteredSkilsOptions = this.skillAndRatingArr[0].myControlSkils.valueChanges
       .pipe(
         startWith(''),
         map(value => foo1(value))
@@ -156,13 +147,16 @@ export class VacancyFormComponent implements OnInit {
   }
 
   selectSkill(name: string, index: number): void {
+    this.skillAndRatingArr[index].skill = null;
+    const scaleRating = window.prompt("On a scale of 1 to 10, please indicate how well you master the skill․", "");
+    var x = Number(scaleRating)
+    if (!scaleRating || x.toString() === 'NaN' || x < 1 || x > 10) {
+      alert('Write number 1 - 10');
+      return;
+    }
     this.skillAndRatingArr[index].skill = name;
-    this.skillAndRatingArr[index].showRating = true;
-  }
-
-  selectRating(name: string, index: number): void {
-    this.skillAndRatingArr[index].rating = name;
-    let newRow = { skill: 'Select Skill', rating: 'Select Rating', showRating: false };
+    this.skillAndRatingArr[index].rating = scaleRating;
+    let newRow = { skill: 'Select Skill', myControlSkils: new FormControl(), rating: 'Select Rating' };
     if ((index + 1) === this.skillAndRatingArr.length) {
       this.skillAndRatingArr.push(newRow);
     }
@@ -170,6 +164,13 @@ export class VacancyFormComponent implements OnInit {
 
   removeRowSkill(index: number): void {
     this.skillAndRatingArr.splice(index, 1);
+  }
+
+  addYourSkill() {
+    let newsSkill = this.newSkill
+    this.optionsSkils.push(newsSkill);
+    this._filterSkils();
+    this.newSkill = '';
   }
 
   addEducation(): void {
@@ -317,7 +318,7 @@ export class VacancyFormComponent implements OnInit {
     this.convertEducation();
     this.convertWorkExperience();
     console.log(this.form.value);
-    this.putVacancy();
+    // this.putVacancy();
   }
 
   convertEducation() {
