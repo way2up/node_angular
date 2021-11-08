@@ -299,6 +299,7 @@ export class VacancyFormComponent implements OnInit {
     this.form.value.introductionText = this.introductionText;
     this.form.value.date = date_Now;
     this.skillAndRatingArr.pop();
+    this.skillAndRatingArr.map(item => delete item.myControlSkils);
     this.form.value.skills = this.skillAndRatingArr;
 
     for (const element of this.educationArr) {
@@ -318,7 +319,7 @@ export class VacancyFormComponent implements OnInit {
     this.convertEducation();
     this.convertWorkExperience();
     console.log(this.form.value);
-    // this.putVacancy();
+    this.putVacancy();
   }
 
   convertEducation() {

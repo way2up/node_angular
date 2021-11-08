@@ -10,34 +10,37 @@ import { tap } from 'rxjs/internal/operators';
 export class AuthService {
 
     public token = null;
+    public user_role = null;
 
     constructor(private http: HttpClient) { }
 
-    login(user: User): Observable<{ token: string }> {
-        return this.http.post<{ token: string }>('/api/login', user).pipe(
+    login(user: User): Observable<{ token: string, user: User}> {
+        return this.http.post<{ token: string, user: User }>('/api/login', user).pipe(
             tap(
-                ({token}) => {
+                ({token, user}) => {
                     localStorage.setItem('auth-token', token)
-                    this.setToken(token)
+                    localStorage.setItem('user-role', user.role)
+                    this.setToken(token, user.role)
                 })
             )
         
     }
 
-    setToken(token: string): void {
-        this.token = token
+    setToken(token: string, role: string): void {
+        this.token = token;
+        this.user_role = role;
     }
 
     getToken(): string {
-       return this.token
+       return localStorage.getItem("auth-token")
     }
 
     isAuthenticated(): boolean {
-        return !!this.token
+        return !localStorage.getItem("auth-token") || localStorage.getItem("user-role") !== 'Admin' ? false : true;
     }
 
     logout(): void {
-        this.setToken(null)
+        this.setToken(null, null)
         localStorage.clear()
     }
 
