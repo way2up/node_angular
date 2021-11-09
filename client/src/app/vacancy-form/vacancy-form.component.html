@@ -53,7 +53,7 @@
                                             [formControl]="skillRating.myControlSkils" [matAutocomplete]="auto">
                                         <mat-autocomplete #auto="matAutocomplete">
                                             <mat-option (click)="selectSkill(option,i)"
-                                                *ngFor="let option of filteredSkilsOptions | async" [value]="option">
+                                                *ngFor="let option of filteredSkilsOptions[i] | async" [value]="option">
                                                 {{option}}
                                             </mat-option>
                                         </mat-autocomplete>

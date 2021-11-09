@@ -76,13 +76,13 @@ export class VacancyFormComponent implements OnInit {
   public newSkill: string;
   optionsSkils: string[] = ['HTML/CSS', 'Analytical', 'Responsive design', 'React', 'React Native', 'Flutter', 'Angular', 'Git',
     'JavaScript ', 'Interpersonal', 'Testing and debugging', 'Back-end basics', 'Search engine'];
-  filteredSkilsOptions: Observable<string[]>;
+  filteredSkilsOptions: Array<Observable<string[]>> = [];
 
   constructor(private vacancyService: VacancyService, public datepipe: DatePipe) { }
 
   ngOnInit(): void {
     this._filterPosition();
-    this._filterSkils();
+    this._filterSkils(0);
 
     this.form = new FormGroup({
       firstName: new FormControl(null, [Validators.required]),
@@ -130,12 +130,13 @@ export class VacancyFormComponent implements OnInit {
       );
   }
 
-  _filterSkils(): void {
+  _filterSkils(index: number): void {
     const foo1 = (value) => {
       const filterValue = value.toLowerCase();
       return this.optionsSkils.filter(option => option.toLowerCase().includes(filterValue));
     }
-    this.filteredSkilsOptions = this.skillAndRatingArr[0].myControlSkils.valueChanges
+    console.log(this.skillAndRatingArr);
+    this.filteredSkilsOptions[index] = this.skillAndRatingArr[index].myControlSkils.valueChanges
       .pipe(
         startWith(''),
         map(value => foo1(value))
@@ -147,7 +148,6 @@ export class VacancyFormComponent implements OnInit {
   }
 
   selectSkill(name: string, index: number): void {
-    this.skillAndRatingArr[index].skill = null;
     const scaleRating = window.prompt("On a scale of 1 to 10, please indicate how well you master the skill․", "");
     var x = Number(scaleRating)
     if (!scaleRating || x.toString() === 'NaN' || x < 1 || x > 10) {
@@ -159,18 +159,24 @@ export class VacancyFormComponent implements OnInit {
     let newRow = { skill: 'Select Skill', myControlSkils: new FormControl(), rating: 'Select Rating' };
     if ((index + 1) === this.skillAndRatingArr.length) {
       this.skillAndRatingArr.push(newRow);
+      this._filterSkils(index + 1);
     }
   }
 
   removeRowSkill(index: number): void {
     this.skillAndRatingArr.splice(index, 1);
+    this.filteredSkilsOptions.splice(index, 1);
   }
 
   addYourSkill() {
     let newsSkill = this.newSkill
+    let index = this.skillAndRatingArr.length - 1;
     this.optionsSkils.push(newsSkill);
-    this._filterSkils();
+    this.skillAndRatingArr[index].myControlSkils.setValue(newsSkill)
+    this._filterSkils(index);
+    this.selectSkill(newsSkill, index);
     this.newSkill = '';
+
   }
 
   addEducation(): void {
@@ -204,7 +210,6 @@ export class VacancyFormComponent implements OnInit {
   removeWorkExperience(index: number) {
     this.workExperienceArr.splice(index, 1);
   }
-
 
   fileChange(element) {
     this.uploadedFiles = element.target.files;
