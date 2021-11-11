@@ -63,6 +63,7 @@ export class VacancyFormComponent implements OnInit {
 
   public educationArr: Array<any>;
   public workExperienceArr: Array<any>;
+  public socialLInksArr: Array<any>;
 
   myControlPosition = new FormControl();
   optionsPosition: string[] = ['Frontend', 'Backend', 'Full Stack', 'HR', 'QA', 'UI/UX', 'Project manager', 'Team leader'];
@@ -126,6 +127,9 @@ export class VacancyFormComponent implements OnInit {
         endDate: null,
       }
     ];
+    this.socialLInksArr = [{
+      link: null
+    }];
 
   }
 
@@ -230,7 +234,6 @@ export class VacancyFormComponent implements OnInit {
     this._filterLanguages(index);
     this.selectLang(newLang, index);
     this.newLang = '';
-
   }
 
   addEducation(): void {
@@ -263,6 +266,14 @@ export class VacancyFormComponent implements OnInit {
 
   removeWorkExperience(index: number) {
     this.workExperienceArr.splice(index, 1);
+  }
+
+  addSocialLInk() {
+    this.socialLInksArr.push({link: null});
+  }
+
+  removeSocialLInk(index: number) {
+    this.socialLInksArr.splice(index, 1);
   }
 
   fileChange(element) {
@@ -365,6 +376,7 @@ export class VacancyFormComponent implements OnInit {
     this.languageAndRatingArr.pop();
     this.languageAndRatingArr.map(item => delete item.myControlLang);
     this.form.value.languages = this.languageAndRatingArr;
+    this.form.value.socialLinks = this.socialLInksArr;
 
     for (const element of this.educationArr) {
       if (element.dateStart.status === 'INVALID' || element.dateEnd.status === 'INVALID' || !element.startDate || !element.endDate) {
@@ -418,8 +430,8 @@ export class VacancyFormComponent implements OnInit {
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {
         console.log(data)
-        window.location.reload();
-        // this.router.navigate(['/auth']);
+        // window.location.reload();
+        this.router.navigate(['/auth']);
       },
       error => {
         console.warn(error);

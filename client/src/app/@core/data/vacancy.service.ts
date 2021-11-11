@@ -11,6 +11,7 @@ export interface Vacancy {
     skills: Array<any>,
     languages: Array<any>,
     education: Array<any>,
+    socialLinks: Array<any>,
     workExperience: Array<any>,
     city: string,
     address: string,

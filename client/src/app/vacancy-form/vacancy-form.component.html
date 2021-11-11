@@ -3,7 +3,7 @@
         <button [routerLink]="['/auth']" type="button" class="btn btn-outline-info">Admin Panel</button>
     </div>
 </div>
-<div class="row">
+<div class="row form_block">
     <div class="col-md-6 offset-md-3 mt-5">
         <h1>Job Application Form</h1>
         <form [formGroup]="form" (ngSubmit)="sendForm()">
@@ -104,7 +104,8 @@
                                             [formControl]="langRating.myControlLang" [matAutocomplete]="auto">
                                         <mat-autocomplete #auto="matAutocomplete">
                                             <mat-option (click)="selectLang(option,i)"
-                                                *ngFor="let option of filteredLanguagesOptions[i] | async" [value]="option">
+                                                *ngFor="let option of filteredLanguagesOptions[i] | async"
+                                                [value]="option">
                                                 {{option}}
                                             </mat-option>
                                         </mat-autocomplete>
@@ -156,15 +157,16 @@
                                 </div>
                             </div>
 
-                            <div class="col-4 col-md-2">
+                            <div class="col-4 col-md-2" *ngIf='educationArr.length > 1'>
                                 <button type="button" class="btn btn-danger education_remove__btn"
                                     (click)="removeEducation(i)">Remove</button>
                             </div>
-                            
+
                             <div class="col-12 col-md-5 mt-3">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Start Date</mat-label>
-                                    <input matInput [matDatepicker]="sd" [max]="education.endDate" [formControl]="education.dateStart">
+                                    <input matInput [matDatepicker]="sd" [max]="education.endDate"
+                                        [formControl]="education.dateStart">
                                     <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
                                     <mat-datepicker #sd startView="multi-year"
                                         (yearSelected)="chosenYearEducationStart($event, i)"
@@ -177,7 +179,8 @@
                             <div class="col-12 col-md-5 mt-3">
                                 <mat-form-field appearance="fill">
                                     <mat-label>End Date</mat-label>
-                                    <input matInput [matDatepicker]="ed" [min]="education.startDate" [formControl]="education.dateEnd">
+                                    <input matInput [matDatepicker]="ed" [min]="education.startDate"
+                                        [formControl]="education.dateEnd">
                                     <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
                                     <mat-datepicker #ed startView="multi-year"
                                         (yearSelected)="chosenYearEducationEnd($event, i)"
@@ -205,7 +208,7 @@
                 <ul class="list-group ">
 
                     <li class="list-group-item" *ngFor="let work of workExperienceArr; let i = index">
-                        <div class="row ">
+                        <div class="row">
                             <div class="col-8 col-md-5 mt-3">
                                 <div class="input-group ">
                                     <input type="text" placeholder="Name" [(ngModel)]="work.name"
@@ -222,7 +225,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-4 col-md-2">
+                            <div class="col-4 col-md-2" *ngIf='workExperienceArr.length > 1'>
                                 <button type="button" class="btn btn-danger education_remove__btn"
                                     (click)="removeWorkExperience(i)">Remove</button>
                             </div>
@@ -230,7 +233,8 @@
                             <div class="col-12 col-md-5 mt-3">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Start Date</mat-label>
-                                    <input matInput [matDatepicker]="sd" [max]="work.endDate" [formControl]="work.dateStart">
+                                    <input matInput [matDatepicker]="sd" [max]="work.endDate"
+                                        [formControl]="work.dateStart">
                                     <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
                                     <mat-datepicker #sd startView="multi-year"
                                         (yearSelected)="chosenYearWorkStart($event, i)"
@@ -243,7 +247,8 @@
                             <div class="col-12 col-md-5 mt-3">
                                 <mat-form-field appearance="fill">
                                     <mat-label>End Date</mat-label>
-                                    <input matInput [matDatepicker]="ed" [min]="work.startDate" [formControl]="work.dateEnd">
+                                    <input matInput [matDatepicker]="ed" [min]="work.startDate"
+                                        [formControl]="work.dateEnd">
                                     <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
                                     <mat-datepicker #ed startView="multi-year"
                                         (yearSelected)="chosenYearWorkEnd($event, i)"
@@ -293,6 +298,35 @@
                 <label>Introduction text</label>
                 <textarea class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="introductionText"
                     maxlength="1000" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="inputCity">Social Links</label>
+                <ul class="list-group ">
+                    <li class="list-group-item" *ngFor="let soc of socialLInksArr; let i = index">
+                        <div class="row">
+                            <div class="col-8 col-md-10">
+                                <div class="input-group ">
+                                    <input type="text" placeholder="Link" [(ngModel)]="soc.link"
+                                        [ngModelOptions]="{standalone: true}"
+                                        class="form-control education_name__input">
+                                </div>
+                            </div>
+                            <div class="col-4 col-md-2" *ngIf='socialLInksArr.length > 1'>
+                                <button type="button" class="btn btn-danger education_remove__btn"
+                                    (click)="removeSocialLInk(i)">Remove</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-primary education_add__btn"
+                                    (click)="addSocialLInk()">Add</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
 
             <div class="form-group mt-3">

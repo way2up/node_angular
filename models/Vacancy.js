@@ -8,6 +8,7 @@ const schema = new Schema({
     skills: {type: Array, required: true},
     languages: {type: Array, required: true},
     education: {type: Array, required: true},
+    socialLinks: {type: Array, required: true},
     workExperience: {type: Array, required: true},
     city: {type: String, required: false},
     address: {type: String, required: false},
