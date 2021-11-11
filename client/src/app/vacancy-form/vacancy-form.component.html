@@ -92,6 +92,57 @@
             </div>
 
             <div class="form-group">
+                <label for="example-tel-input">Languages</label>
+                <ul class="list-group ">
+                    <li class="list-group-item" *ngFor="let langRating of languageAndRatingArr; let i = index">
+                        <div class="row">
+                            <div class="col-5 col-md-8">
+                                <form class="example-form">
+                                    <mat-form-field class="example-full-width" appearance="fill">
+                                        <mat-label>Select Language</mat-label>
+                                        <input type="text" placeholder="Pick one" matInput
+                                            [formControl]="langRating.myControlLang" [matAutocomplete]="auto">
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option (click)="selectLang(option,i)"
+                                                *ngFor="let option of filteredLanguagesOptions[i] | async" [value]="option">
+                                                {{option}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </form>
+                            </div>
+                            <div class="col-3 col-md-2">
+                                <div *ngIf="langRating.rating !== 'Select Rating'">
+                                    <button type="button" class="btn btn-light">{{langRating.rating}}</button>
+                                </div>
+                            </div>
+                            <div class="col-4 col-md-2">
+                                <div *ngIf='languageAndRatingArr.length > 1'>
+                                    <button type="button" class="btn btn-danger"
+                                        (click)="removeRowLang(i)">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-10">
+                                <div class="input-group ">
+                                    <input type="text" placeholder="Add your skill" [(ngModel)]="newLang"
+                                        [ngModelOptions]="{standalone: true}"
+                                        class="form-control education_name__input">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" *ngIf="newLang" class="btn btn-primary education_add__btn"
+                                    (click)="addYourLang()">Add</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="form-group">
                 <label for="inputCity">Education</label>
                 <ul class="list-group ">
 

@@ -9,6 +9,7 @@ export interface Vacancy {
     email: string,
     position:string,
     skills: Array<any>,
+    languages: Array<any>,
     education: Array<any>,
     workExperience: Array<any>,
     city: string,

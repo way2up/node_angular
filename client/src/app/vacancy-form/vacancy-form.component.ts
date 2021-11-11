@@ -16,6 +16,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import { Moment } from 'moment';
+import { Router } from '@angular/router';
 // import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 const moment = _moment;
@@ -53,7 +54,6 @@ export class VacancyFormComponent implements OnInit {
 
   public form: FormGroup;
   public selectedPosition = 'Select Position';
-  public selectedSkill = 'Select Skill';
   public selectedRating = 'Select Rating';
   public uploadedFiles: Array<File>;
   public uploadFileName: string;
@@ -72,17 +72,28 @@ export class VacancyFormComponent implements OnInit {
     { skill: 'Select Skill', myControlSkils: new FormControl(), rating: 'Select Rating' }
   ];
 
-  // myControlSkils = new FormControl();
+  public languageAndRatingArr = [
+    { lang: 'Select Language', myControlLang: new FormControl(), rating: 'Select Rating' }
+  ];
+
   public newSkill: string;
+  public newLang: string;
+
   optionsSkils: string[] = ['HTML/CSS', 'Analytical', 'Responsive design', 'React', 'React Native', 'Flutter', 'Angular', 'Git',
     'JavaScript ', 'Interpersonal', 'Testing and debugging', 'Back-end basics', 'Search engine'];
+
+  optionsLanguages: string[] = ['Armenian', 'Russian', 'English', 'German', 'French', 'Flutter'];
+
   filteredSkilsOptions: Array<Observable<string[]>> = [];
 
-  constructor(private vacancyService: VacancyService, public datepipe: DatePipe) { }
+  filteredLanguagesOptions: Array<Observable<string[]>> = [];
+
+  constructor(private vacancyService: VacancyService, public router: Router, public datepipe: DatePipe) { }
 
   ngOnInit(): void {
     this._filterPosition();
     this._filterSkils(0);
+    this._filterLanguages(0);
 
     this.form = new FormGroup({
       firstName: new FormControl(null, [Validators.required]),
@@ -135,8 +146,19 @@ export class VacancyFormComponent implements OnInit {
       const filterValue = value.toLowerCase();
       return this.optionsSkils.filter(option => option.toLowerCase().includes(filterValue));
     }
-    console.log(this.skillAndRatingArr);
     this.filteredSkilsOptions[index] = this.skillAndRatingArr[index].myControlSkils.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => foo1(value))
+      );
+  }
+
+  _filterLanguages(index: number): void {
+    const foo1 = (value) => {
+      const filterValue = value.toLowerCase();
+      return this.optionsLanguages.filter(option => option.toLowerCase().includes(filterValue));
+    }
+    this.filteredLanguagesOptions[index] = this.languageAndRatingArr[index].myControlLang.valueChanges
       .pipe(
         startWith(''),
         map(value => foo1(value))
@@ -163,19 +185,51 @@ export class VacancyFormComponent implements OnInit {
     }
   }
 
+  selectLang(name: string, index: number): void {
+    const scaleRating = window.prompt("On a scale of 1 to 10, please indicate how well you master the language․", "");
+    var x = Number(scaleRating)
+    if (!scaleRating || x.toString() === 'NaN' || x < 1 || x > 10) {
+      alert('Write number 1 - 10');
+      return;
+    }
+    this.languageAndRatingArr[index].lang = name;
+    this.languageAndRatingArr[index].rating = scaleRating;
+    let newRow = { lang: 'Select Skill', myControlLang: new FormControl(), rating: 'Select Rating' };
+    if ((index + 1) === this.languageAndRatingArr.length) {
+      this.languageAndRatingArr.push(newRow);
+      this._filterLanguages(index + 1);
+    }
+  }
+
   removeRowSkill(index: number): void {
     this.skillAndRatingArr.splice(index, 1);
     this.filteredSkilsOptions.splice(index, 1);
   }
 
+  removeRowLang(index: number): void {
+    this.languageAndRatingArr.splice(index, 1);
+    this.filteredLanguagesOptions.splice(index, 1);
+  }
+
   addYourSkill() {
-    let newsSkill = this.newSkill
+    let newSkill = this.newSkill
     let index = this.skillAndRatingArr.length - 1;
-    this.optionsSkils.push(newsSkill);
-    this.skillAndRatingArr[index].myControlSkils.setValue(newsSkill)
+    this.optionsSkils.push(newSkill);
+    this.skillAndRatingArr[index].myControlSkils.setValue(newSkill)
     this._filterSkils(index);
-    this.selectSkill(newsSkill, index);
+    this.selectSkill(newSkill, index);
     this.newSkill = '';
+
+  }
+
+  addYourLang() {
+    let newLang = this.newLang
+    let index = this.languageAndRatingArr.length - 1;
+    this.optionsLanguages.push(newLang);
+    this.languageAndRatingArr[index].myControlLang.setValue(newLang)
+    this._filterLanguages(index);
+    this.selectLang(newLang, index);
+    this.newLang = '';
 
   }
 
@@ -303,9 +357,14 @@ export class VacancyFormComponent implements OnInit {
     this.form.value.fileName = this.uploadFileName;
     this.form.value.introductionText = this.introductionText;
     this.form.value.date = date_Now;
+
     this.skillAndRatingArr.pop();
     this.skillAndRatingArr.map(item => delete item.myControlSkils);
     this.form.value.skills = this.skillAndRatingArr;
+
+    this.languageAndRatingArr.pop();
+    this.languageAndRatingArr.map(item => delete item.myControlLang);
+    this.form.value.languages = this.languageAndRatingArr;
 
     for (const element of this.educationArr) {
       if (element.dateStart.status === 'INVALID' || element.dateEnd.status === 'INVALID' || !element.startDate || !element.endDate) {
@@ -359,7 +418,8 @@ export class VacancyFormComponent implements OnInit {
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {
         console.log(data)
-        // this.router.navigate(['/home']);
+        window.location.reload();
+        // this.router.navigate(['/auth']);
       },
       error => {
         console.warn(error);

@@ -6,6 +6,7 @@ const schema = new Schema({
     email: {type: String, unique: true, required: true},
     position: {type: String, required: true},
     skills: {type: Array, required: true},
+    languages: {type: Array, required: true},
     education: {type: Array, required: true},
     workExperience: {type: Array, required: true},
     city: {type: String, required: false},
