@@ -1,10 +1,45 @@
-h1 {
-    font-size: 20px;
-    margin-top: 24px;
-    margin-bottom: 24px;
-  }
-  
-  img {
-  height: 40px;}
+.form_block {
+  background: aliceblue; 
+}
 
-  .reqField {color: red;}
+h1 {
+  font-size: 20px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+img {
+  height: 40px;
+}
+
+.reqField {
+  color: red;
+}
+
+.education_name__input,
+.education_add__btn,
+.education_remove__btn {
+  height: 54px;
+}
+
+.education_add__btn {
+  width: 100%;
+}
+
+.example-form {
+  min-width: 150px;
+  // max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.example-month-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+
+.example-month-picker .mat-calendar-arrow {
+  display: none;
+}

@@ -1,31 +1,40 @@
+import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { VacancyFormComponent } from './vacancy-form/vacancy-form.component';
+import { AuthGuard } from './auth/auth.guard';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
-    path: "",
+    path: "auth",
     loadChildren: () =>
       import("./auth/auth.module").then((module) => module.AuthModule),
   },
   {
-    path: "login",
-    loadChildren: () =>
-      import("./auth/auth.module").then((module) => module.AuthModule),
+    path: 'pages',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/pages.module')
+      .then(m => m.PagesModule),
   },
   {
-    path: "home",
-    component: HomeComponent
+    path: 'vacancy',
+    loadChildren: () => import('./vacancy-form/vacancy-form.module')
+      .then(m => m.VacancyFormModule),
   },
-  {
-    path: "vacancy",
-    component: VacancyFormComponent
-  },
+
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
+  // { path: '**', redirectTo: 'pages' },
 ];
 
+const config: ExtraOptions = {
+  useHash: false,
+};
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, config),
+  ],
+  exports: [
+    RouterModule,
+  ],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   aSub: Subscription;
+  error_text: string;
 
   constructor(public router: Router, private auth: AuthService) { }
 
@@ -29,10 +30,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.aSub = this.auth.login(this.form.value).subscribe(
       (data) => {
         console.log(data)
-        this.router.navigate(['/home']);
+        this.router.navigate(['/pages']);
       },
-      error => {
-        console.warn(error);
+      err => {
+        this.error_text = err.error.message;
         this.form.enable();
       }
     );

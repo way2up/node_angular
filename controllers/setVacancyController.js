@@ -14,6 +14,15 @@ class vacancyController {
 
     }
 
+    async getVacancies(req, res) {
+        try {
+            const vacancies = await Vacancy.find()
+            res.status(200).json(vacancies)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
 }
 
 module.exports = new vacancyController()

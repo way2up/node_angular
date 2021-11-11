@@ -40,13 +40,24 @@
                             </div>
                         </form>
 
-                        <div class="row justify-content-center my-2"> <a href="#"><small class="text-muted">Forgot
-                                    Password?</small></a> </div>
+                        <div class="row justify-content-center my-2">
+                            <a href="javascript:">
+                                <small class="text-muted">Forgot
+                                    Password?</small>
+                            </a>
+                        </div>
+
+                        <div class="row justify-content-center my-2">
+                            <span class="helper-text text-danger" *ngIf="error_text">
+                                {{error_text}}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="bottom text-center mb-5">
-                    <p routerLink="/login/register" class="sm-text mx-auto mb-3">Don't have an account?<button
-                            class="btn btn-white ml-2">Create new</button></p>
+                    <p class="sm-text mx-auto mb-3">Don't have an account?
+                        <button routerLink="/auth/register" class="btn btn-white ml-2">Create new</button>
+                    </p>
                 </div>
             </div>
             <div class="card card2">
