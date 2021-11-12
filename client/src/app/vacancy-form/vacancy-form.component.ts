@@ -57,7 +57,8 @@ export class VacancyFormComponent implements OnInit {
   public selectedRating = 'Select Rating';
   public uploadedFiles: Array<File>;
   public uploadFileName: string;
-  public introductionText: string;
+  public motivation_letter: string;
+  public Interests_hobby: string;
 
   public ratingArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
@@ -366,7 +367,8 @@ export class VacancyFormComponent implements OnInit {
     let date_Now = this.datepipe.transform(date, 'yyyy-MM-dd, h:mm');
     this.form.value.position = this.selectedPosition;
     this.form.value.fileName = this.uploadFileName;
-    this.form.value.introductionText = this.introductionText;
+    this.form.value.motivation_letter = this.motivation_letter;
+    this.form.value.Interests_hobby = this.Interests_hobby;
     this.form.value.date = date_Now;
 
     this.skillAndRatingArr.pop();
