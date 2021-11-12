@@ -19,7 +19,8 @@ export interface Vacancy {
     fileName: string,
     date: string,
     motivation_letter: string,
-    Interests_hobby: string,
+    interests_hobby: string,
+    dateOfBirth: string,
 }
 
 @Injectable({

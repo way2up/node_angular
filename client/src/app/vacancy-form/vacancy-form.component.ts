@@ -59,6 +59,8 @@ export class VacancyFormComponent implements OnInit {
   public uploadFileName: string;
   public motivation_letter: string;
   public Interests_hobby: string;
+  public DateOfBirthMax: Date  = new Date();
+  public DateOfBirth:string;
 
   public ratingArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
@@ -368,8 +370,10 @@ export class VacancyFormComponent implements OnInit {
     this.form.value.position = this.selectedPosition;
     this.form.value.fileName = this.uploadFileName;
     this.form.value.motivation_letter = this.motivation_letter;
-    this.form.value.Interests_hobby = this.Interests_hobby;
+    this.form.value.interests_hobby = this.Interests_hobby;
     this.form.value.date = date_Now;
+    this.form.value.dateOfBirth = this.DateOfBirth ? this.DateOfBirth['_d'].toISOString() : null;
+    
 
     this.skillAndRatingArr.pop();
     this.skillAndRatingArr.map(item => delete item.myControlSkils);

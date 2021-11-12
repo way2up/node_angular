@@ -16,7 +16,8 @@ const schema = new Schema({
     fileName: {type: String | null | undefined, required: false},
     date: {type: String, required: false},
     motivation_letter: {type: String, required: false},
-    Interests_hobby: {type: String, required: false},
+    interests_hobby: {type: String, required: false},
+    dateOfBirth: {type: String, required: false},
 })
 
 module.exports = model('Vacancy', schema)
