@@ -1,376 +1,385 @@
-<div class="row">
-    <div class="col-md-3 offset-md-9 mt-2">
-        <button [routerLink]="['/auth']" type="button" class="btn btn-outline-info">Admin Panel</button>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 offset-md-9 mt-2">
+            <button [routerLink]="['/auth']" type="button" class="btn btn-outline-info">Admin Panel</button>
+        </div>
     </div>
-</div>
-<div class="row form_block">
-    <div class="col-md-6 offset-md-3 mt-5">
-        <h1>Job Application Form</h1>
-        <form [formGroup]="form" (ngSubmit)="sendForm()">
-            <div class="form-group">
-                <label>Position <span class="reqField">*</span></label>
-                <form class="example-form">
-                    <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>Select Position</mat-label>
-                        <input type="text" placeholder="Pick one" matInput [formControl]="myControlPosition"
-                            [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option (click)="selectPosition(option)"
-                                *ngFor="let option of filteredPositionOptions | async" [value]="option">
-                                {{option}}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </form>
-            </div>
-            <div class="row">
-                <div class="col-6"></div>
-                <div class="col-6">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="exampleInputFirstName">First Name <span class="reqField">*</span></label>
-                                <input type="text" name="firstName" formControlName="firstName" class="form-control"
-                                    id="exampleInputFirstName" placeholder="Enter your first name" required="required">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="exampleInputLastName">Last Name <span class="reqField">*</span></label>
-                                <input type="text" name="lastName" formControlName="lastName" class="form-control"
-                                    id="exampleInputLastName" placeholder="Enter your last Name" required="required">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Date of birth</mat-label>
-                                    <input matInput [matDatepicker]="picker" [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="DateOfBirth" [max]="DateOfBirthMax">
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker>
-                                </mat-form-field>
-                            </div>
+    <div class="row form_block">
+        <div class="col-md-6 offset-md-3 mt-5">
+            <h1>Job Application Form</h1>
+            <form [formGroup]="form" (ngSubmit)="sendForm()">
+                <div class="form-group">
+                    <label>Position <span class="reqField">*</span></label>
+                    <form class="example-form">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Select Position</mat-label>
+                            <input type="text" placeholder="Pick one" matInput [formControl]="myControlPosition"
+                                [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option (click)="selectPosition(option)"
+                                    *ngFor="let option of filteredPositionOptions | async" [value]="option">
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </form>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group mt-3">
+                            <div class="photo_section"><img id="output"/></div>
+                            <label class="mr-4">Upload your Photo:
+                            </label>
+                            <input type="file" name="file" (change)="photoChange($event)" accept=".jpg, .jpeg, .png">
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="example-tel-input">Skills</label>
-                <ul class="list-group ">
-                    <li class="list-group-item" *ngFor="let skillRating of skillAndRatingArr; let i = index">
+                    <div class="col-6">
                         <div class="row">
-                            <div class="col-5 col-md-8">
-                                <form class="example-form">
-                                    <mat-form-field class="example-full-width" appearance="fill">
-                                        <mat-label>Select Skill</mat-label>
-                                        <input type="text" placeholder="Pick one" matInput
-                                            [formControl]="skillRating.myControlSkils" [matAutocomplete]="auto">
-                                        <mat-autocomplete #auto="matAutocomplete">
-                                            <mat-option (click)="selectSkill(option,i)"
-                                                *ngFor="let option of filteredSkilsOptions[i] | async" [value]="option">
-                                                {{option}}
-                                            </mat-option>
-                                        </mat-autocomplete>
-                                    </mat-form-field>
-                                </form>
-                            </div>
-                            <div class="col-3 col-md-2">
-                                <div *ngIf="skillRating.rating !== 'Select Rating'">
-                                    <button type="button" class="btn btn-light">{{skillRating.rating}}</button>
-                                </div>
-                            </div>
-                            <div class="col-4 col-md-2">
-                                <div *ngIf='skillAndRatingArr.length > 1'>
-                                    <button type="button" class="btn btn-danger"
-                                        (click)="removeRowSkill(i)">Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-10">
-                                <div class="input-group ">
-                                    <input type="text" placeholder="Add your skill" [(ngModel)]="newSkill"
-                                        [ngModelOptions]="{standalone: true}"
-                                        class="form-control education_name__input">
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" *ngIf="newSkill" class="btn btn-primary education_add__btn"
-                                    (click)="addYourSkill()">Add</button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="form-group">
-                <label for="example-tel-input">Languages</label>
-                <ul class="list-group ">
-                    <li class="list-group-item" *ngFor="let langRating of languageAndRatingArr; let i = index">
-                        <div class="row">
-                            <div class="col-5 col-md-8">
-                                <form class="example-form">
-                                    <mat-form-field class="example-full-width" appearance="fill">
-                                        <mat-label>Select Language</mat-label>
-                                        <input type="text" placeholder="Pick one" matInput
-                                            [formControl]="langRating.myControlLang" [matAutocomplete]="auto">
-                                        <mat-autocomplete #auto="matAutocomplete">
-                                            <mat-option (click)="selectLang(option,i)"
-                                                *ngFor="let option of filteredLanguagesOptions[i] | async"
-                                                [value]="option">
-                                                {{option}}
-                                            </mat-option>
-                                        </mat-autocomplete>
-                                    </mat-form-field>
-                                </form>
-                            </div>
-                            <div class="col-3 col-md-2">
-                                <div *ngIf="langRating.rating !== 'Select Rating'">
-                                    <button type="button" class="btn btn-light">{{langRating.rating}}</button>
-                                </div>
-                            </div>
-                            <div class="col-4 col-md-2">
-                                <div *ngIf='languageAndRatingArr.length > 1'>
-                                    <button type="button" class="btn btn-danger"
-                                        (click)="removeRowLang(i)">Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-10">
-                                <div class="input-group ">
-                                    <input type="text" placeholder="Add your skill" [(ngModel)]="newLang"
-                                        [ngModelOptions]="{standalone: true}"
-                                        class="form-control education_name__input">
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" *ngIf="newLang" class="btn btn-primary education_add__btn"
-                                    (click)="addYourLang()">Add</button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="form-group">
-                <label for="inputCity">Education</label>
-                <ul class="list-group ">
-
-                    <li class="list-group-item" *ngFor="let education of educationArr; let i = index">
-                        <div class="row ">
-                            <div class="col-8 col-md-10">
-                                <div class="input-group ">
-                                    <input type="text" placeholder="Name" [(ngModel)]="education.name"
-                                        [ngModelOptions]="{standalone: true}"
-                                        class="form-control education_name__input">
-                                </div>
-                            </div>
-
-                            <div class="col-4 col-md-2">
-                                <button type="button" class="btn btn-danger education_remove__btn"
-                                    (click)="removeEducation(i)">Remove</button>
-                            </div>
-
-                            <div class="col-12 col-md-5 mt-3">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Start Date</mat-label>
-                                    <input matInput [matDatepicker]="sd" [max]="education.endDate"
-                                        [formControl]="education.dateStart">
-                                    <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
-                                    <mat-datepicker #sd startView="multi-year"
-                                        (yearSelected)="chosenYearEducationStart($event, i)"
-                                        (monthSelected)="chosenMonthEducationStart($event, sd, i)"
-                                        panelClass="example-month-picker">
-                                    </mat-datepicker>
-                                </mat-form-field>
-                            </div>
-
-                            <div class="col-12 col-md-5 mt-3">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>End Date</mat-label>
-                                    <input matInput [matDatepicker]="ed" [min]="education.startDate"
-                                        [formControl]="education.dateEnd">
-                                    <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
-                                    <mat-datepicker #ed startView="multi-year"
-                                        (yearSelected)="chosenYearEducationEnd($event, i)"
-                                        (monthSelected)="chosenMonthEducationEnd($event, ed, i)"
-                                        panelClass="example-month-picker">
-                                    </mat-datepicker>
-                                </mat-form-field>
-                            </div>
-
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-12">
-                                <button type="button" class="btn btn-primary education_add__btn"
-                                    (click)="addEducation()">Add</button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="form-group">
-                <label for="inputCity">Work experience</label>
-                <ul class="list-group ">
-
-                    <li class="list-group-item" *ngFor="let work of workExperienceArr; let i = index">
-                        <div class="row">
-                            <div class="col-8 col-md-5 mt-3">
-                                <div class="input-group ">
-                                    <input type="text" placeholder="Company Name" [(ngModel)]="work.name"
-                                        [ngModelOptions]="{standalone: true}"
-                                        class="form-control education_name__input">
-                                </div>
-                            </div>
-
-                            <div class="col-8 col-md-5 mt-3">
-                                <div class="input-group ">
-                                    <input type="text" placeholder="Position" [(ngModel)]="work.position"
-                                        [ngModelOptions]="{standalone: true}"
-                                        class="form-control education_name__input">
-                                </div>
-                            </div>
-
-                            <div class="col-4 col-md-2">
-                                <button type="button" class="btn btn-danger education_remove__btn"
-                                    (click)="removeWorkExperience(i)">Remove</button>
-                            </div>
-
-                            <div class="col-12 col-md-5 mt-3">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Start Date</mat-label>
-                                    <input matInput [matDatepicker]="sd" [max]="work.endDate"
-                                        [formControl]="work.dateStart">
-                                    <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
-                                    <mat-datepicker #sd startView="multi-year"
-                                        (yearSelected)="chosenYearWorkStart($event, i)"
-                                        (monthSelected)="chosenMonthWorkStart($event, sd, i)"
-                                        panelClass="example-month-picker">
-                                    </mat-datepicker>
-                                </mat-form-field>
-                            </div>
-
-                            <div class="col-12 col-md-5 mt-3">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>End Date</mat-label>
-                                    <input matInput [matDatepicker]="ed" [min]="work.startDate"
-                                        [formControl]="work.dateEnd">
-                                    <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
-                                    <mat-datepicker #ed startView="multi-year"
-                                        (yearSelected)="chosenYearWorkEnd($event, i)"
-                                        (monthSelected)="chosenMonthWorkEnd($event, ed, i)"
-                                        panelClass="example-month-picker">
-                                    </mat-datepicker>
-                                </mat-form-field>
-                            </div>
-
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label>Description</label>
-                                    <textarea class="form-control" [ngModelOptions]="{standalone: true}"
-                                        [(ngModel)]="work.description" maxlength="1000" rows="3"></textarea>
+                                    <label for="exampleInputFirstName">First Name <span class="reqField">*</span></label>
+                                    <input type="text" name="firstName" formControlName="firstName" class="form-control"
+                                        id="exampleInputFirstName" placeholder="Enter your first name" required="required">
                                 </div>
                             </div>
-
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
                             <div class="col-12">
-                                <button type="button" class="btn btn-primary education_add__btn"
-                                    (click)="addWorkExperience()">Add</button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="form-group">
-                <label>Interests/hobby</label>
-                <textarea class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="Interests_hobby"
-                    maxlength="1000" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="inputCity">City</label>
-                <input type="text" name="city" formControlName="city" class="form-control" id="inputCity"
-                    placeholder="City">
-            </div>
-            <div class="form-group">
-                <label for="inputAddress">Address</label>
-                <input type="text" name="address" formControlName="address" class="form-control" id="inputAddress"
-                    placeholder="1234 Main St, home">
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1" required="required">Email address <span
-                                class="reqField">*</span></label>
-                        <input type="email" name="email" formControlName="email" class="form-control"
-                            id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email address">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="example-tel-input">Telephone</label>
-                        <input class="form-control" name="tel" formControlName="telephone" type="tel" value="+374"
-                            id="example-tel-input">
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <label for="inputCity">Social Links</label>
-                <ul class="list-group ">
-                    <li class="list-group-item" *ngFor="let soc of socialLInksArr; let i = index">
-                        <div class="row">
-                            <div class="col-8 col-md-10">
-                                <div class="input-group ">
-                                    <input type="text" placeholder="Link" [(ngModel)]="soc.link"
-                                        [ngModelOptions]="{standalone: true}"
-                                        class="form-control education_name__input">
+                                <div class="form-group">
+                                    <label for="exampleInputLastName">Last Name <span class="reqField">*</span></label>
+                                    <input type="text" name="lastName" formControlName="lastName" class="form-control"
+                                        id="exampleInputLastName" placeholder="Enter your last Name" required="required">
                                 </div>
                             </div>
-                            <div class="col-4 col-md-2">
-                                <button type="button" class="btn btn-danger education_remove__btn"
-                                    (click)="removeSocialLInk(i)">Remove</button>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
                             <div class="col-12">
-                                <button type="button" class="btn btn-primary education_add__btn"
-                                    (click)="addSocialLInk()">Add</button>
+                                <div class="form-group">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Date of birth</mat-label>
+                                        <input matInput [matDatepicker]="picker" [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="DateOfBirth" [max]="DateOfBirthMax">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
                             </div>
                         </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="form-group">
-                <label>Motivation letter</label>
-                <textarea class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="motivation_letter"
-                    maxlength="1000" rows="3"></textarea>
-            </div>
-
-            <div class="form-group mt-3">
-                <label class="mr-4">Upload your CV:
-                </label>
-                <input type="file" name="file" (change)="fileChange($event)" accept=".pdf, .doc, .docx">
-            </div>
-            <button type="submit" class="btn btn-success">Save</button>
-        </form>
-
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label for="example-tel-input">Skills</label>
+                    <ul class="list-group ">
+                        <li class="list-group-item" *ngFor="let skillRating of skillAndRatingArr; let i = index">
+                            <div class="row">
+                                <div class="col-5 col-md-8">
+                                    <form class="example-form">
+                                        <mat-form-field class="example-full-width" appearance="fill">
+                                            <mat-label>Select Skill</mat-label>
+                                            <input type="text" placeholder="Pick one" matInput
+                                                [formControl]="skillRating.myControlSkils" [matAutocomplete]="auto">
+                                            <mat-autocomplete #auto="matAutocomplete">
+                                                <mat-option (click)="selectSkill(option,i)"
+                                                    *ngFor="let option of filteredSkilsOptions[i] | async" [value]="option">
+                                                    {{option}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </form>
+                                </div>
+                                <div class="col-3 col-md-2">
+                                    <div *ngIf="skillRating.rating !== 'Select Rating'">
+                                        <button type="button" class="btn btn-light">{{skillRating.rating}}</button>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-md-2">
+                                    <div *ngIf='skillAndRatingArr.length > 1'>
+                                        <button type="button" class="btn btn-danger"
+                                            (click)="removeRowSkill(i)">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="input-group ">
+                                        <input type="text" placeholder="Add your skill" [(ngModel)]="newSkill"
+                                            [ngModelOptions]="{standalone: true}"
+                                            class="form-control education_name__input">
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" *ngIf="newSkill" class="btn btn-primary education_add__btn"
+                                        (click)="addYourSkill()">Add</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+    
+                <div class="form-group">
+                    <label for="example-tel-input">Languages</label>
+                    <ul class="list-group ">
+                        <li class="list-group-item" *ngFor="let langRating of languageAndRatingArr; let i = index">
+                            <div class="row">
+                                <div class="col-5 col-md-8">
+                                    <form class="example-form">
+                                        <mat-form-field class="example-full-width" appearance="fill">
+                                            <mat-label>Select Language</mat-label>
+                                            <input type="text" placeholder="Pick one" matInput
+                                                [formControl]="langRating.myControlLang" [matAutocomplete]="auto">
+                                            <mat-autocomplete #auto="matAutocomplete">
+                                                <mat-option (click)="selectLang(option,i)"
+                                                    *ngFor="let option of filteredLanguagesOptions[i] | async"
+                                                    [value]="option">
+                                                    {{option}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </form>
+                                </div>
+                                <div class="col-3 col-md-2">
+                                    <div *ngIf="langRating.rating !== 'Select Rating'">
+                                        <button type="button" class="btn btn-light">{{langRating.rating}}</button>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-md-2">
+                                    <div *ngIf='languageAndRatingArr.length > 1'>
+                                        <button type="button" class="btn btn-danger"
+                                            (click)="removeRowLang(i)">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="input-group ">
+                                        <input type="text" placeholder="Add your skill" [(ngModel)]="newLang"
+                                            [ngModelOptions]="{standalone: true}"
+                                            class="form-control education_name__input">
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" *ngIf="newLang" class="btn btn-primary education_add__btn"
+                                        (click)="addYourLang()">Add</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+    
+                <div class="form-group">
+                    <label for="inputCity">Education</label>
+                    <ul class="list-group ">
+    
+                        <li class="list-group-item" *ngFor="let education of educationArr; let i = index">
+                            <div class="row ">
+                                <div class="col-8 col-md-10">
+                                    <div class="input-group ">
+                                        <input type="text" placeholder="Name" [(ngModel)]="education.name"
+                                            [ngModelOptions]="{standalone: true}"
+                                            class="form-control education_name__input">
+                                    </div>
+                                </div>
+    
+                                <div class="col-4 col-md-2">
+                                    <button type="button" class="btn btn-danger education_remove__btn"
+                                        (click)="removeEducation(i)">Remove</button>
+                                </div>
+    
+                                <div class="col-12 col-md-5 mt-3">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Start Date</mat-label>
+                                        <input matInput [matDatepicker]="sd" [max]="education.endDate"
+                                            [formControl]="education.dateStart">
+                                        <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
+                                        <mat-datepicker #sd startView="multi-year"
+                                            (yearSelected)="chosenYearEducationStart($event, i)"
+                                            (monthSelected)="chosenMonthEducationStart($event, sd, i)"
+                                            panelClass="example-month-picker">
+                                        </mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+    
+                                <div class="col-12 col-md-5 mt-3">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>End Date</mat-label>
+                                        <input matInput [matDatepicker]="ed" [min]="education.startDate"
+                                            [formControl]="education.dateEnd">
+                                        <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
+                                        <mat-datepicker #ed startView="multi-year"
+                                            (yearSelected)="chosenYearEducationEnd($event, i)"
+                                            (monthSelected)="chosenMonthEducationEnd($event, ed, i)"
+                                            panelClass="example-month-picker">
+                                        </mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+    
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-primary education_add__btn"
+                                        (click)="addEducation()">Add</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+    
+                <div class="form-group">
+                    <label for="inputCity">Work experience</label>
+                    <ul class="list-group ">
+    
+                        <li class="list-group-item" *ngFor="let work of workExperienceArr; let i = index">
+                            <div class="row">
+                                <div class="col-8 col-md-5 mt-3">
+                                    <div class="input-group ">
+                                        <input type="text" placeholder="Company Name" [(ngModel)]="work.name"
+                                            [ngModelOptions]="{standalone: true}"
+                                            class="form-control education_name__input">
+                                    </div>
+                                </div>
+    
+                                <div class="col-8 col-md-5 mt-3">
+                                    <div class="input-group ">
+                                        <input type="text" placeholder="Position" [(ngModel)]="work.position"
+                                            [ngModelOptions]="{standalone: true}"
+                                            class="form-control education_name__input">
+                                    </div>
+                                </div>
+    
+                                <div class="col-4 col-md-2">
+                                    <button type="button" class="btn btn-danger education_remove__btn"
+                                        (click)="removeWorkExperience(i)">Remove</button>
+                                </div>
+    
+                                <div class="col-12 col-md-5 mt-3">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Start Date</mat-label>
+                                        <input matInput [matDatepicker]="sd" [max]="work.endDate"
+                                            [formControl]="work.dateStart">
+                                        <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
+                                        <mat-datepicker #sd startView="multi-year"
+                                            (yearSelected)="chosenYearWorkStart($event, i)"
+                                            (monthSelected)="chosenMonthWorkStart($event, sd, i)"
+                                            panelClass="example-month-picker">
+                                        </mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+    
+                                <div class="col-12 col-md-5 mt-3">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>End Date</mat-label>
+                                        <input matInput [matDatepicker]="ed" [min]="work.startDate"
+                                            [formControl]="work.dateEnd">
+                                        <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
+                                        <mat-datepicker #ed startView="multi-year"
+                                            (yearSelected)="chosenYearWorkEnd($event, i)"
+                                            (monthSelected)="chosenMonthWorkEnd($event, ed, i)"
+                                            panelClass="example-month-picker">
+                                        </mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+    
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="work.description" maxlength="1000" rows="3"></textarea>
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-primary education_add__btn"
+                                        (click)="addWorkExperience()">Add</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+    
+                <div class="form-group">
+                    <label>Interests/hobby</label>
+                    <textarea class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="Interests_hobby"
+                        maxlength="1000" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="inputCity">City</label>
+                    <input type="text" name="city" formControlName="city" class="form-control" id="inputCity"
+                        placeholder="City">
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">Address</label>
+                    <input type="text" name="address" formControlName="address" class="form-control" id="inputAddress"
+                        placeholder="1234 Main St, home">
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" required="required">Email address <span
+                                    class="reqField">*</span></label>
+                            <input type="email" name="email" formControlName="email" class="form-control"
+                                id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email address">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="example-tel-input">Telephone</label>
+                            <input class="form-control" name="tel" formControlName="telephone" type="tel" value="+374"
+                                id="example-tel-input">
+                        </div>
+                    </div>
+                </div>
+    
+    
+                <div class="form-group">
+                    <label for="inputCity">Social Links</label>
+                    <ul class="list-group ">
+                        <li class="list-group-item" *ngFor="let soc of socialLInksArr; let i = index">
+                            <div class="row">
+                                <div class="col-8 col-md-10">
+                                    <div class="input-group ">
+                                        <input type="text" placeholder="Link" [(ngModel)]="soc.link"
+                                            [ngModelOptions]="{standalone: true}"
+                                            class="form-control education_name__input">
+                                    </div>
+                                </div>
+                                <div class="col-4 col-md-2">
+                                    <button type="button" class="btn btn-danger education_remove__btn"
+                                        (click)="removeSocialLInk(i)">Remove</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-primary education_add__btn"
+                                        (click)="addSocialLInk()">Add</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+    
+                <div class="form-group">
+                    <label>Motivation letter</label>
+                    <textarea class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="motivation_letter"
+                        maxlength="1000" rows="3"></textarea>
+                </div>
+    
+                <div class="form-group mt-3">
+                    <label class="mr-4">Upload your CV:
+                    </label>
+                    <input type="file" name="file" (change)="fileChange($event)" accept=".pdf, .doc, .docx">
+                </div>
+                <button type="submit" class="btn btn-success">Save</button>
+            </form>
+    
+        </div>
     </div>
 </div>

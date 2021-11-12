@@ -1,15 +1,17 @@
 .form_block {
   background: aliceblue; 
+  .photo_section {
+    img {
+      max-height: 160px;
+    }
+    
+  }
 }
 
 h1 {
   font-size: 20px;
   margin-top: 24px;
   margin-bottom: 24px;
-}
-
-img {
-  height: 40px;
 }
 
 .reqField {

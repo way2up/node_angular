@@ -56,11 +56,13 @@ export class VacancyFormComponent implements OnInit {
   public selectedPosition = 'Select Position';
   public selectedRating = 'Select Rating';
   public uploadedFiles: Array<File>;
+  public uploadedPhotos: Array<File>;
   public uploadFileName: string;
+  public uploadPhotoName: string;
   public motivation_letter: string;
   public Interests_hobby: string;
-  public DateOfBirthMax: Date  = new Date();
-  public DateOfBirth:string;
+  public DateOfBirthMax: Date = new Date();
+  public DateOfBirth: string;
 
   public ratingArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
@@ -272,11 +274,37 @@ export class VacancyFormComponent implements OnInit {
   }
 
   addSocialLInk() {
-    this.socialLInksArr.push({link: null});
+    this.socialLInksArr.push({ link: null });
   }
 
   removeSocialLInk(index: number) {
     this.socialLInksArr.splice(index, 1);
+  }
+
+  photoChange(element) {
+    if(element.target.files[0].size > 2097152) {
+      alert('The photo is too big');
+      return;
+    }
+    var image = document.getElementById('output');
+    image['src'] = URL.createObjectURL(element.target.files[0]);
+
+    this.uploadedPhotos = element.target.files;
+    console.log(element.target.files)
+    const formData = new FormData();
+    for (var i = 0; i < this.uploadedPhotos.length; i++) {
+      formData.append('file', this.uploadedPhotos[i]);
+    }
+    this.vacancyService.uploadPhoto(formData)
+      .subscribe(
+        (response) => {
+          console.log('response received is ', response);
+          this.uploadPhotoName = response[`fileName`];
+        },
+        error => {
+          console.error(error);
+        }
+      )
   }
 
   fileChange(element) {
@@ -369,11 +397,11 @@ export class VacancyFormComponent implements OnInit {
     let date_Now = this.datepipe.transform(date, 'yyyy-MM-dd, h:mm');
     this.form.value.position = this.selectedPosition;
     this.form.value.fileName = this.uploadFileName;
+    this.form.value.photoName = this.uploadPhotoName;
     this.form.value.motivation_letter = this.motivation_letter;
     this.form.value.interests_hobby = this.Interests_hobby;
     this.form.value.date = date_Now;
     this.form.value.dateOfBirth = this.DateOfBirth ? this.DateOfBirth['_d'].toISOString() : null;
-    
 
     this.skillAndRatingArr.pop();
     this.skillAndRatingArr.map(item => delete item.myControlSkils);

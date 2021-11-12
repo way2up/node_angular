@@ -17,6 +17,7 @@ export interface Vacancy {
     address: string,
     telephone: string,
     fileName: string,
+    photoName: string,
     date: string,
     motivation_letter: string,
     interests_hobby: string,
@@ -40,6 +41,10 @@ export class VacancyService {
 
     uploadFile(file) {
         return this.http.post('/api/upload', file);
+    }
+
+    uploadPhoto(file) {
+        return this.http.post('/api/photo', file);
     }
 
 }
