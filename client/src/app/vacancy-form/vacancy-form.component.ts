@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Vacancy, VacancyService } from '../@core/data/vacancy.service';
+import { VacancyService } from '../@core/data/vacancy.service';
 import { DatePipe } from '@angular/common'
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -8,16 +8,9 @@ import { map, startWith } from 'rxjs/operators';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
-
-// Depending on whether rollup is used, moment needs to be imported differently.
-// Since Moment.js doesn't have a default export, we normally need to import using the `* as`
-// syntax. However, rollup creates a synthetic default module and we thus need to import it using
-// the `default as` syntax.
 import * as _moment from 'moment';
-// tslint:disable-next-line:no-duplicate-imports
 import { Moment } from 'moment';
 import { Router } from '@angular/router';
-// import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 const moment = _moment;
 
@@ -32,15 +25,11 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
 @Component({
   selector: 'app-vacancy-form',
   templateUrl: './vacancy-form.component.html',
   styleUrls: ['./vacancy-form.component.scss'],
   providers: [
-    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-    // application's root module. We provide it at the component level here, due to limitations of
-    // our example generation script.
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -464,7 +453,7 @@ export class VacancyFormComponent implements OnInit {
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {
         console.log(data)
-        // window.location.reload();
+        window.location.reload();
         this.router.navigate(['/auth']);
       },
       error => {

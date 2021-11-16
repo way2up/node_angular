@@ -1,0 +1,71 @@
+<div class="container-fluid" *ngIf="candidateInfo">
+    <div class="row">
+        <div class="col-4">
+            <img class="candidatePicture" [src]="candidateInfo.photoName" alt="Candidate Photo" width="300">
+            <p><strong>Position:</strong> {{candidateInfo.position}}</p>
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <div class="col-12">
+                    <div>
+                        <h3> {{candidateInfo.name}}</h3>
+                        <p><strong>Email:</strong> {{candidateInfo.email}}</p>
+                        <p><strong>Phone:</strong> {{candidateInfo.telephone}}</p>
+                        <p><strong>City:</strong> {{candidateInfo.city}}</p>
+                        <p><strong>Address:</strong> {{candidateInfo.address}}</p>
+                        <p><strong>Age:</strong> {{age}}</p>
+                        <p><strong>Social Links:</strong> <br>
+                            <a [href]="socLink.link" target="_blank"
+                                *ngFor="let socLink of candidateInfo.socialLinks">{{socLink.link}} , </a>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <h5>Interests/Hobby</h5>
+            <div>
+                <p>{{candidateInfo.interests_hobby}}</p>
+                <p><strong>Skills:</strong> <br>
+                    <span *ngFor="let curSkill of candidateInfo.skills">{{curSkill.skill}}
+                        ({{curSkill.rating}})<br></span>
+                </p>
+                <p><strong>Languages:</strong> <br>
+                    <span *ngFor="let language of candidateInfo.languages">{{language.lang}}
+                        ({{language.rating}})<br></span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-6">
+            <h5>Work Experience</h5>
+            <div class="candidate_workExperience mt-3" *ngFor="let work of candidateInfo.workExperience">
+                <p><strong>Company Name:</strong> {{work.name}}</p>
+                <p><strong>Position:</strong> {{work.position}}</p>
+                <p><strong>Start Date:</strong> {{work.startDate |  date:'MM/dd'}}</p>
+                <p><strong>End Date:</strong> {{work.endDate |  date:'MM/dd'}}</p>
+                <p class="candidate_workExperience__description"><strong>Description:</strong> {{work.description}}</p>
+            </div>
+        </div>
+        <div class="col-6">
+            <h5>Education</h5>
+            <div class="candidate_workExperience mt-3" *ngFor="let education of candidateInfo.education">
+                <p><strong>Name:</strong> {{education.name}}</p>
+                <p><strong>Start Date:</strong> {{education.startDate |  date:'MM/dd'}}</p>
+                <p><strong>End Date:</strong> {{education.endDate |  date:'MM/dd'}}</p>
+            </div>
+            <p><strong>CV: </strong> <a [href]="candidateInfo.fileName"  download>Download</a> </p>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="candidate_workExperience">
+                <p><strong>Motivation Letter: </strong> {{candidateInfo.motivation_letter}}</p>
+            </div>
+        </div>
+    </div>
+</div>

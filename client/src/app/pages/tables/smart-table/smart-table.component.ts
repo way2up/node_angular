@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { LocalDataSource } from 'ng2-smart-table';
 
 // import { SmartTableData } from '../../../@core/data/smart-table';
@@ -14,31 +15,13 @@ export class SmartTableComponent {
   public candidates: Array<any>;
 
   settings = {
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },
     columns: {
-      // _id: {
-      //   title: 'ID',
-      //   type: 'number',
-      // },
       name: {
         title: 'Name',
         type: 'string',
       },
       email: {
-        title: 'E-mail',
+        title: 'Email',
         type: 'string',
       },
       position: {
@@ -49,29 +32,23 @@ export class SmartTableComponent {
         title: 'Date',
         type: 'string',
       },
-      view: {
-        title: 'View more',
-        type: 'html',
-      }
     },
-    // actions: {
-    //   custom: [
-    //     {
-    //       name: 'yourAction',
-    //       title: '-->',
-    //     }
-    //   ],
-    // }
+    actions: {
+      columnTitle: 'View more',
+      add: false,
+      edit: false,
+      delete: false,
+      custom: [
+        { name: 'viewrecord', title: '<i class="fa fa-eye"></i>' },
+      ],
+      position: 'right'
+    },
   };
 
   source: LocalDataSource = new LocalDataSource();
 
   constructor(
-    // private service: SmartTableData,
-     private vacancyService: VacancyService) {
-    // const data = this.service.getData();
-    // console.log(data)
-    // this.source.load(data);
+    private vacancyService: VacancyService, public router: Router) {
     this.getVacancies();
   }
 
@@ -81,14 +58,10 @@ export class SmartTableComponent {
         this.candidates = data;
         this.candidates = this.candidates.map(item => {
           item.name = item.firstName + ' ' + item.lastName;
-           item.view = `<span (click)="seeMore($event)"><i  class="far fa-address-card"></i></span>`;
           return item;
         })
-        // this.sortedItems = items.sort((a: any, b: any) =>
-        //   new Date(a.date).getTime() - new Date(b.date).getTime()
-        // );
+        this.candidates = this.candidates.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
         this.source.load(this.candidates);
-        console.log(this.candidates)
       },
       error => {
         console.warn(error);
@@ -96,19 +69,8 @@ export class SmartTableComponent {
     )
   }
 
-  seeMore(item) {
-    console.log(item)
+  seeMoreInfo(user) {
+    this.router.navigate(['/pages/tables/candidateInfo'], { queryParams: {data: JSON.stringify(user[`data`])} } );
   }
 
-  onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
-  }
-
-  onUserRowSelect(item) {
-    // console.log(item)
-  }
 }

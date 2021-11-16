@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NbCardModule, NbIconModule, NbInputModule, NbTreeGridModule } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -8,6 +9,7 @@ import { FsIconComponent } from './tree-grid/tree-grid.component';
 
 @NgModule({
   imports: [
+    CommonModule,
     NbCardModule,
     NbTreeGridModule,
     NbIconModule,

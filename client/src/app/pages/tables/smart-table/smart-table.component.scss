@@ -5,3 +5,14 @@
     transform: translate3d(0, 0, 0);
   }
 }
+
+:host /deep/ ng2-smart-table tbody > tr > td  { 
+    position: relative;
+  .ng2-smart-action  {
+    position: absolute;
+    transform: translate(0, -50%);
+    top: 50%;
+    left: 0;
+    right: 0;
+  }
+}
