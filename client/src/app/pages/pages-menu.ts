@@ -214,6 +214,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     //   },
     // ],
   },
+  {
+    title: 'Skills of Candidate',
+    icon: 'shuffle-2-outline',
+    link: '/pages/tables/skills',
+  },
   // {
   //   title: 'Miscellaneous',
   //   icon: 'shuffle-2-outline',

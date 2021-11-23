@@ -2,9 +2,14 @@
 //     border-radius: 50%;
 // }
 .candidate_workExperience {
-    padding: 10px;
-    background-color: white;
-    .candidate_workExperience__description {
-        word-wrap: break-word;
-    }
+  padding: 10px;
+  background-color: white;
+
+  p {
+    color: black;
+  }
+
+  .candidate_workExperience__description {
+    word-wrap: break-word;
+  }
 }

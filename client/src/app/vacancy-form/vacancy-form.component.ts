@@ -11,6 +11,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
 import { Router } from '@angular/router';
+import { SkillService } from '../@core/data/skills.service';
 
 const moment = _moment;
 
@@ -74,8 +75,7 @@ export class VacancyFormComponent implements OnInit {
   public newSkill: string;
   public newLang: string;
 
-  optionsSkils: string[] = ['HTML/CSS', 'Analytical', 'Responsive design', 'React', 'React Native', 'Flutter', 'Angular', 'Git',
-    'JavaScript ', 'Interpersonal', 'Testing and debugging', 'Back-end basics', 'Search engine'];
+  optionsSkils: string[] = [];
 
   optionsLanguages: string[] = ['Armenian', 'Russian', 'English', 'German', 'French', 'Flutter'];
 
@@ -83,11 +83,22 @@ export class VacancyFormComponent implements OnInit {
 
   filteredLanguagesOptions: Array<Observable<string[]>> = [];
 
-  constructor(private vacancyService: VacancyService, public router: Router, public datepipe: DatePipe) { }
+  constructor(private vacancyService: VacancyService, private skillService: SkillService, public router: Router, public datepipe: DatePipe) {
+
+   }
 
   ngOnInit(): void {
     this._filterPosition();
-    this._filterSkils(0);
+    this.skillService.getSkills().subscribe(
+      (data: Array<any>) => {
+        this.optionsSkils = data.map(x => x.name);
+        this._filterSkils(0);
+      },
+      error => {
+        console.warn(error);
+      }
+    )
+    
     this._filterLanguages(0);
 
     this.form = new FormGroup({
@@ -271,7 +282,7 @@ export class VacancyFormComponent implements OnInit {
   }
 
   photoChange(element) {
-    if(element.target.files[0].size > 2097152) {
+    if (element.target.files[0].size > 2097152) {
       alert('The photo is too big');
       return;
     }

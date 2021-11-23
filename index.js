@@ -8,6 +8,7 @@ const path = require('path')
 const exphbs = require('express-handlebars')
 const todoRoutes = require('./routes/todos')
 const authRoutes = require('./routes/authRouter')
+const skils = require('./routes/skills')
 const uploadRoutes = require('./routes/upload')
 const keys = require('./config/keys')
 const passport = require('passport')
@@ -66,6 +67,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/api', todoRoutes)
 app.use('/api', authRoutes)
+app.use('/api', skils)
 app.use('/api', uploadRoutes)
 
 async function start() {

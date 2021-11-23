@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { SkillsOfCandidateComponent } from './tables/skills-of-candidate/skills-of-candidate.component';
 
 
 const routes: Routes = [{
