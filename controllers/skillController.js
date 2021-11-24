@@ -26,7 +26,6 @@ class skillController {
         try {
             const skills = await Skill.findByIdAndUpdate(req.params.id, req.body, { new:true, seFindAndModify: false });
             res.status(200).json(skills)
-            // return res.status(200).json({message: "Skill successfully updated"})
         } catch (e) {
             console.log(e)
             res.status(400).json({message: 'Skill error'})

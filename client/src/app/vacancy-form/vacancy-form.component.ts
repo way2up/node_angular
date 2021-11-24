@@ -84,7 +84,6 @@ export class VacancyFormComponent implements OnInit {
   filteredLanguagesOptions: Array<Observable<string[]>> = [];
 
   constructor(private vacancyService: VacancyService, private skillService: SkillService, public router: Router, public datepipe: DatePipe) {
-
    }
 
   ngOnInit(): void {

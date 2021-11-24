@@ -34,22 +34,22 @@ export class SkillsOfCandidateComponent implements OnInit {
     },
   };
 
-  skills: Array<any>;
 
   source: LocalDataSource = new LocalDataSource();
+  sourcePosition: LocalDataSource = new LocalDataSource();
 
   constructor(private skillService: SkillService) { 
   }
 
   ngOnInit(): void {
     this.getSkills();
+    this.getPositions();
   }
 
   getSkills() {
     this.skillService.getSkills().subscribe(
       (data: Array<any>) => {
-        this.skills = data;
-        this.source.load(this.skills);
+        this.source.load(data);
       },
       error => {
         console.warn(error);
@@ -57,11 +57,10 @@ export class SkillsOfCandidateComponent implements OnInit {
     )
   }
 
-  onDeleteConfirm(event): void {
+  onDeleteSkill(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
       this.skillService.deleteSkill( event.data._id).subscribe(
         data => {
-          console.log(data)
           this.getSkills();
         },
         error => {
@@ -74,10 +73,9 @@ export class SkillsOfCandidateComponent implements OnInit {
     }
   }
 
-  onEditConfirm(event): void {
+  onEditSkill(event): void {
     this.skillService.setSkill( event.newData._id, {name: event.newData.name}).subscribe(
       data => {
-        console.log(data)
         this.getSkills();
       },
       error => {
@@ -87,11 +85,62 @@ export class SkillsOfCandidateComponent implements OnInit {
     event.confirm.resolve();
   }
 
-  onCreateConfirm(event): void {
+  onCreateSkill(event): void {
     this.skillService.createSkill({name: event.newData.name}).subscribe(
       data => {
-        console.log(data)
         this.getSkills();
+      },
+      error => {
+        console.warn(error);
+      }
+    );
+    event.confirm.resolve();
+  }
+
+// Positions
+  getPositions() {
+    this.skillService.getPositions().subscribe(
+      (data: Array<any>) => {
+        this.sourcePosition.load(data);
+      },
+      error => {
+        console.warn(error);
+      }
+    )
+  }
+
+  onDeletePosiotion(event): void {
+    if (window.confirm('Are you sure you want to delete?')) {
+      this.skillService.deletePosition( event.data._id).subscribe(
+        data => {
+          this.getPositions();
+        },
+        error => {
+          console.warn(error);
+        }
+      );
+      event.confirm.resolve();
+    } else {
+      event.confirm.reject();
+    }
+  }
+
+  onEditPosiotion(event): void {
+    this.skillService.setPosition( event.newData._id, {name: event.newData.name}).subscribe(
+      data => {
+        this.getPositions();
+      },
+      error => {
+        console.warn(error);
+      }
+    );
+    event.confirm.resolve();
+  }
+
+  onCreatePosiotion(event): void {
+    this.skillService.createPosition({name: event.newData.name}).subscribe(
+      data => {
+        this.getPositions();
       },
       error => {
         console.warn(error);

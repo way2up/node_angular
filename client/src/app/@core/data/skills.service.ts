@@ -24,4 +24,21 @@ export class SkillService {
         return this.http.delete(`/api/delSkill/${id}`);
     }
 
+    // Positions
+    getPositions() {
+        return this.http.get(`/api/getPositions`);
+    }
+
+    setPosition(id, body) {
+        return this.http.put(`/api/setPosition/${id}`, body);
+    }
+
+    createPosition(body) {
+        return this.http.post('/api/createPosition', body);
+    }
+
+    deletePosition(id) {
+        return this.http.delete(`/api/delPosition/${id}`);
+    }
+
 }
