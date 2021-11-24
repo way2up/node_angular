@@ -61,7 +61,7 @@ export class VacancyFormComponent implements OnInit {
   public socialLInksArr: Array<any>;
 
   myControlPosition = new FormControl();
-  optionsPosition: string[] = ['Frontend', 'Backend', 'Full Stack', 'HR', 'QA', 'UI/UX', 'Project manager', 'Team leader'];
+  optionsPosition: string[] = [];
   filteredPositionOptions: Observable<string[]>;
 
   public skillAndRatingArr = [
@@ -87,7 +87,16 @@ export class VacancyFormComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this._filterPosition();
+    this.skillService.getPositions().subscribe(
+      (data: Array<any>) => {
+        this.optionsPosition = data.map(x => x.name);
+        this._filterPosition();
+      },
+      error => {
+        console.warn(error);
+      }
+    )
+
     this.skillService.getSkills().subscribe(
       (data: Array<any>) => {
         this.optionsSkils = data.map(x => x.name);
