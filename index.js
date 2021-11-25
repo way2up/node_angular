@@ -15,7 +15,7 @@ const uploadRoutes = require('./routes/upload')
 const keys = require('./config/keys')
 const passport = require('passport')
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 
 const app = express()
 const hbs = exphbs.create({

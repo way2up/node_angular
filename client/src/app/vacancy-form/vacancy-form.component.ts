@@ -469,11 +469,12 @@ export class VacancyFormComponent implements OnInit {
   }
 
   putVacancy() {
+    console.log(this.form.value);
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {
         console.log(data)
-        window.location.reload();
-        this.router.navigate(['/auth']);
+        // window.location.reload();
+        // this.router.navigate(['/auth']);
       },
       error => {
         console.warn(error);

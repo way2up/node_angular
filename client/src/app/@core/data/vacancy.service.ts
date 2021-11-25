@@ -9,6 +9,7 @@ export interface Vacancy {
     email: string,
     position:string,
     skills: Array<any>,
+    status: Object,
     languages: Array<any>,
     education: Array<any>,
     socialLinks: Array<any>,
@@ -37,6 +38,10 @@ export class VacancyService {
 
     setVacancy(vacancy: Vacancy) {
         return this.http.post('/api/setVacancy', vacancy);
+    }
+
+    updateVacancy(data) {
+        return this.http.post('/api/updateVacancy', data);
     }
 
     uploadFile(file) {
