@@ -6,6 +6,7 @@ import { SmartTableComponent } from './smart-table/smart-table.component';
 import { TreeGridComponent } from './tree-grid/tree-grid.component';
 import { CandidatePageComponent } from './candidate-page/candidate-page.component';
 import { SkillsOfCandidateComponent } from './skills-of-candidate/skills-of-candidate.component';
+import { StatusesComponent } from './statuses/statuses.component';
 
 const routes: Routes = [{
   path: '',
@@ -18,6 +19,10 @@ const routes: Routes = [{
     {
       path: 'skills',
       component: SkillsOfCandidateComponent,
+    },
+    {
+      path: 'statuses',
+      component: StatusesComponent,
     },
     {
       path: 'tree-grid',
@@ -41,5 +46,6 @@ export const routedComponents = [
   SmartTableComponent,
   TreeGridComponent,
   CandidatePageComponent,
-  SkillsOfCandidateComponent
+  SkillsOfCandidateComponent,
+  StatusesComponent
 ];

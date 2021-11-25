@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core'
-
 @Injectable({
     providedIn: 'root'
 })
+
 export class SkillService {
 
     constructor(private http: HttpClient) { }
@@ -39,6 +39,23 @@ export class SkillService {
 
     deletePosition(id) {
         return this.http.delete(`/api/delPosition/${id}`);
+    }
+
+    // Statuses
+    getStatuses() {
+        return this.http.get(`/api/getStatuses`);
+    }
+
+    setStatus(id, body) {
+        return this.http.put(`/api/setStatus/${id}`, body);
+    }
+
+    createStatus(body) {
+        return this.http.post('/api/createStatus', body);
+    }
+
+    deleteStatus(id) {
+        return this.http.delete(`/api/delStatus/${id}`);
     }
 
 }

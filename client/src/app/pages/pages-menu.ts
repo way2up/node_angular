@@ -219,6 +219,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'shuffle-2-outline',
     link: '/pages/tables/skills',
   },
+
+  {
+    title: 'Statuses',
+    icon: 'award-outline',
+    link: '/pages/tables/statuses',
+  },
   // {
   //   title: 'Miscellaneous',
   //   icon: 'shuffle-2-outline',
