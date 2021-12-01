@@ -6,8 +6,12 @@ const schema = new Schema({
     required: true
   },
 
-  color: {
+  backgroundColor: {
     type: String,
+    required: true
+  },
+  colorWhite: {
+    type: Boolean,
     required: true
   },
 })

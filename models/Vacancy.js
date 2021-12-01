@@ -6,7 +6,7 @@ const schema = new Schema({
     email: {type: String, unique: true, required: true},
     position: {type: String, required: true},
     skills: {type: Array, required: true},
-    status: {type: Object, required: false},
+    statusId: {type: String, required: false},
     languages: {type: Array, required: true},
     education: {type: Array, required: true},
     socialLinks: {type: Array, required: true},

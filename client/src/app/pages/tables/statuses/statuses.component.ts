@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ColorEvent } from 'ngx-color';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SkillService } from '../../../@core/data/skills.service';
+import { CheckboxComponent } from './checkbox.component';
 
 @Component({
   selector: 'ngx-statuses',
@@ -10,9 +11,15 @@ import { SkillService } from '../../../@core/data/skills.service';
 })
 export class StatusesComponent implements OnInit {
   public state = '#f30000';
+  public statusesData: Array<any>;
   public current_color: string;
+  public rowData: any;
 
   settings = {
+    rowClassFunction: (row) => {
+      // return 'Naushnik'
+      // console.log(row);
+    },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -34,10 +41,23 @@ export class StatusesComponent implements OnInit {
         title: 'Name',
         type: 'string',
       },
-      color: {
-        title: 'Color',
+      backgroundColor: {
+        title: 'Background Color',
         type: 'string',
       },
+      colorWhite: {
+        title: 'White Text And Background',
+        type: 'custom',
+        editable: false,
+        filter: false,
+        renderComponent: CheckboxComponent,
+        onComponentInitFunction: (instance: any) => {
+          instance.retry.subscribe(updatedData => {
+            this.changeCheckbox(updatedData);
+          });
+        },
+      }
+
     },
   };
 
@@ -50,10 +70,16 @@ export class StatusesComponent implements OnInit {
     this.getStatuses();
   }
 
+  changeCheckbox(data) {
+    this.statusesData.map(obj => data.id === obj.id || obj);
+    this.sourceStatus.load(this.statusesData);
+  }
+
   getStatuses() {
     this.skillService.getStatuses().subscribe(
       (data: Array<any>) => {
-        this.sourceStatus.load(data);
+        this.statusesData = data;
+        this.sourceStatus.load(this.statusesData);
       },
       error => {
         console.warn(error);
@@ -79,15 +105,15 @@ export class StatusesComponent implements OnInit {
 
   onEditStatus(event): void {
     const reg = /^#([0-9A-F]{3}){1,2}$/i;
-    if (!event.newData.name || !event.newData.color) {
+    if (!event.newData.name || !event.newData.backgroundColor) {
       alert("Write name and color");
       return;
     }
-    if (!reg.test(event.newData.color)) {
+    if (!reg.test(event.newData.backgroundColor)) {
       alert("Write valid color");
       return
     }
-    this.skillService.setStatus(event.newData._id, { name: event.newData.name, color: event.newData.color }).subscribe(
+    this.skillService.setStatus(event.newData._id, { name: event.newData.name, backgroundColor: event.newData.backgroundColor, colorWhite: event.newData.colorWhite }).subscribe(
       data => {
         this.getStatuses();
       },
@@ -100,15 +126,15 @@ export class StatusesComponent implements OnInit {
 
   onCreateStatus(event): void {
     const reg = /^#([0-9A-F]{3}){1,2}$/i;
-    if (!event.newData.name || !event.newData.color) {
+    if (!event.newData.name || !event.newData.backgroundColor) {
       alert("Write name and color");
       return;
     }
-    if (!reg.test(event.newData.color)) {
+    if (!reg.test(event.newData.backgroundColor)) {
       alert("Write valid color");
       return
     }
-    this.skillService.createStatus({ name: event.newData.name, color: event.newData.color }).subscribe(
+    this.skillService.createStatus({ name: event.newData.name, backgroundColor: event.newData.backgroundColor, colorWhite: true }).subscribe(
       data => {
         this.getStatuses();
       },

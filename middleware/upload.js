@@ -3,7 +3,7 @@ const {GridFsStorage} = require('multer-gridfs-storage');
 const keys = require('../config/keys')
 
 const storage = new GridFsStorage({
-    url: keys.mongoHR_Tool3,
+    url: keys.mongoLocal,
     options: { useNewUrlParser: true, useUnifiedTopology: true },
     file: (req, file) => {
         
