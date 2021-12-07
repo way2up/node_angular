@@ -32,8 +32,12 @@ export class VacancyService {
 
     constructor(private http: HttpClient) { }
 
-    getVacancies() {
-        return this.http.get(`/api/getVacancies`);
+    getVacancies(statusId?: string) {
+        return this.http.get(`/api/getVacancies`, {
+            params: {
+                statusId: statusId,
+              },
+        });
     }
 
     setVacancy(vacancy: Vacancy) {

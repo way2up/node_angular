@@ -1,14 +1,22 @@
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{filterByStatus}}
+  </button>
+  <button type="button" class="btn btn-light cancelFilter" (click)="cancelFilter()">Cancel Filter</button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <span class="dropdown-item" *ngFor="let status of statusesArr"
+          (click)="selectStatus(status)">{{status.name}}</span>
+  </div>
+</div>
+
 <nb-card>
   <nb-card-header>
     Candidates
   </nb-card-header>
 
   <nb-card-body>
-    <ng2-smart-table 
-    [settings]="settings" 
-    [source]="source" 
-    (custom)="seeMoreInfo($event)"
-    >
+    <ng2-smart-table [settings]="settings" [source]="source" (custom)="seeMoreInfo($event)">
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>

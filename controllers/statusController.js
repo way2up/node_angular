@@ -4,7 +4,13 @@ class statusController {
 
     async getStatuses(req, res) {
         try {
-            const statuses = await Status.find()
+            let statuses;
+            if(req.query[`_id`] !== 'undefined') {
+                 statuses = await Status.find(req.query)
+            } else {
+                 statuses = await Status.find()
+            }
+           
             res.status(200).json(statuses)
         } catch (e) {
             console.log(e)

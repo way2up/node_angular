@@ -42,8 +42,12 @@ export class SkillService {
     }
 
     // Statuses
-    getStatuses() {
-        return this.http.get(`/api/getStatuses`);
+    getStatuses(id?: string) {
+        return this.http.get(`/api/getStatuses`, {
+            params: {
+                _id: id,
+              },
+        });
     }
 
     setStatus(id, body) {

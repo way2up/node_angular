@@ -16,11 +16,8 @@ class vacancyController {
 
     async updateVacancy(req, res) {
         try {
-            const newStatus = {
-                status: {name: req.body.statusName, color: req.body.statusColor}
-            };
-            const position = await Vacancy.findByIdAndUpdate(req.body.id, newStatus, { new:true, seFindAndModify: false });
-            res.status(200).json(position)
+            const position = await Vacancy.findByIdAndUpdate(req.body.id, {statusId: req.body.statusId}, { new:true, seFindAndModify: false });
+            res.status(200).json({message: 'Vacancy successfully updated', data: position})
         } catch (e) {
             console.log(e)
             res.status(400).json({message: 'Vacancy error'})
@@ -30,7 +27,12 @@ class vacancyController {
 
     async getVacancies(req, res) {
         try {
-            const vacancies = await Vacancy.find()
+            let vacancies;
+            if(req.query[`statusId`] !== 'undefined') {
+                vacancies = await Vacancy.find(req.query)
+            } else {
+                vacancies = await Vacancy.find()
+            }
             res.status(200).json(vacancies)
         } catch (e) {
             console.log(e)

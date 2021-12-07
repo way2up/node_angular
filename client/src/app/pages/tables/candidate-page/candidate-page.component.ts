@@ -16,18 +16,34 @@ export class CandidatePageComponent implements OnInit {
   public selectedStatusColor: string;
   public selectedS: string;
 
-  constructor(private activeRoute: ActivatedRoute, 
+  constructor(private activeRoute: ActivatedRoute,
     private skillService: SkillService, private vacancyService: VacancyService) { }
 
   ngOnInit(): void {
 
     this.activeRoute.queryParams.subscribe((params) => {
       this.candidateInfo = JSON.parse(params.data);
-      this.selectedStatusName = this.candidateInfo['status'] ?  this.candidateInfo['status']['name'] : null;
-      this.selectedStatusColor = this.candidateInfo['status'] ? this.candidateInfo['status']['color'] : null;
+      if (this.candidateInfo['statusId']) {
+        this.getStatusById(this.candidateInfo['statusId'])
+      }
+
       this.age = new Date().getFullYear() - new Date(this.candidateInfo.dateOfBirth).getFullYear();
       this.getStatuses();
     })
+  }
+
+  getStatusById(id: string) {
+    this.skillService.getStatuses(id).subscribe(
+      (data: Array<any>) => {
+        if (data.length) {
+          this.selectedStatusName = data[0][`name`];
+          this.selectedStatusColor = data[0][`backgroundColor`];
+        }
+      },
+      error => {
+        console.warn(error);
+      }
+    )
   }
 
   getStatuses() {
@@ -42,13 +58,11 @@ export class CandidatePageComponent implements OnInit {
   }
 
   selectStatus(status) {
-    this.selectedStatusName = status.name;
-    this.selectedStatusColor = status.color;
-    this.candidateInfo.status = status;
+    this.selectedStatusName = status[`name`];
+    this.selectedStatusColor = status[`backgroundColor`];
     const newStatusData = {
       id: this.candidateInfo._id,
-      statusName: this.selectedStatusName,
-      statusColor: this.selectedStatusColor,
+      statusId: status._id,
     }
 
     this.vacancyService.updateVacancy(newStatusData).subscribe(
