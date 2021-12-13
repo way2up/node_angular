@@ -12,6 +12,7 @@ const skils = require('./routes/skills')
 const statuses = require('./routes/statuses')
 const positions = require('./routes/positions')
 const uploadRoutes = require('./routes/upload')
+const mailerRoutes = require('./routes/mailer.Routes')
 const keys = require('./config/keys')
 const passport = require('passport')
 
@@ -73,6 +74,7 @@ app.use('/api', skils)
 app.use('/api', statuses)
 app.use('/api', positions)
 app.use('/api', uploadRoutes)
+app.use('/api', mailerRoutes)
 
 async function start() {
   try {

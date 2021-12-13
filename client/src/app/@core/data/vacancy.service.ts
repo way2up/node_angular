@@ -56,4 +56,8 @@ export class VacancyService {
         return this.http.post('/api/photo', file);
     }
 
+    sendMail(mail) {
+        return this.http.post('/api/sendCandidateMail', mail);
+    }
+
 }

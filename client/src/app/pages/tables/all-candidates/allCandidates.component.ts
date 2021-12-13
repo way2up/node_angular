@@ -8,10 +8,10 @@ import { VacancyService } from '../../../@core/data/vacancy.service';
 
 @Component({
   selector: 'ngx-smart-table',
-  templateUrl: './smart-table.component.html',
-  styleUrls: ['./smart-table.component.scss'],
+  templateUrl: './allCandidates.component.html',
+  styleUrls: ['./allCandidates.component.scss'],
 })
-export class SmartTableComponent implements OnInit {
+export class AllCandidatesTableComponent implements OnInit {
 
   public candidates: Array<any>;
   public statusesArr: Array<any>;
@@ -93,6 +93,7 @@ export class SmartTableComponent implements OnInit {
             let spanBack = Array.from(document.getElementsByClassName(`a${data[0]['backgroundColor']}`) as HTMLCollectionOf<HTMLElement>);
             for (let i = 0; i < spanBack.length; i++) {
               spanBack[i].style.backgroundColor = `${data[0]['backgroundColor']}`;
+              spanBack[i].style.color = data[0]['colorWhite'] ? 'white' : 'black';
             }
           }, 250);
           this.source.load(this.candidates);
