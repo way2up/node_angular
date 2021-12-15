@@ -11,6 +11,8 @@ import { ThemeModule } from '../@theme/theme.module';
 import { NbMenuModule } from '@nebular/theme';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 const routes: Routes = [{
@@ -34,6 +36,8 @@ const routes: Routes = [{
     exports: [RouterModule],
     declarations: [
         VacancyFormComponent,
+        HeaderComponent,
+        FooterComponent,
     ],
 })
 export class VacancyFormModule { }
