@@ -1,67 +1,81 @@
- .header_row {
+ .navbar {
+   border-bottom: 3px solid rgb(203, 52, 43);
+   padding: 0;
+
+   .nav-header-container {
+     max-width: 1170px;
+   }
+
+   .header_row {
      width: 100%;
 
+     .logo_block {
+       display: flex;
+       align-items: center;
+     }
+
      .toogleMenu {
-        float: right;
+       float: right;
      }
-     a {
-        display: inline-block;
-        vertical-align: sub;
-         img {
-            vertical-align: -webkit-baseline-middle;
-         }
-     }
+
      .logo-light {
-        max-width: 130px;
+       max-width: 130px;
      }
 
      .navbar-nav {
-        .nav-link {
-           font-size: 12px;
-           font-weight: 500;
-           color: black;
-           text-transform: uppercase;
-           letter-spacing: 0.015em;
-           position: relative;
-           overflow: hidden;
-           padding: 20px 0;
-           margin: 0 20px;
+       .nav-link {
+         font-size: 12px;
+         font-weight: 600;
+         color: #232323;
+         position: relative;
+         overflow: hidden;
+         padding: 20px 0;
+         margin: 0 20px;
+         text-transform: uppercase;
+         letter-spacing: 0.015em;
+         font-family: 'Raleway', sans-serif;
+       }
 
-        }
-
-        .nav-link:hover{
+       .nav-link:hover {
          &::before {
-            position: absolute;
-            content: '';
-            width: 100%;
-            display: table;
-            height: 4px;
-            bottom: 16px;
-            border-radius: 8px;
-            transform: scaleX(1);
-            visibility: visible;
-            opacity: 1;
-            background: rgb(203, 52, 43);
-            transition: all 300ms linear;
-        }
-        } 
-      
-        // for red underline
-         // .active::before {
-         //    position: absolute;
-         //    content: '';
-         //    width: 100%;
-         //    display: table;
-         //    height: 4px;
-         //    bottom: 16px;
-         //    border-radius: 8px;
-         //    transform: scaleX(1);
-         //    visibility: visible;
-         //    opacity: 1;
-         //    background: rgb(203, 52, 43);
-         //    transition: all 300ms linear;
-         //   }
-        
+           position: absolute;
+           content: '';
+           width: 100%;
+           display: table;
+           height: 4px;
+           bottom: 16px;
+           border-radius: 8px;
+           transform: scaleX(1);
+           visibility: visible;
+           opacity: 1;
+           background: rgb(203, 52, 43);
+           transition: all 300ms linear;
+         }
+       }
+
      }
+   }
+
  }
- 
+
+ @media only screen and (max-width: 1000px) {
+
+   .nav-header-container {
+
+     padding: 15px;
+
+     .toogleMenu {
+       position: absolute;
+       right: 0;
+       top: -30px;
+     }
+
+     .navbar-nav {
+       .nav-link {
+          display: inline-block;
+          font-size: 16px !important;
+       }
+     }
+   }
+
+ }
