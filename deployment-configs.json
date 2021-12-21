@@ -1,0 +1,8 @@
+[
+    {
+      "name": "way2up-server",
+      "ip": "159.65.28.133",
+      "port": "22",
+      "live_path": "/var/www/hr-tool"
+    }
+]
