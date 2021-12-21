@@ -79,6 +79,9 @@ footer.bg {
   .container {
     text-align: center;
 
+    .scroll-top-arrow {
+      display: none;
+    }
     p {
       margin: 0 0  20px;
     }
