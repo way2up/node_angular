@@ -42,6 +42,12 @@ export const MY_FORMATS = {
 })
 export class VacancyFormComponent implements OnInit {
 
+  public today = new Date();
+  public educStartMax = false;
+  public workStartMax = false;
+  public showEducEndDate = true;
+  public showWorkEndDate = true;
+
   public form: FormGroup;
   public selectedPosition = 'Select Position';
   public selectedRating = 'Select Rating';
@@ -75,6 +81,7 @@ export class VacancyFormComponent implements OnInit {
   public newSkill: string;
   public newLang: string;
 
+
   optionsSkils: string[] = [];
 
   optionsLanguages: string[] = ['Armenian', 'Russian', 'English', 'German', 'French', 'Flutter'];
@@ -83,9 +90,9 @@ export class VacancyFormComponent implements OnInit {
 
   filteredLanguagesOptions: Array<Observable<string[]>> = [];
 
-  constructor(private vacancyService: VacancyService, private skillService: SkillService, 
+  constructor(private vacancyService: VacancyService, private skillService: SkillService,
     public router: Router, public datepipe: DatePipe) {
-   }
+  }
 
   ngOnInit(): void {
     this.skillService.getPositions().subscribe(
@@ -107,7 +114,7 @@ export class VacancyFormComponent implements OnInit {
         console.warn(error);
       }
     )
-    
+
     this._filterLanguages(0);
 
     this.form = new FormGroup({
@@ -129,6 +136,8 @@ export class VacancyFormComponent implements OnInit {
         endDate: null,
       }
     ];
+
+    console.log('current', this.educationArr[0].dateEnd)
 
     this.workExperienceArr = [
       {
@@ -185,6 +194,7 @@ export class VacancyFormComponent implements OnInit {
 
   selectPosition(data: string): void {
     this.selectedPosition = data;
+    console.log('in change', this.educationArr[0].dateEnd)
   }
 
   selectSkill(name: string, index: number): void {
@@ -351,6 +361,7 @@ export class VacancyFormComponent implements OnInit {
   }
 
   chosenYearWorkEnd(normalizedYear: Moment, index: number) {
+    this.workStartMax = true;
     const ctrlValue = this.workExperienceArr[index].dateEnd.value;
     ctrlValue.year(normalizedYear.year());
     this.workExperienceArr[index].dateEnd.setValue(ctrlValue);
@@ -381,6 +392,7 @@ export class VacancyFormComponent implements OnInit {
   }
 
   chosenYearEducationEnd(normalizedYear: Moment, index: number) {
+    this.educStartMax = true;
     const ctrlValue = this.educationArr[index].dateEnd.value;
     ctrlValue.year(normalizedYear.year());
     this.educationArr[index].dateEnd.setValue(ctrlValue);
@@ -393,6 +405,14 @@ export class VacancyFormComponent implements OnInit {
     this.educationArr[index].dateEnd.setValue(ctrlValue);
     this.educationArr[index].endDate = this.datepipe.transform(this.educationArr[index].dateEnd.value._d, 'yyyy-MM');
     datepicker.close();
+  }
+
+  checkValueEducationEndDate(event) {
+    this.showEducEndDate = !event.target.checked;
+  }
+
+  checkValueWorkEndDate(event) {
+    this.showWorkEndDate = !event.target.checked;
   }
 
   sendForm() {
@@ -474,7 +494,7 @@ export class VacancyFormComponent implements OnInit {
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {
         console.log(data)
-        this.vacancyService.sendMail({email: this.form.value.email}).subscribe(data=> console.log(data));
+        this.vacancyService.sendMail({ email: this.form.value.email }).subscribe(data => console.log(data));
 
         // window.location.reload();
         // this.router.navigate(['/auth']);

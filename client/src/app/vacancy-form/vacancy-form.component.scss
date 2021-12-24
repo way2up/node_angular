@@ -2,25 +2,20 @@
 @import '~bootstrap/scss/mixins/breakpoints';
 @import '~@nebular/theme/styles/global/breakpoints';
 
-@include nb-install-component() {
-  nb-card-body {
-    display: flex;
-    justify-content: space-between;
-
-    input {
-      width: 100%;
-    }
-  }
-}
-
 .form_block {
-  background: aliceblue; 
-  .photo_section {
-    img {
-      max-height: 160px;
-      margin-bottom: 19px;
+  background: aliceblue;
+
+  .container {
+    max-width: 1170px;
+
+    .photo_section {
+      img {
+        max-height: 160px;
+        margin-bottom: 19px;
+      }
     }
   }
+
 }
 
 h1 {
@@ -59,4 +54,9 @@ h1 {
 
 .example-month-picker .mat-calendar-arrow {
   display: none;
+}
+
+
+.nb-theme-default nb-checkbox.status-basic .text {
+  padding-left: 10px;
 }
