@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { InjectionToken, NgModule } from '@angular/core';
+import { NbButtonModule, NbCardModule, NbDatepickerModule, NbFocusMonitor, NbInputModule, NbMenuModule, NbSelectModule, NbStatusService, NbTimepickerModule } from '@nebular/theme';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -8,12 +9,11 @@ import { VacancyFormComponent } from './vacancy-form.component';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ThemeModule } from '../@theme/theme.module';
-import { NbMenuModule } from '@nebular/theme';
+
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-
 
 const routes: Routes = [{
     path: '',
@@ -32,12 +32,21 @@ const routes: Routes = [{
         MatSelectModule,
         MatAutocompleteModule,
         MatInputModule,
+        NbButtonModule,
+        NbTimepickerModule,
+        // NbDatepickerModule,
+        NbSelectModule,
+        NbCardModule,
+        NbInputModule,
+        
     ],
     exports: [RouterModule],
+    
     declarations: [
         VacancyFormComponent,
         HeaderComponent,
         FooterComponent,
     ],
+    providers: [NbStatusService],
 })
 export class VacancyFormModule { }

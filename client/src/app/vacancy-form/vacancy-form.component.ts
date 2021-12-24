@@ -83,7 +83,8 @@ export class VacancyFormComponent implements OnInit {
 
   filteredLanguagesOptions: Array<Observable<string[]>> = [];
 
-  constructor(private vacancyService: VacancyService, private skillService: SkillService, public router: Router, public datepipe: DatePipe) {
+  constructor(private vacancyService: VacancyService, private skillService: SkillService, 
+    public router: Router, public datepipe: DatePipe) {
    }
 
   ngOnInit(): void {
@@ -291,7 +292,7 @@ export class VacancyFormComponent implements OnInit {
 
   photoChange(element) {
     if (element.target.files[0].size > 2097152) {
-      alert('The photo is too big');
+      alert('The photo is too big (Max Size 2MB)');
       return;
     }
     var image = document.getElementById('output');

@@ -1,10 +1,25 @@
+@import '../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+  nb-card-body {
+    display: flex;
+    justify-content: space-between;
+
+    input {
+      width: 100%;
+    }
+  }
+}
+
 .form_block {
   background: aliceblue; 
   .photo_section {
     img {
       max-height: 160px;
+      margin-bottom: 19px;
     }
-    
   }
 }
 
