@@ -108,8 +108,8 @@ jobs:
           port: ${{ matrix.server.port }}
           envs: GITHUB_SHA,RELEASE_PATH,BASE_PATH
           script: |
-            pm2 delete index
-            cd $RELEASE_PATH && pm2 start index.js
+            /root/.nvm/versions/node/v16.0.0/bin/pm2 delete index
+            cd $RELEASE_PATH && /root/.nvm/versions/node/v16.0.0/bin/pm2 start index.js
 
   clean-up:
     name: "${{ matrix.server.name }}: Clean up"
