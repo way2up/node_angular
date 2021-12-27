@@ -7,18 +7,18 @@ on:
 
 jobs:
 
-  delete-artifacts:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: kolpav/purge-artifacts-action@v1
-        with:
-          token: ${{ secrets.DEPLOY_KEY }}
-          expire-in: 0 # Setting this to 0 will delete all artifacts
+  # delete-artifacts:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: kolpav/purge-artifacts-action@v1
+  #       with:
+  #         token: ${{ secrets.DEPLOY_KEY }}
+  #         expire-in: 0 # Setting this to 0 will delete all artifacts
 
   create-deployment-artifatcs:
     name: Create deployment artifacts
     runs-on: ubuntu-latest
-    needs: delete-artifacts
+    # needs: delete-artifacts
     outputs:
       deployment-matrix: ${{ steps.export-deployment-matrix.outputs.deployment-matrix }}
     steps:
