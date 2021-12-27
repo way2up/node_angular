@@ -228,7 +228,7 @@
                             </mat-form-field>
                           </div>
 
-                          <div class="col-12  mt-3" *ngIf="showEducEndDate">
+                          <div class="col-12  mt-3" *ngIf="!education.stillNow">
                             <mat-form-field appearance="fill">
                               <mat-label>End Date</mat-label>
                               <input matInput [matDatepicker]="ed" [min]="education.startDate" [max]="today"
@@ -243,12 +243,11 @@
                           </div>
 
                           <div class="col-12 mt-3">
-
-                            <nb-checkbox _nghost-awr-c62="" class="status-basic nb-transition">
+                            <nb-checkbox (change)="checkValueEducationEndDate($event, i)" _nghost-awr-c62="" class="status-basic nb-transition">
                               <label _ngcontent-awr-c62="" class="label">
                                 <input _ngcontent-awr-c62="" type="checkbox"
                                   class="native-input visually-hidden">
-                                <span _ngcontent-awr-c62="" class="text">Toggle me</span></label>
+                                <span _ngcontent-awr-c62="" class="text">Still now</span></label>
                             </nb-checkbox>
                           </div>
 
@@ -307,7 +306,7 @@
                             </mat-form-field>
                           </div>
 
-                          <div class="col-12 mt-3" *ngIf="showWorkEndDate">
+                          <div class="col-12 mt-3" *ngIf="!work.stillNow">
                             <mat-form-field appearance="fill">
                               <mat-label>End Date</mat-label>
                               <input matInput [matDatepicker]="ed" [min]="work.startDate" [max]="today"
@@ -320,7 +319,12 @@
                           </div>
 
                           <div class="col-12 mt-3">
-                            <nb-checkbox (change)="checkValueWorkEndDate($event)">Still now</nb-checkbox>
+                            <nb-checkbox (change)="checkValueWorkEndDate($event, i)" _nghost-awr-c62="" class="status-basic nb-transition">
+                              <label _ngcontent-awr-c62="" class="label">
+                                <input _ngcontent-awr-c62="" type="checkbox"
+                                  class="native-input visually-hidden">
+                                <span _ngcontent-awr-c62="" class="text">Still now</span></label>
+                            </nb-checkbox>
                           </div>
 
                           <div class="col-12">

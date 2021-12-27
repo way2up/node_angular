@@ -45,8 +45,6 @@ export class VacancyFormComponent implements OnInit {
   public today = new Date();
   public educStartMax = false;
   public workStartMax = false;
-  public showEducEndDate = true;
-  public showWorkEndDate = true;
 
   public form: FormGroup;
   public selectedPosition = 'Select Position';
@@ -134,6 +132,7 @@ export class VacancyFormComponent implements OnInit {
         dateEnd: new FormControl(moment()),
         startDate: null,
         endDate: null,
+        stillNow: false
       }
     ];
 
@@ -148,6 +147,7 @@ export class VacancyFormComponent implements OnInit {
         dateEnd: new FormControl(moment()),
         startDate: null,
         endDate: null,
+        stillNow: false
       }
     ];
     this.socialLInksArr = [{
@@ -407,12 +407,12 @@ export class VacancyFormComponent implements OnInit {
     datepicker.close();
   }
 
-  checkValueEducationEndDate(event) {
-    this.showEducEndDate = !event.target.checked;
+  checkValueEducationEndDate(event, index) {
+    this.educationArr[index].stillNow = event.target.checked
   }
 
-  checkValueWorkEndDate(event) {
-    this.showWorkEndDate = !event.target.checked;
+  checkValueWorkEndDate(event, index) {
+    this.workExperienceArr[index].stillNow = event.target.checked
   }
 
   sendForm() {

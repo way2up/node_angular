@@ -56,7 +56,12 @@ h1 {
   display: none;
 }
 
-
 .nb-theme-default nb-checkbox.status-basic .text {
   padding-left: 10px;
+}
+
+@media only screen and (max-width: 400px) {
+  ::ng-deep .mat-form-field-type-mat-input {
+    max-width: 159px;
+  }
 }

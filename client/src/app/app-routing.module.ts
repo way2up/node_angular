@@ -4,6 +4,11 @@ import { AuthGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   {
+    path: '',
+    loadChildren: () => import('./vacancy-form/vacancy-form.module')
+      .then(m => m.VacancyFormModule),
+  },
+  {
     path: "auth",
     loadChildren: () =>
       import("./auth/auth.module").then((module) => module.AuthModule),
