@@ -1,48 +1,55 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { NbAuthResult, NbAuthService, NbLoginComponent } from '@nebular/auth';
+import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'ngx-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class NgxLoginComponent extends NbLoginComponent {
 
-  form: FormGroup;
-  aSub: Subscription;
-  error_text: string;
 
-  constructor(public router: Router, private auth: AuthService) { }
+  private auth: AuthService
+  // constructor() { 
+  //   // super(service: NbAuthService, options: {}, cd: ChangeDetectorRef, router: Router)
+  //   super()
+  //   this.service
+  // }
 
-  ngOnInit(): void {
-    this.form = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    })
+  login(): void {
+    this.errors = [];
+    this.messages = [];
+    this.submitted = true;
 
-  }
-
-  onLogin() {
-    this.form.disable();
-    this.aSub = this.auth.login(this.form.value).subscribe(
-      (data) => {
-        console.log(data)
-        this.router.navigate(['/pages']);
-      },
-      err => {
-        this.error_text = err.error.message;
-        this.form.enable();
+    this.service.authenticate(this.strategy, this.user).subscribe((result: NbAuthResult) => {
+      debugger
+      this.submitted = false;
+      console.log(7789, this.user)
+      if (result.isSuccess()) {
+        this.messages = result.getMessages();
+      } else {
+        this.errors = result.getErrors();
       }
-    );
-  }
 
-  ngOnDestroy() {
-    if (this.aSub) {
-      this.aSub.unsubscribe();
-    }
-  }
+       this.auth.login(this.user).subscribe(
+        (data) => {
+          console.log(data,)
+          // return this.router.navigateByUrl('/pages');
+        },
+        err => {
+          console.log(err)
+        }
+      )
 
+      // const redirect = result.getRedirect();
+      // if (redirect) {
+      //   setTimeout(() => {
+      //     return this.router.navigateByUrl('/pages');
+      //   }, 2000);
+      // }
+      // this.cd.detectChanges();
+    });
+  }
 }
