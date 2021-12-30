@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { TablesComponent } from './tables.component';
-import { AllCandidatesTableComponent } from './all-Candidates/allCandidates.component';
+import { AllCandidatesTableComponent } from './all-candidates/allCandidates.component';
 import { TreeGridComponent } from './tree-grid/tree-grid.component';
 import { CandidatePageComponent } from './candidate-page/candidate-page.component';
 import { SkillsOfCandidateComponent } from './skills-of-candidate/skills-of-candidate.component';
