@@ -10,7 +10,7 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class NgxLoginComponent extends NbLoginComponent {
 
-  constructor(service: NbAuthService,  @Inject(NB_AUTH_OPTIONS) protected options = {}, cd: ChangeDetectorRef, router: Router, private auth: AuthService) { 
+  constructor(service: NbAuthService, @Inject(NB_AUTH_OPTIONS) protected options = {}, cd: ChangeDetectorRef, router: Router, private auth: AuthService) {
     super(service, options, cd, router)
   }
 
@@ -28,10 +28,16 @@ export class NgxLoginComponent extends NbLoginComponent {
         this.errors = result.getErrors();
       }
 
-       this.auth.login(this.user).subscribe(
+      this.auth.login(this.user).subscribe(
         (data) => {
-          console.log(data,)
-          return this.router.navigateByUrl('/pages');
+          console.log(data)
+          console.log(data.user.role)
+          if (data.user.role === 'Admin') {
+            return this.router.navigateByUrl('/pages');
+          } else if (data.user.role === 'Candidate') {
+            return this.router.navigateByUrl('/vacancy/candidatePage');
+          }
+
         },
         err => {
           console.log(err)

@@ -14,11 +14,20 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { CandidatePageComponent } from './candidate-page/candidate-page.component';
 
-const routes: Routes = [{
-    path: '',
-    component: VacancyFormComponent,
-}];
+const routes: Routes = [
+    {
+        path: '',
+        component: VacancyFormComponent,
+
+    },
+    {
+        path: 'candidatePage',
+        component: CandidatePageComponent,
+
+    }
+];
 
 @NgModule({
     imports: [
@@ -39,14 +48,15 @@ const routes: Routes = [{
         NbCardModule,
         NbInputModule,
         NbCheckboxModule
-        
+
     ],
     exports: [RouterModule],
-    
+
     declarations: [
         VacancyFormComponent,
         HeaderComponent,
         FooterComponent,
+        CandidatePageComponent,
     ],
     providers: [NbStatusService],
 })

@@ -496,7 +496,7 @@ export class VacancyFormComponent implements OnInit {
         console.log(data)
         this.vacancyService.sendMail({ email: this.form.value.email }).subscribe(data => console.log(data));
 
-        // window.location.reload();
+        window.location.reload();
         // this.router.navigate(['/auth']);
       },
       error => {
