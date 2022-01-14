@@ -26,7 +26,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatNativeDateModule } from '@angular/material/core';
-import { AuthGuard } from './auth/auth.guard';
+import { AuthGuardAdmin } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -51,7 +51,7 @@ import { AuthGuard } from './auth/auth.guard';
     FormsModule,
     MatNativeDateModule
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuardAdmin],
   bootstrap: [AppComponent],
 })
 export class AppModule {

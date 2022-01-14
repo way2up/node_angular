@@ -28,11 +28,12 @@ class vacancyController {
     async getVacancies(req, res) {
         try {
             let vacancies;
-            if(req.query[`statusId`] !== 'undefined') {
+            if(req.query[`statusId`] !== 'undefined' || req.query[`email`] !== 'undefined') {
                 vacancies = await Vacancy.find(req.query)
             } else {
                 vacancies = await Vacancy.find()
             }
+             
             res.status(200).json(vacancies)
         } catch (e) {
             console.log(e)

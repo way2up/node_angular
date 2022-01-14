@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { CandidatePageComponent } from './candidate-page/candidate-page.component';
+import { AuthGuard } from './candidate.guard';
 
 const routes: Routes = [
     {
@@ -24,6 +25,7 @@ const routes: Routes = [
     },
     {
         path: 'candidatePage',
+        canActivate: [AuthGuard],
         component: CandidatePageComponent,
 
     }
@@ -58,6 +60,6 @@ const routes: Routes = [
         FooterComponent,
         CandidatePageComponent,
     ],
-    providers: [NbStatusService],
+    providers: [NbStatusService, AuthGuard],
 })
 export class VacancyFormModule { }

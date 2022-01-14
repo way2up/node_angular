@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NbAuthResult, NbAuthService, NbLoginComponent, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
@@ -8,10 +8,17 @@ import { AuthService } from '../../shared/services/auth.service';
   selector: 'ngx-login',
   templateUrl: './login.component.html',
 })
-export class NgxLoginComponent extends NbLoginComponent {
+export class NgxLoginComponent extends NbLoginComponent implements OnInit {
+  public route = 'register';
 
   constructor(service: NbAuthService, @Inject(NB_AUTH_OPTIONS) protected options = {}, cd: ChangeDetectorRef, router: Router, private auth: AuthService) {
     super(service, options, cd, router)
+  }
+
+  ngOnInit(): void {
+    if (this.router.url === '/auth/login') {
+      this.route = '../register';
+    }
   }
 
   login(): void {
@@ -21,7 +28,6 @@ export class NgxLoginComponent extends NbLoginComponent {
 
     this.service.authenticate(this.strategy, this.user).subscribe((result: NbAuthResult) => {
       this.submitted = false;
-      console.log(7789, this.user)
       if (result.isSuccess()) {
         this.messages = result.getMessages();
       } else {
@@ -30,8 +36,6 @@ export class NgxLoginComponent extends NbLoginComponent {
 
       this.auth.login(this.user).subscribe(
         (data) => {
-          console.log(data)
-          console.log(data.user.role)
           if (data.user.role === 'Admin') {
             return this.router.navigateByUrl('/pages');
           } else if (data.user.role === 'Candidate') {

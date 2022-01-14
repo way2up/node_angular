@@ -1,6 +1,6 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { AuthGuard } from './auth/auth.guard';
+import { AuthGuardAdmin } from './auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -15,7 +15,7 @@ export const routes: Routes = [
   },
   {
     path: 'pages',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuardAdmin],
     loadChildren: () => import('./pages/pages.module')
       .then(m => m.PagesModule),
   },
@@ -26,7 +26,7 @@ export const routes: Routes = [
   },
 
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
-  // { path: '**', redirectTo: 'pages' },
+  { path: '**', redirectTo: 'pages' },
 ];
 
 const config: ExtraOptions = {

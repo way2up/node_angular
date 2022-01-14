@@ -20,6 +20,7 @@ export class AuthService {
                 ({token, user}) => {
                     localStorage.setItem('auth-token', token)
                     localStorage.setItem('user-role', user.role)
+                    localStorage.setItem('user-email', user.email)
                     this.setToken(token, user.role)
                 })
             )
@@ -35,8 +36,12 @@ export class AuthService {
        return localStorage.getItem("auth-token")
     }
 
-    isAuthenticated(): boolean {
+    isAuthenticatedAdmin(): boolean {
         return !localStorage.getItem("auth-token") || localStorage.getItem("user-role") !== 'Admin' ? false : true;
+    }
+
+    isAuthenticated(): boolean {
+        return !localStorage.getItem("auth-token") || localStorage.getItem("user-role") !== 'Candidate' ? false : true; ;
     }
 
     logout(): void {
