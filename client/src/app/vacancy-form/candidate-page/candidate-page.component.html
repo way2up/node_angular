@@ -1,8 +1,40 @@
 <header_way2up></header_way2up>
 <!-- <app-vacancy-form></app-vacancy-form> -->
 
-<section class="candidate_info">
-
+<div class="container">
+  <section class="candidate_info mt-5">
+    <h1>MY CVS</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Position</th>
+          <th>Date</th>
+          <th>Skills</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let candidate of candidates, let i = index">
+          <td><img src="{{candidate.photoName}}" alt="img" height="60"></td>
+          <td>{{candidate.position}}</td>
+          <td>{{candidate.date}}</td>
+          <td>
+            <span  *ngFor="let skill of candidate.skills">
+              {{skill.skill }} 
+            </span>
+          </td>
+          <td><button type="button" class="btn btn-success" (click)="updateCV(candidate._id)">Update</button></td>
+          <td><button type="button" class="btn btn-danger" (click)="deleteCV(candidate._id)">Delete</button></td>
+        </tr>
+       
+      </tbody>
+    </table>
+   
+    
 </section>
+</div>
+
 
 <footer_way2up class="footer"></footer_way2up>

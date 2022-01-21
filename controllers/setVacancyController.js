@@ -28,13 +28,22 @@ class vacancyController {
     async getVacancies(req, res) {
         try {
             let vacancies;
-            if(req.query[`statusId`] !== 'undefined' || req.query[`email`] !== 'undefined') {
+            if(req.query[`statusId`] || req.query[`email`]) {
                 vacancies = await Vacancy.find(req.query)
             } else {
                 vacancies = await Vacancy.find()
             }
              
             res.status(200).json(vacancies)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    async deleteVacancies(req, res) {
+        try {
+            await Vacancy.findByIdAndDelete(req.params.id);
+            res.status(200).json({message: "CV removed"})
         } catch (e) {
             console.log(e)
         }

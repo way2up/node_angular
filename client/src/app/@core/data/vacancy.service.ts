@@ -33,11 +33,11 @@ export class VacancyService {
     constructor(private http: HttpClient) { }
 
     getVacancies(statusId?: string, email?: string) {
+        let params = {};
+        statusId ? params[`statusId`] = statusId :  '';
+        email ? params[`email`] = email :  '';
         return this.http.get(`/api/getVacancies`, {
-            params: {
-                statusId,
-                email
-              },
+            params,
         });
     }
 
@@ -47,6 +47,10 @@ export class VacancyService {
 
     updateVacancy(data) {
         return this.http.post('/api/updateVacancy', data);
+    }
+
+    deleteVacancy(id) {
+        return this.http.delete(`/api/deleteVacancie/${id}`);
     }
 
     uploadFile(file) {

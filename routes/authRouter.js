@@ -11,6 +11,7 @@ router.get('/getUsers', controllerAuth.getUsers);
 router.post('/setVacancy', controllerVacancy.setVacancy);
 router.post('/updateVacancy', controllerVacancy.updateVacancy);
 router.get('/getVacancies', controllerVacancy.getVacancies);
+router.delete('/deleteVacancie/:id', controllerVacancy.deleteVacancies);
 
 // vacancy   --- reqVacancies
 

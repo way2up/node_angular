@@ -16,6 +16,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { CandidatePageComponent } from './candidate-page/candidate-page.component';
 import { AuthGuard } from './candidate.guard';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 const routes: Routes = [
     {
@@ -35,6 +36,7 @@ const routes: Routes = [
     imports: [
         FormsModule,
         CommonModule,
+        NbCardModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
         ThemeModule,
@@ -45,11 +47,10 @@ const routes: Routes = [
         MatInputModule,
         NbButtonModule,
         NbTimepickerModule,
-        // NbDatepickerModule,
+        Ng2SmartTableModule,
         NbSelectModule,
-        NbCardModule,
         NbInputModule,
-        NbCheckboxModule
+        NbCheckboxModule,
 
     ],
     exports: [RouterModule],
