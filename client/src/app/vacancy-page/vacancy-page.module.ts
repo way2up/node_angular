@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
-import { VacancyFormComponent } from './vacancy-form.component';
+import { VacancyPageComponent } from './vacancy-page.component';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ThemeModule } from '../@theme/theme.module';
@@ -17,11 +17,12 @@ import { FooterComponent } from './footer/footer.component';
 import { CandidatePageComponent } from './candidate-page/candidate-page.component';
 import { AuthGuard } from './candidate.guard';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { VacancyFormComponent } from './vacancy-form/vacancy-form.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: VacancyFormComponent,
+        component: VacancyPageComponent,
 
     },
     {
@@ -56,6 +57,7 @@ const routes: Routes = [
     exports: [RouterModule],
 
     declarations: [
+        VacancyPageComponent,
         VacancyFormComponent,
         HeaderComponent,
         FooterComponent,

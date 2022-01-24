@@ -5,7 +5,7 @@ import { AuthGuardAdmin } from './auth/auth.guard';
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./vacancy-form/vacancy-form.module')
+    loadChildren: () => import('./vacancy-page/vacancy-page.module')
       .then(m => m.VacancyFormModule),
   },
   {
@@ -21,7 +21,7 @@ export const routes: Routes = [
   },
   {
     path: 'vacancy',
-    loadChildren: () => import('./vacancy-form/vacancy-form.module')
+    loadChildren: () => import('./vacancy-page/vacancy-page.module')
       .then(m => m.VacancyFormModule),
   },
 

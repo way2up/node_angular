@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { VacancyService } from '../@core/data/vacancy.service';
+import { VacancyService } from '../../@core/data/vacancy.service';
 import { DatePipe } from '@angular/common'
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -10,8 +10,9 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
-import { Router } from '@angular/router';
-import { SkillService } from '../@core/data/skills.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SkillService } from '../../@core/data/skills.service';
+
 
 const moment = _moment;
 
@@ -26,8 +27,9 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
+
 @Component({
-  selector: 'app-vacancy-form',
+  selector: 'vacancy-form',
   templateUrl: './vacancy-form.component.html',
   styleUrls: ['./vacancy-form.component.scss'],
   providers: [
@@ -68,6 +70,7 @@ export class VacancyFormComponent implements OnInit {
   optionsPosition: string[] = [];
   filteredPositionOptions: Observable<string[]>;
 
+  
   public skillAndRatingArr = [
     { skill: 'Select Skill', myControlSkils: new FormControl(), rating: 'Select Rating' }
   ];
@@ -89,10 +92,14 @@ export class VacancyFormComponent implements OnInit {
   filteredLanguagesOptions: Array<Observable<string[]>> = [];
 
   constructor(private vacancyService: VacancyService, private skillService: SkillService,
-    public router: Router, public datepipe: DatePipe) {
+    public router: Router, public datepipe: DatePipe , private activeRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.activeRoute.queryParams.subscribe((params) => {
+      console.log(params, 785)
+      // this.candidateInfo = JSON.parse(params.data);
+    })
     this.skillService.getPositions().subscribe(
       (data: Array<any>) => {
         this.optionsPosition = data.map(x => x.name);
