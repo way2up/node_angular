@@ -65,3 +65,23 @@ h1 {
     max-width: 159px;
   }
 }
+
+.photo_upload {
+position: relative;
+  .photo_file {
+    position: absolute;
+    bottom: 7px;
+    left: 262px;
+    background: #F0F8FF;
+  }
+}
+
+.file_upload {
+position: relative;
+  .file_Name {
+    position: absolute;
+    top: 0px;
+    left: 244px;
+    background: #F0F8FF;
+  }
+}

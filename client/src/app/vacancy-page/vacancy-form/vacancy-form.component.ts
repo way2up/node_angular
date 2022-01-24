@@ -55,6 +55,8 @@ export class VacancyFormComponent implements OnInit {
   public uploadedPhotos: Array<File>;
   public uploadFileName: string;
   public uploadPhotoName: string;
+  public cutingFileName: string;
+  public cutingPotoName: string;
   public motivation_letter: string;
   public Interests_hobby: string;
   public DateOfBirthMax: Date = new Date();
@@ -70,7 +72,7 @@ export class VacancyFormComponent implements OnInit {
   optionsPosition: string[] = [];
   filteredPositionOptions: Observable<string[]>;
 
-  
+
   public skillAndRatingArr = [
     { skill: 'Select Skill', myControlSkils: new FormControl(), rating: 'Select Rating' }
   ];
@@ -91,15 +93,58 @@ export class VacancyFormComponent implements OnInit {
 
   filteredLanguagesOptions: Array<Observable<string[]>> = [];
 
+
   constructor(private vacancyService: VacancyService, private skillService: SkillService,
-    public router: Router, public datepipe: DatePipe , private activeRoute: ActivatedRoute) {
+    public router: Router, public datepipe: DatePipe, private activeRoute: ActivatedRoute) {
+
+    this.form = new FormGroup({
+      firstName: new FormControl(null, [Validators.required]),
+      lastName: new FormControl(null, [Validators.required]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      city: new FormControl(null, [Validators.required]),
+      address: new FormControl(null, [Validators.required]),
+      telephone: new FormControl(null, [Validators.required]),
+      // file: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+    });
+
   }
 
   ngOnInit(): void {
     this.activeRoute.queryParams.subscribe((params) => {
-      console.log(params, 785)
-      // this.candidateInfo = JSON.parse(params.data);
+      if (params.cv_id) {
+        this.vacancyService.getVacancies(params.cv_id, '', '').subscribe(
+          (data: Array<any>) => {
+            const cv = data[0];
+            console.log(cv, 'my cv')
+
+            this.form.setValue({
+              firstName: cv.firstName,
+              lastName: cv.lastName,
+              email: cv.email,
+              city: cv.city,
+              address: cv.address,
+              telephone: cv.telephone,
+            });
+            this.myControlPosition.setValue(cv.position);
+            this.selectedPosition = cv.position;
+            this.uploadFileName = cv.fileName;
+            this.cutingFileName = /[^/]*$/.exec(this.uploadFileName)[0];
+            this.uploadPhotoName = cv.photoName;
+            let image = document.getElementById('output');
+            image['src'] = this.uploadPhotoName;
+            this.cutingPotoName = /[^/]*$/.exec(this.uploadPhotoName)[0];
+            this.motivation_letter = cv.motivation_letter;
+            this.Interests_hobby = cv.interests_hobby;
+            // this.form.value.date = cv.date;
+          },
+          error => {
+            console.warn(error);
+          }
+        )
+        // this.candidateInfo = JSON.parse(params.data);
+      }
     })
+
     this.skillService.getPositions().subscribe(
       (data: Array<any>) => {
         this.optionsPosition = data.map(x => x.name);
@@ -121,16 +166,6 @@ export class VacancyFormComponent implements OnInit {
     )
 
     this._filterLanguages(0);
-
-    this.form = new FormGroup({
-      firstName: new FormControl(null, [Validators.required]),
-      lastName: new FormControl(null, [Validators.required]),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      city: new FormControl(null, [Validators.required]),
-      address: new FormControl(null, [Validators.required]),
-      telephone: new FormControl(null, [Validators.required]),
-      // file: new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    });
 
     this.educationArr = [
       {
@@ -201,7 +236,6 @@ export class VacancyFormComponent implements OnInit {
 
   selectPosition(data: string): void {
     this.selectedPosition = data;
-    console.log('in change', this.educationArr[0].dateEnd)
   }
 
   selectSkill(name: string, index: number): void {
@@ -312,11 +346,10 @@ export class VacancyFormComponent implements OnInit {
       alert('The photo is too big (Max Size 2MB)');
       return;
     }
-    var image = document.getElementById('output');
+    let image = document.getElementById('output');
     image['src'] = URL.createObjectURL(element.target.files[0]);
 
     this.uploadedPhotos = element.target.files;
-    console.log(element.target.files)
     const formData = new FormData();
     for (var i = 0; i < this.uploadedPhotos.length; i++) {
       formData.append('file', this.uploadedPhotos[i]);
@@ -326,6 +359,7 @@ export class VacancyFormComponent implements OnInit {
         (response) => {
           console.log('response received is ', response);
           this.uploadPhotoName = response[`fileName`];
+          this.cutingPotoName = /[^/]*$/.exec(this.uploadPhotoName)[0];
         },
         error => {
           console.error(error);
@@ -345,6 +379,7 @@ export class VacancyFormComponent implements OnInit {
         (response) => {
           console.log('response received is ', response);
           this.uploadFileName = response[`fileName`];
+          this.cutingFileName = /[^/]*$/.exec(this.uploadFileName)[0]
         },
         error => {
           console.error(error);
@@ -503,12 +538,11 @@ export class VacancyFormComponent implements OnInit {
         console.log(data)
         this.vacancyService.sendMail({ email: this.form.value.email }).subscribe(data => console.log(data));
 
-        window.location.reload();
+        // window.location.reload();
         // this.router.navigate(['/auth']);
       },
       error => {
         console.warn(error);
-        this.form.enable();
       }
     );
 

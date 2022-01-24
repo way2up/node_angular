@@ -31,10 +31,11 @@
               </div>
   
               <div class="col-12 col-md-6">
-                <div class="form-group mt-3">
+                <div class="form-group mt-3 photo_upload">
                   <div class="photo_section"><img id="output" /></div>
                   <label class="mr-4">Upload your Photo:
                   </label>
+                  <div class="photo_file">{{cutingPotoName}}</div>
                   <input type="file" name="file" (change)="photoChange($event)" accept=".jpg, .jpeg, .png">
                 </div>
               </div>
@@ -457,9 +458,10 @@
               </nb-card>
             </div>
   
-            <div class="form-group mt-3">
+            <div class="form-group mt-3 file_upload">
               <label class="mr-4">Upload your CV:
               </label>
+              <div class="file_Name">{{cutingFileName}}</div>
               <input type="file" name="file" (change)="fileChange($event)" accept=".pdf, .doc, .docx">
             </div>
             <button type="submit" nbButton status="success">Send</button><br><br>

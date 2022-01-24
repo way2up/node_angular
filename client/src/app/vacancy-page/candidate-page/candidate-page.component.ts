@@ -21,7 +21,7 @@ export class CandidatePageComponent implements OnInit {
   }
 
   getVacancies() {
-    this.vacancyService.getVacancies('', this.candidate_mail).subscribe(
+    this.vacancyService.getVacancies('', '', this.candidate_mail).subscribe(
       (data: Array<any>) => {
         this.candidates = data;
         console.log(this.candidates)
@@ -34,12 +34,14 @@ export class CandidatePageComponent implements OnInit {
   }
 
   updateCV(id: string) {
-    alert(id + ' update')
+    alert('update cv id ' + id )
     this.router.navigate(['/vacancy'], { queryParams: { cv_id: id } });
   }
 
   deleteCV(id: string) {
-    confirm("You want delete cv, you can't restore this cv.");
+    if (!confirm("You want delete cv, you can't restore this cv.")) {
+      return;
+    };
     this.vacancyService.deleteVacancy(id).subscribe(
       data => {
         this.getVacancies();
