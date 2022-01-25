@@ -61,11 +61,29 @@ export class VacancyFormComponent implements OnInit {
   public Interests_hobby: string;
   public DateOfBirthMax: Date = new Date();
   public DateOfBirth: string;
-
   public ratingArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-
-  public educationArr: Array<any>;
-  public workExperienceArr: Array<any>;
+  public educationArr: Array<any> = [
+    {
+      name: '',
+      dateStart: new FormControl(moment()),
+      dateEnd: new FormControl(moment()),
+      startDate: null,
+      endDate: null,
+      stillNow: false
+    }
+  ];
+  public workExperienceArr: Array<any> = [
+    {
+      name: '',
+      description: '',
+      position: '',
+      dateStart: new FormControl(moment()),
+      dateEnd: new FormControl(moment()),
+      startDate: null,
+      endDate: null,
+      stillNow: false
+    }
+  ];
   public socialLInksArr: Array<any>;
 
   myControlPosition = new FormControl();
@@ -135,13 +153,45 @@ export class VacancyFormComponent implements OnInit {
             this.cutingPotoName = /[^/]*$/.exec(this.uploadPhotoName)[0];
             this.motivation_letter = cv.motivation_letter;
             this.Interests_hobby = cv.interests_hobby;
-            // this.form.value.date = cv.date;
+            this.DateOfBirth = cv.dateOfBirth;
+
+            cv.skills.map((item, index) => {
+              item.myControlSkils = new FormControl();
+              setTimeout(() => this._filterSkils(index + 1), 1000);
+              item.myControlSkils.setValue(item.skill);
+              return item;
+            });
+            this.skillAndRatingArr.unshift(...cv.skills);
+
+            cv.languages.map((item, index) => {
+              item.myControlLang = new FormControl();
+              setTimeout(() => this._filterLanguages(index + 1), 1000);
+              item.myControlLang.setValue(item.lang);
+              return item;
+            });
+            this.languageAndRatingArr.unshift(...cv.languages);
+
+            this.socialLInksArr.unshift(...cv.socialLinks);
+
+            this.educationArr = cv.education.map((item, index) => {
+              item.dateStart = new FormControl(moment(item.startDate));
+              item.dateEnd = new FormControl(moment(item.endDate));
+              item.stillNow = item.endDate ? false : true;
+              return item;
+            });
+
+            this.workExperienceArr = cv.workExperience.map((item, index) => {
+              item.dateStart = new FormControl(moment(item.startDate));
+              item.dateEnd = new FormControl(moment(item.endDate));
+              item.stillNow = item.endDate ? false : true;
+              return item;
+            });
+
           },
           error => {
             console.warn(error);
           }
         )
-        // this.candidateInfo = JSON.parse(params.data);
       }
     })
 
@@ -167,31 +217,6 @@ export class VacancyFormComponent implements OnInit {
 
     this._filterLanguages(0);
 
-    this.educationArr = [
-      {
-        name: '',
-        dateStart: new FormControl(moment()),
-        dateEnd: new FormControl(moment()),
-        startDate: null,
-        endDate: null,
-        stillNow: false
-      }
-    ];
-
-    console.log('current', this.educationArr[0].dateEnd)
-
-    this.workExperienceArr = [
-      {
-        name: '',
-        description: '',
-        position: '',
-        dateStart: new FormControl(moment()),
-        dateEnd: new FormControl(moment()),
-        startDate: null,
-        endDate: null,
-        stillNow: false
-      }
-    ];
     this.socialLInksArr = [{
       link: null
     }];
