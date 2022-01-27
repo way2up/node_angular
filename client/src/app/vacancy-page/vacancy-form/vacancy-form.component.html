@@ -1,474 +1,476 @@
 <div class="container-fluid nb-theme-default form_block">
 
-    <div class="container">
-      <div class="row ">
-        <div class="col-xs-12 col-md-12  mt-5">
-          <h1>Job Application Form</h1>
-          <form [formGroup]="form" (ngSubmit)="sendForm()">
-  
-            <div class="row">
-              <div class="col-12 col-md-6">
-                <nb-card>
-                  <nb-card-header><label>Position <span class="reqField">*</span></label></nb-card-header>
-                  <nb-card-body>
-                    <div class="form-group">
-                      <form class="example-form">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                          <mat-label>Select Position</mat-label>
-                          <input type="text" placeholder="Pick one" matInput [formControl]="myControlPosition"
-                            [matAutocomplete]="auto">
-                          <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option (click)="selectPosition(option)"
-                              *ngFor="let option of filteredPositionOptions | async" [value]="option">
-                              {{option}}
-                            </mat-option>
-                          </mat-autocomplete>
-                        </mat-form-field>
-                      </form>
-                    </div>
-                  </nb-card-body>
-                </nb-card>
-              </div>
-  
-              <div class="col-12 col-md-6">
-                <div class="form-group mt-3 photo_upload">
-                  <div class="photo_section"><img id="output" /></div>
-                  <label class="mr-4">Upload your Photo:
-                  </label>
-                  <div class="photo_file">{{cutingPotoName}}</div>
-                  <input type="file" name="file" (change)="photoChange($event)" accept=".jpg, .jpeg, .png">
-                </div>
-              </div>
-  
-              <div class="col-12 col-md-6">
-                <nb-card>
-                  <nb-card-header><label for="exampleInputFirstName">First Name <span class="reqField">*</span></label>
-                  </nb-card-header>
-                  <nb-card-body>
-                    <div class="form-group">
-                      <input type="text" name="firstName" formControlName="firstName" class="form-control"
-                        id="exampleInputFirstName" placeholder="Enter your first name" required="required">
-                    </div>
-                  </nb-card-body>
-                </nb-card>
-              </div>
-  
-              <div class="col-12 col-md-6">
-                <nb-card>
-                  <nb-card-header><label for="exampleInputLastName">Last Name <span class="reqField">*</span></label>
-                  </nb-card-header>
-                  <nb-card-body>
-                    <div class="form-group">
-                      <input type="text" name="lastName" formControlName="lastName" class="form-control"
-                        id="exampleInputLastName" placeholder="Enter your last Name" required="required">
-                    </div>
-                  </nb-card-body>
-                </nb-card>
-              </div>
-  
-              <div class="col-12">
-                <div class="form-group">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Date of birth</mat-label>
-                    <input matInput [matDatepicker]="picker" [ngModelOptions]="{standalone: true}"
-                      [(ngModel)]="DateOfBirth" [max]="DateOfBirthMax">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field>
-                </div>
-              </div>
-  
-            </div>
-  
-            <div class="row">
-  
-              <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                <div class="form-group">
-                  <nb-card>
-                    <nb-card-header><label>Skills</label></nb-card-header>
-                    <nb-card-body>
-                      <ul class="list-group ">
-                        <li class="list-group-item" *ngFor="let skillRating of skillAndRatingArr; let i = index">
-                          <div class="row">
-                            <div class="col-12 col-md-6">
-                              <form class="example-form">
-                                <mat-form-field class="example-full-width" appearance="fill">
-                                  <mat-label>Select Skill</mat-label>
-                                  <input type="text" placeholder="Pick one" matInput
-                                    [formControl]="skillRating.myControlSkils" [matAutocomplete]="auto">
-                                  <mat-autocomplete #auto="matAutocomplete">
-                                    <mat-option (click)="selectSkill(option,i)"
-                                      *ngFor="let option of filteredSkilsOptions[i] | async" [value]="option">
-                                      {{option}}
-                                    </mat-option>
-                                  </mat-autocomplete>
-                                </mat-form-field>
-                              </form>
-                            </div>
-                            <div class="col-8 col-md-2">
-                              <div *ngIf="skillRating.rating !== 'Select Rating'">
-                                <button type="button" class="btn btn-light">{{skillRating.rating}}</button>
-                              </div>
-                            </div>
-                            <div class="col-4 col-md-4">
-                              <div *ngIf='skillAndRatingArr.length > 1'>
-                                <button type="button" nbButton status="danger" (click)="removeRowSkill(i)">X</button>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="row">
-                            <div class="col-8 col-md-6">
-                              <div class="input-group ">
-                                <input type="text" placeholder="Add your skill" [(ngModel)]="newSkill"
-                                  [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
-                              </div>
-                            </div>
-                            <div class="col-4 offset-md-2">
-                              <button type="button" nbButton status="primary" *ngIf="newSkill" class="education_add__btn"
-                                (click)="addYourSkill()">Add</button>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </nb-card-body>
-                  </nb-card>
-  
-                </div>
-              </div>
-  
-              <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                <div class="form-group">
-                  <nb-card>
-                    <nb-card-header><label>Languages</label></nb-card-header>
-                    <nb-card-body>
-                      <ul class="list-group ">
-                        <li class="list-group-item" *ngFor="let langRating of languageAndRatingArr; let i = index">
-                          <div class="row">
-                            <div class="col-12 col-md-6">
-                              <form class="example-form">
-                                <mat-form-field class="example-full-width" appearance="fill">
-                                  <mat-label>Select Language</mat-label>
-                                  <input type="text" placeholder="Pick one" matInput
-                                    [formControl]="langRating.myControlLang" [matAutocomplete]="auto">
-                                  <mat-autocomplete #auto="matAutocomplete">
-                                    <mat-option (click)="selectLang(option,i)"
-                                      *ngFor="let option of filteredLanguagesOptions[i] | async" [value]="option">
-                                      {{option}}
-                                    </mat-option>
-                                  </mat-autocomplete>
-                                </mat-form-field>
-                              </form>
-                            </div>
-                            <div class="col-8 col-md-2">
-                              <div *ngIf="langRating.rating !== 'Select Rating'">
-                                <button type="button" class="btn btn-light">{{langRating.rating}}</button>
-                              </div>
-                            </div>
-                            <div class="col-4 col-md-4">
-                              <div *ngIf='languageAndRatingArr.length > 1'>
-                                <button type="button" nbButton status="danger" (click)="removeRowLang(i)">X</button>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="row">
-                            <div class="col-8 col-md-6">
-                              <div class="input-group ">
-                                <input type="text" placeholder="Add your language" [(ngModel)]="newLang"
-                                  [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
-                              </div>
-                            </div>
-                            <div class="col-4 offset-md-2">
-                              <button type="button" nbButton status="primary" *ngIf="newLang" class="education_add__btn"
-                                (click)="addYourLang()">Add</button>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </nb-card-body>
-                  </nb-card>
-  
-                </div>
-              </div>
-  
-              <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                <div class="form-group">
-                  <nb-card>
-                    <nb-card-header><label>Education</label></nb-card-header>
-                    <nb-card-body>
-                      <ul class="list-group ">
-                        <li class="list-group-item" *ngFor="let education of educationArr; let i = index">
-                          <div class="row ">
-                            <div class="col-8 col-md-10">
-                              <div class="input-group ">
-                                <input type="text" placeholder="Name" [(ngModel)]="education.name"
-                                  [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
-                              </div>
-                            </div>
-  
-                            <div class="col-4 col-md-2">
-                              <button type="button" nbButton status="danger" class="education_remove__btn"
-                                (click)="removeEducation(i)">X</button>
-                            </div>
-  
-                            <div class="col-12 mt-3">
-                              <mat-form-field appearance="fill">
-                                <mat-label>Start Date</mat-label>
-                                <input matInput [matDatepicker]="sd" [max]="educStartMax ? education.endDate : today"
-                                  [formControl]="education.dateStart">
-                                <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
-                                <mat-datepicker #sd startView="multi-year"
-                                  (yearSelected)="chosenYearEducationStart($event, i)"
-                                  (monthSelected)="chosenMonthEducationStart($event, sd, i)"
-                                  panelClass="example-month-picker">
-                                </mat-datepicker>
-                              </mat-form-field>
-                            </div>
-  
-                            <div class="col-12  mt-3" *ngIf="!education.stillNow">
-                              <mat-form-field appearance="fill">
-                                <mat-label>End Date</mat-label>
-                                <input matInput [matDatepicker]="ed" [min]="education.startDate" [max]="today"
-                                  [formControl]="education.dateEnd">
-                                <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
-                                <mat-datepicker #ed startView="multi-year"
-                                  (yearSelected)="chosenYearEducationEnd($event, i)"
-                                  (monthSelected)="chosenMonthEducationEnd($event, ed, i)"
-                                  panelClass="example-month-picker">
-                                </mat-datepicker>
-                              </mat-form-field>
-                            </div>
-  
-                            <div class="col-12 mt-3">
-                              <nb-checkbox (change)="checkValueEducationEndDate($event, i)" _nghost-awr-c62="" class="status-basic nb-transition">
-                                <label _ngcontent-awr-c62="" class="label">
-                                  <input _ngcontent-awr-c62="" type="checkbox"
-                                    class="native-input visually-hidden">
-                                  <span _ngcontent-awr-c62="" class="text">Still now</span></label>
-                              </nb-checkbox>
-                            </div>
-  
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="row">
-                            <div class="col-12">
-                              <button type="button" nbButton status="primary" class="education_add__btn"
-                                (click)="addEducation()">Add</button>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </nb-card-body>
-                  </nb-card>
-                </div>
-              </div>
-  
-              <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                <div class="form-group">
-                  <nb-card>
-                    <nb-card-header><label>Work experience</label></nb-card-header>
-                    <nb-card-body>
-                      <ul class="list-group ">
-                        <li class="list-group-item" *ngFor="let work of workExperienceArr; let i = index">
-                          <div class="row">
-                            <div class="col-8 col-md-10">
-                              <div class="input-group ">
-                                <input type="text" placeholder="Position" [(ngModel)]="work.position"
-                                  [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
-                              </div>
-                            </div>
-  
-                            <div class="col-4 col-md-2">
-                              <button type="button" nbButton status="danger" class="education_remove__btn"
-                                (click)="removeWorkExperience(i)">X</button>
-                            </div>
-  
-                            <div class="col-12 mt-3">
-                              <div class="input-group ">
-                                <input type="text" placeholder="Company Name" [(ngModel)]="work.name"
-                                  [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
-                              </div>
-                            </div>
-  
-                            <div class="col-12 mt-3">
-                              <mat-form-field appearance="fill">
-                                <mat-label>Start Date</mat-label>
-                                <input matInput [matDatepicker]="sd" [max]="workStartMax ? work.endDate : today"
-                                  [formControl]="work.dateStart">
-                                <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
-                                <mat-datepicker #sd startView="multi-year" (yearSelected)="chosenYearWorkStart($event, i)"
-                                  (monthSelected)="chosenMonthWorkStart($event, sd, i)" panelClass="example-month-picker">
-                                </mat-datepicker>
-                              </mat-form-field>
-                            </div>
-  
-                            <div class="col-12 mt-3" *ngIf="!work.stillNow">
-                              <mat-form-field appearance="fill">
-                                <mat-label>End Date</mat-label>
-                                <input matInput [matDatepicker]="ed" [min]="work.startDate" [max]="today"
-                                  [formControl]="work.dateEnd">
-                                <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
-                                <mat-datepicker #ed startView="multi-year" (yearSelected)="chosenYearWorkEnd($event, i)"
-                                  (monthSelected)="chosenMonthWorkEnd($event, ed, i)" panelClass="example-month-picker">
-                                </mat-datepicker>
-                              </mat-form-field>
-                            </div>
-  
-                            <div class="col-12 mt-3">
-                              <nb-checkbox (change)="checkValueWorkEndDate($event, i)" _nghost-awr-c62="" class="status-basic nb-transition">
-                                <label _ngcontent-awr-c62="" class="label">
-                                  <input _ngcontent-awr-c62="" type="checkbox"
-                                    class="native-input visually-hidden">
-                                  <span _ngcontent-awr-c62="" class="text">Still now</span></label>
-                              </nb-checkbox>
-                            </div>
-  
-                            <div class="col-12">
-                              <div class="form-group">
-                                <label>Description</label>
-                                <textarea class="form-control" [ngModelOptions]="{standalone: true}"
-                                  [(ngModel)]="work.description" maxlength="1000" rows="3"></textarea>
-                              </div>
-                            </div>
-  
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="row">
-                            <div class="col-12">
-                              <button type="button" nbButton status="primary" class="education_add__btn"
-                                (click)="addWorkExperience()">Add</button>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </nb-card-body>
-                  </nb-card>
-                </div>
-              </div>
-  
-            </div>
-  
-            <div class="form-group">
+  <div class="container">
+    <div class="row ">
+      <div class="col-xs-12 col-md-12  mt-5">
+        <h1>Job Application Form</h1>
+        <form [formGroup]="form" (ngSubmit)="sendForm()">
+
+          <div class="row">
+            <div class="col-12 col-md-6">
               <nb-card>
-                <nb-card-header><label>Interests/hobby</label></nb-card-header>
+                <nb-card-header><label>Position <span class="reqField">*</span></label></nb-card-header>
                 <nb-card-body>
-                  <textarea class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="Interests_hobby"
-                    maxlength="1000" rows="3"></textarea>
+                  <div class="form-group">
+                    <form class="example-form">
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Select Position</mat-label>
+                        <input type="text" placeholder="Pick one" matInput [formControl]="myControlPosition"
+                          [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                          <mat-option (click)="selectPosition(option)"
+                            *ngFor="let option of filteredPositionOptions | async" [value]="option">
+                            {{option}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </form>
+                  </div>
                 </nb-card-body>
               </nb-card>
             </div>
-  
-            <div class="row">
-  
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <nb-card>
-                    <nb-card-header><label for="exampleInputEmail1" required="required">Email address <span
-                          class="reqField">*</span></label></nb-card-header>
-                    <nb-card-body>
-                      <input type="email" name="email" formControlName="email" class="form-control"
-                        id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email address">
-                    </nb-card-body>
-                  </nb-card>
-                </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group mt-3 photo_upload">
+                <div class="photo_section"><img id="output" /></div>
+                <label class="mr-4">Upload your Photo:
+                </label>
+                <div class="photo_file">{{cutingPotoName}}</div>
+                <input type="file" name="file" (change)="photoChange($event)" accept=".jpg, .jpeg, .png">
               </div>
-  
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <nb-card>
-                    <nb-card-header> <label for="inputCity">City</label></nb-card-header>
-                    <nb-card-body>
-                      <input type="text" name="city" formControlName="city" class="form-control" id="inputCity"
-                        placeholder="City">
-                    </nb-card-body>
-                  </nb-card>
-                </div>
-              </div>
-  
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <nb-card>
-                    <nb-card-header><label for="inputAddress">Address</label></nb-card-header>
-                    <nb-card-body>
-                      <input type="text" name="address" formControlName="address" class="form-control" id="inputAddress"
-                        placeholder="1234 Main St, home">
-                    </nb-card-body>
-                  </nb-card>
-                </div>
-              </div>
-  
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <nb-card>
-                    <nb-card-header><label for="example-tel-input">Telephone</label></nb-card-header>
-                    <nb-card-body>
-                      <input class="form-control" name="tel" formControlName="telephone" type="tel" value="+374"
-                        id="example-tel-input">
-                    </nb-card-body>
-                  </nb-card>
-                </div>
-              </div>
-  
             </div>
-  
-            <div class="form-group">
+
+            <div class="col-12 col-md-6">
               <nb-card>
-                <nb-card-header><label>Social Links</label></nb-card-header>
+                <nb-card-header><label for="exampleInputFirstName">First Name <span class="reqField">*</span></label>
+                </nb-card-header>
                 <nb-card-body>
-                  <ul class="list-group ">
-                    <li class="list-group-item" *ngFor="let soc of socialLInksArr; let i = index">
-                      <div class="row">
-                        <div class="col-8 col-md-11">
-                          <div class="input-group ">
-                            <input type="text" placeholder="Link" [(ngModel)]="soc.link"
-                              [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
+                  <div class="form-group">
+                    <input type="text" name="firstName" formControlName="firstName" class="form-control"
+                      id="exampleInputFirstName" placeholder="Enter your first name" required="required">
+                  </div>
+                </nb-card-body>
+              </nb-card>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <nb-card>
+                <nb-card-header><label for="exampleInputLastName">Last Name <span class="reqField">*</span></label>
+                </nb-card-header>
+                <nb-card-body>
+                  <div class="form-group">
+                    <input type="text" name="lastName" formControlName="lastName" class="form-control"
+                      id="exampleInputLastName" placeholder="Enter your last Name" required="required">
+                  </div>
+                </nb-card-body>
+              </nb-card>
+            </div>
+
+            <div class="col-12">
+              <div class="form-group">
+                <mat-form-field appearance="fill">
+                  <mat-label>Date of birth</mat-label>
+                  <input matInput [matDatepicker]="picker" [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="DateOfBirth" [max]="DateOfBirthMax">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+              <div class="form-group">
+                <nb-card>
+                  <nb-card-header><label>Skills</label></nb-card-header>
+                  <nb-card-body>
+                    <ul class="list-group ">
+                      <li class="list-group-item" *ngFor="let skillRating of skillAndRatingArr; let i = index">
+                        <div class="row">
+                          <div class="col-12 col-md-6">
+                            <form class="example-form">
+                              <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>Select Skill</mat-label>
+                                <input type="text" placeholder="Pick one" matInput
+                                  [formControl]="skillRating.myControlSkils" [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                  <mat-option (click)="selectSkill(option,i)"
+                                    *ngFor="let option of filteredSkilsOptions[i] | async" [value]="option">
+                                    {{option}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </form>
+                          </div>
+                          <div class="col-8 col-md-2">
+                            <div *ngIf="skillRating.rating !== 'Select Rating'">
+                              <button type="button" class="btn btn-light">{{skillRating.rating}}</button>
+                            </div>
+                          </div>
+                          <div class="col-4 col-md-4">
+                            <div *ngIf='skillAndRatingArr.length > 1'>
+                              <button type="button" nbButton status="danger" (click)="removeRowSkill(i)">X</button>
+                            </div>
                           </div>
                         </div>
-                        <div class="col-4 col-md-1">
-                          <button type="button" nbButton status="danger" class="education_remove__btn"
-                            (click)="removeSocialLInk(i)">X</button>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="row">
+                          <div class="col-8 col-md-6">
+                            <div class="input-group ">
+                              <input type="text" placeholder="Add your skill" [(ngModel)]="newSkill"
+                                [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
+                            </div>
+                          </div>
+                          <div class="col-4 offset-md-2">
+                            <button type="button" nbButton status="primary" *ngIf="newSkill" class="education_add__btn"
+                              (click)="addYourSkill()">Add</button>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </nb-card-body>
+                </nb-card>
+
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+              <div class="form-group">
+                <nb-card>
+                  <nb-card-header><label>Languages</label></nb-card-header>
+                  <nb-card-body>
+                    <ul class="list-group ">
+                      <li class="list-group-item" *ngFor="let langRating of languageAndRatingArr; let i = index">
+                        <div class="row">
+                          <div class="col-12 col-md-6">
+                            <form class="example-form">
+                              <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>Select Language</mat-label>
+                                <input type="text" placeholder="Pick one" matInput
+                                  [formControl]="langRating.myControlLang" [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                  <mat-option (click)="selectLang(option,i)"
+                                    *ngFor="let option of filteredLanguagesOptions[i] | async" [value]="option">
+                                    {{option}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </form>
+                          </div>
+                          <div class="col-8 col-md-2">
+                            <div *ngIf="langRating.rating !== 'Select Rating'">
+                              <button type="button" class="btn btn-light">{{langRating.rating}}</button>
+                            </div>
+                          </div>
+                          <div class="col-4 col-md-4">
+                            <div *ngIf='languageAndRatingArr.length > 1'>
+                              <button type="button" nbButton status="danger" (click)="removeRowLang(i)">X</button>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="row">
+                          <div class="col-8 col-md-6">
+                            <div class="input-group ">
+                              <input type="text" placeholder="Add your language" [(ngModel)]="newLang"
+                                [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
+                            </div>
+                          </div>
+                          <div class="col-4 offset-md-2">
+                            <button type="button" nbButton status="primary" *ngIf="newLang" class="education_add__btn"
+                              (click)="addYourLang()">Add</button>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </nb-card-body>
+                </nb-card>
+
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+              <div class="form-group">
+                <nb-card>
+                  <nb-card-header><label>Education</label></nb-card-header>
+                  <nb-card-body>
+                    <ul class="list-group ">
+                      <li class="list-group-item" *ngFor="let education of educationArr; let i = index">
+                        <div class="row ">
+                          <div class="col-8 col-md-10">
+                            <div class="input-group ">
+                              <input type="text" placeholder="Name" [(ngModel)]="education.name"
+                                [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
+                            </div>
+                          </div>
+
+                          <div class="col-4 col-md-2">
+                            <button type="button" nbButton status="danger" class="education_remove__btn"
+                              (click)="removeEducation(i)">X</button>
+                          </div>
+
+                          <div class="col-12 mt-3">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Start Date</mat-label>
+                              <input matInput [matDatepicker]="sd" [max]="educStartMax ? education.endDate : today"
+                                [formControl]="education.dateStart">
+                              <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
+                              <mat-datepicker #sd startView="multi-year"
+                                (yearSelected)="chosenYearEducationStart($event, i)"
+                                (monthSelected)="chosenMonthEducationStart($event, sd, i)"
+                                panelClass="example-month-picker">
+                              </mat-datepicker>
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-12  mt-3" *ngIf="!education.stillNow">
+                            <mat-form-field appearance="fill">
+                              <mat-label>End Date</mat-label>
+                              <input matInput [matDatepicker]="ed" [min]="education.startDate" [max]="today"
+                                [formControl]="education.dateEnd">
+                              <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
+                              <mat-datepicker #ed startView="multi-year"
+                                (yearSelected)="chosenYearEducationEnd($event, i)"
+                                (monthSelected)="chosenMonthEducationEnd($event, ed, i)"
+                                panelClass="example-month-picker">
+                              </mat-datepicker>
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-12 mt-3">
+                            <nb-checkbox (change)="checkValueEducationEndDate($event, i)" _nghost-awr-c62=""
+                              class="status-basic nb-transition">
+                              <label _ngcontent-awr-c62="" class="label">
+                                <input _ngcontent-awr-c62="" type="checkbox" class="native-input visually-hidden">
+                                <span _ngcontent-awr-c62="" class="text">Still now</span></label>
+                            </nb-checkbox>
+                          </div>
+
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="row">
+                          <div class="col-12">
+                            <button type="button" nbButton status="primary" class="education_add__btn"
+                              (click)="addEducation()">Add</button>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </nb-card-body>
+                </nb-card>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+              <div class="form-group">
+                <nb-card>
+                  <nb-card-header><label>Work experience</label></nb-card-header>
+                  <nb-card-body>
+                    <ul class="list-group ">
+                      <li class="list-group-item" *ngFor="let work of workExperienceArr; let i = index">
+                        <div class="row">
+                          <div class="col-8 col-md-10">
+                            <div class="input-group ">
+                              <input type="text" placeholder="Position" [(ngModel)]="work.position"
+                                [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
+                            </div>
+                          </div>
+
+                          <div class="col-4 col-md-2">
+                            <button type="button" nbButton status="danger" class="education_remove__btn"
+                              (click)="removeWorkExperience(i)">X</button>
+                          </div>
+
+                          <div class="col-12 mt-3">
+                            <div class="input-group ">
+                              <input type="text" placeholder="Company Name" [(ngModel)]="work.name"
+                                [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
+                            </div>
+                          </div>
+
+                          <div class="col-12 mt-3">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Start Date</mat-label>
+                              <input matInput [matDatepicker]="sd" [max]="workStartMax ? work.endDate : today"
+                                [formControl]="work.dateStart">
+                              <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
+                              <mat-datepicker #sd startView="multi-year" (yearSelected)="chosenYearWorkStart($event, i)"
+                                (monthSelected)="chosenMonthWorkStart($event, sd, i)" panelClass="example-month-picker">
+                              </mat-datepicker>
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-12 mt-3" *ngIf="!work.stillNow">
+                            <mat-form-field appearance="fill">
+                              <mat-label>End Date</mat-label>
+                              <input matInput [matDatepicker]="ed" [min]="work.startDate" [max]="today"
+                                [formControl]="work.dateEnd">
+                              <mat-datepicker-toggle matSuffix [for]="ed"></mat-datepicker-toggle>
+                              <mat-datepicker #ed startView="multi-year" (yearSelected)="chosenYearWorkEnd($event, i)"
+                                (monthSelected)="chosenMonthWorkEnd($event, ed, i)" panelClass="example-month-picker">
+                              </mat-datepicker>
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-12 mt-3">
+                            <nb-checkbox (change)="checkValueWorkEndDate($event, i)" _nghost-awr-c62=""
+                              class="status-basic nb-transition">
+                              <label _ngcontent-awr-c62="" class="label">
+                                <input _ngcontent-awr-c62="" type="checkbox" class="native-input visually-hidden">
+                                <span _ngcontent-awr-c62="" class="text">Still now</span></label>
+                            </nb-checkbox>
+                          </div>
+
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label>Description</label>
+                              <textarea class="form-control" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="work.description" maxlength="1000" rows="3"></textarea>
+                            </div>
+                          </div>
+
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="row">
+                          <div class="col-12">
+                            <button type="button" nbButton status="primary" class="education_add__btn"
+                              (click)="addWorkExperience()">Add</button>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </nb-card-body>
+                </nb-card>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <nb-card>
+              <nb-card-header><label>Interests/hobby</label></nb-card-header>
+              <nb-card-body>
+                <textarea class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="Interests_hobby"
+                  maxlength="1000" rows="3"></textarea>
+              </nb-card-body>
+            </nb-card>
+          </div>
+
+          <div class="row">
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <nb-card>
+                  <nb-card-header><label for="exampleInputEmail1" required="required">Email address <span
+                        class="reqField">*</span></label></nb-card-header>
+                  <nb-card-body>
+                    <input type="email" name="email" formControlName="email" class="form-control"
+                      id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email address">
+                  </nb-card-body>
+                </nb-card>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <nb-card>
+                  <nb-card-header> <label for="inputCity">City</label></nb-card-header>
+                  <nb-card-body>
+                    <input type="text" name="city" formControlName="city" class="form-control" id="inputCity"
+                      placeholder="City">
+                  </nb-card-body>
+                </nb-card>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <nb-card>
+                  <nb-card-header><label for="inputAddress">Address</label></nb-card-header>
+                  <nb-card-body>
+                    <input type="text" name="address" formControlName="address" class="form-control" id="inputAddress"
+                      placeholder="1234 Main St, home">
+                  </nb-card-body>
+                </nb-card>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <nb-card>
+                  <nb-card-header><label for="example-tel-input">Telephone</label></nb-card-header>
+                  <nb-card-body>
+                    <input class="form-control" name="tel" formControlName="telephone" type="tel" value="+374"
+                      id="example-tel-input">
+                  </nb-card-body>
+                </nb-card>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <nb-card>
+              <nb-card-header><label>Social Links</label></nb-card-header>
+              <nb-card-body>
+                <ul class="list-group ">
+                  <li class="list-group-item" *ngFor="let soc of socialLInksArr; let i = index">
+                    <div class="row">
+                      <div class="col-8 col-md-11">
+                        <div class="input-group ">
+                          <input type="text" placeholder="Link" [(ngModel)]="soc.link"
+                            [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
                         </div>
                       </div>
-                    </li>
-                    <li class="list-group-item">
-                      <div class="row">
-                        <div class="col-12">
-                          <button type="button" nbButton status="primary" class="education_add__btn"
-                            (click)="addSocialLInk()">Add</button>
-                        </div>
+                      <div class="col-4 col-md-1">
+                        <button type="button" nbButton status="danger" class="education_remove__btn"
+                          (click)="removeSocialLInk(i)">X</button>
                       </div>
-                    </li>
-                  </ul>
-                </nb-card-body>
-              </nb-card>
-            </div>
-  
-            <div class="form-group">
-              <nb-card>
-                <nb-card-header><label>Motivation letter</label></nb-card-header>
-                <nb-card-body>
-                  <textarea class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="motivation_letter"
-                    maxlength="1000" rows="3"></textarea>
-                </nb-card-body>
-              </nb-card>
-            </div>
-  
-            <div class="form-group mt-3 file_upload">
-              <label class="mr-4">Upload your CV:
-              </label>
-              <div class="file_Name">{{cutingFileName}}</div>
-              <input type="file" name="file" (change)="fileChange($event)" accept=".pdf, .doc, .docx">
-            </div>
-            <button type="submit" nbButton status="success">Send</button><br><br>
-          </form>
-  
-        </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-12">
+                        <button type="button" nbButton status="primary" class="education_add__btn"
+                          (click)="addSocialLInk()">Add</button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </nb-card-body>
+            </nb-card>
+          </div>
+
+          <div class="form-group">
+            <nb-card>
+              <nb-card-header><label>Motivation letter</label></nb-card-header>
+              <nb-card-body>
+                <textarea class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="motivation_letter"
+                  maxlength="1000" rows="3"></textarea>
+              </nb-card-body>
+            </nb-card>
+          </div>
+
+          <div class="form-group mt-3 file_upload">
+            <label class="mr-4">Upload your CV:
+            </label>
+            <div class="file_Name">{{cutingFileName}}</div>
+            <input type="file" name="file" (change)="fileChange($event)" accept=".pdf, .doc, .docx">
+          </div>
+          <button type="submit" [disabled]="isDisabled" nbButton status="success"> {{cv_id ? 'Save' : 'Send'}}</button><br><br>
+        </form>
+
+        <p class="sendResponseMessage"><strong>{{saveResponseMessage}}</strong></p>
+
       </div>
     </div>
-  
   </div>
+
+</div>

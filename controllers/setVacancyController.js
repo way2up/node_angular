@@ -4,12 +4,16 @@ class vacancyController {
 
     async setVacancy(req, res) {
         try {
+            if (req.body._id) {
+                await Vacancy.findByIdAndUpdate(req.body._id, req.body, { new:false, seFindAndModify: true });
+                return res.status(200).json({message: "CV Updated"})
+            }
             const vacancy = new Vacancy(req.body)
             await vacancy.save()
-            return res.status(200).json({message: "User successfully send request"})
+            return res.status(200).json({message: "CV successfully sent"})
         } catch (e) {
             console.log(e)
-            res.status(400).json({message: 'Vacancy error'})
+            res.status(400).json({message: e.message})
         }
 
     }

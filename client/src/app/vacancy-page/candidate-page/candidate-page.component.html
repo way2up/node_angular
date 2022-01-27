@@ -3,6 +3,7 @@
 <div class="container">
   <section class="candidate_info mt-5">
     <h1>MY CVS</h1>
+    <button type="button" class="btn btn-success" (click)="createCV()">Create New CV</button><br><br>
     <table class="table">
       <thead>
         <tr>
@@ -24,7 +25,7 @@
               {{skill.skill }} 
             </span>
           </td>
-          <td><button type="button" class="btn btn-success" (click)="updateCV(candidate._id)">Update</button></td>
+          <td><button type="button" class="btn btn-warning" (click)="updateCV(candidate._id)">Update</button></td>
           <td><button type="button" class="btn btn-danger" (click)="deleteCV(candidate._id)">Delete</button></td>
         </tr>
        

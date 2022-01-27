@@ -33,8 +33,11 @@ export class CandidatePageComponent implements OnInit {
     )
   }
 
+  createCV() {
+    this.router.navigate(['/vacancy'], { queryParams: { cv_email: this.candidates[0].email } });
+  }
+
   updateCV(id: string) {
-    alert('update cv id ' + id )
     this.router.navigate(['/vacancy'], { queryParams: { cv_id: id } });
   }
 

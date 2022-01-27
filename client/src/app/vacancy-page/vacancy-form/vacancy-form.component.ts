@@ -44,6 +44,7 @@ export const MY_FORMATS = {
 })
 export class VacancyFormComponent implements OnInit {
 
+  public cv_id: string;
   public today = new Date();
   public educStartMax = false;
   public workStartMax = false;
@@ -111,6 +112,8 @@ export class VacancyFormComponent implements OnInit {
 
   filteredLanguagesOptions: Array<Observable<string[]>> = [];
 
+  saveResponseMessage: string;
+  isDisabled = false;
 
   constructor(private vacancyService: VacancyService, private skillService: SkillService,
     public router: Router, public datepipe: DatePipe, private activeRoute: ActivatedRoute) {
@@ -129,7 +132,18 @@ export class VacancyFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.activeRoute.queryParams.subscribe((params) => {
+      if (params.cv_email) {
+        this.form.setValue({
+          firstName: null,
+          lastName: null,
+          email: params.cv_email,
+          city: null,
+          address: null,
+          telephone: null,
+        });
+      }
       if (params.cv_id) {
+        this.cv_id = params.cv_id;
         this.vacancyService.getVacancies(params.cv_id, '', '').subscribe(
           (data: Array<any>) => {
             const cv = data[0];
@@ -171,7 +185,7 @@ export class VacancyFormComponent implements OnInit {
             });
             this.languageAndRatingArr.unshift(...cv.languages);
 
-            this.socialLInksArr.unshift(...cv.socialLinks);
+            this.socialLInksArr = cv.socialLinks;
 
             this.educationArr = cv.education.map((item, index) => {
               item.dateStart = new FormControl(moment(item.startDate));
@@ -491,13 +505,14 @@ export class VacancyFormComponent implements OnInit {
     }
     let date = new Date();
     let date_Now = this.datepipe.transform(date, 'yyyy-MM-dd, h:mm');
+    this.form.value._id = this.cv_id;
     this.form.value.position = this.selectedPosition;
     this.form.value.fileName = this.uploadFileName;
     this.form.value.photoName = this.uploadPhotoName;
     this.form.value.motivation_letter = this.motivation_letter;
     this.form.value.interests_hobby = this.Interests_hobby;
     this.form.value.date = date_Now;
-    this.form.value.dateOfBirth = this.DateOfBirth ? this.DateOfBirth['_d'].toISOString() : null;
+    this.form.value.dateOfBirth = this.DateOfBirth;
 
     this.skillAndRatingArr.pop();
     this.skillAndRatingArr.map(item => delete item.myControlSkils);
@@ -557,20 +572,22 @@ export class VacancyFormComponent implements OnInit {
   }
 
   putVacancy() {
-    console.log(this.form.value);
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {
+        this.isDisabled = true;
         console.log(data)
+        this.saveResponseMessage = data[`message`];
         this.vacancyService.sendMail({ email: this.form.value.email }).subscribe(data => console.log(data));
 
-        // window.location.reload();
-        // this.router.navigate(['/auth']);
+        setTimeout(() => {
+          this.router.navigate(['/vacancy/candidatePage']);
+        }, 3000);
+
       },
       error => {
         console.warn(error);
       }
     );
-
   }
 
 }
