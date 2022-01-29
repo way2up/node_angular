@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { VacancyService } from '../../@core/data/vacancy.service';
 import { AuthService } from '../../shared/services/auth.service';
@@ -7,9 +7,8 @@ import { AuthService } from '../../shared/services/auth.service';
   selector: 'ngx-candidate-page',
   templateUrl: './candidate-page.component.html',
   styleUrls: ['./candidate-page.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
-export class CandidatePageComponent implements OnInit {
+export class CandidatePageComponent implements OnInit, OnDestroy {
 
   public candidate_mail = localStorage.getItem("user-email");
   public candidates: Array<any>;
@@ -17,7 +16,14 @@ export class CandidatePageComponent implements OnInit {
   constructor(private router: Router, private auth: AuthService, private vacancyService: VacancyService,) { }
 
   ngOnInit(): void {
+
+    if (localStorage.getItem("reloadPage") === "true") {
+      localStorage.setItem("reloadPage", "false");
+      window.location.reload();
+    }
+
     this.getVacancies();
+
   }
 
   getVacancies() {
@@ -53,6 +59,10 @@ export class CandidatePageComponent implements OnInit {
         console.warn(error);
       }
     );
+  }
+
+  ngOnDestroy() {
+    localStorage.removeItem('reloadPage');
   }
 
 }

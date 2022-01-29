@@ -39,7 +39,9 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
           if (data.user.role === 'Admin') {
             return this.router.navigateByUrl('/pages');
           } else if (data.user.role === 'Candidate') {
-            return this.router.navigateByUrl('/vacancy/candidatePage');
+           
+            localStorage.setItem("reloadPage", "true");
+            this.router.navigate(['/vacancy/candidatePage']);
           }
 
         },
@@ -47,14 +49,6 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
           console.log(err)
         }
       )
-
-      // const redirect = result.getRedirect();
-      // if (redirect) {
-      //   setTimeout(() => {
-      //     return this.router.navigateByUrl('/pages');
-      //   }, 2000);
-      // }
-      // this.cd.detectChanges();
     });
   }
 }
