@@ -20,6 +20,7 @@ const schema = new Schema({
     motivation_letter: {type: String, required: false},
     interests_hobby: {type: String, required: false},
     dateOfBirth: {type: String, required: false},
+    user_id: {type: String, required: false},
 })
 
 module.exports = model('Vacancy', schema)

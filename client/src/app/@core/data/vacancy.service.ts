@@ -32,12 +32,12 @@ export class VacancyService {
 
     constructor(private http: HttpClient) { }
 
-    getVacancies(_id?: string, statusId?: string, email?: string) {
+    getVacancies(_id?: string, statusId?: string, user_id?: string) {
         
         let params = {};
         _id ? params[`_id`] = _id : '';
         statusId ? params[`statusId`] = statusId : '';
-        email ? params[`email`] = email : '';
+        user_id ? params[`user_id`] = user_id : '';
 
         return this.http.get(`/api/getVacancies`, {
             params,

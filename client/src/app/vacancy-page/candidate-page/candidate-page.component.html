@@ -22,7 +22,7 @@
           <td>{{candidate.date}}</td>
           <td>
             <span  *ngFor="let skill of candidate.skills">
-              {{skill.skill }} 
+              {{skill.skill}}, 
             </span>
           </td>
           <td><button type="button" class="btn btn-warning" (click)="updateCV(candidate._id)">Update</button></td>

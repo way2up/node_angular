@@ -13,7 +13,6 @@ import { Moment } from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SkillService } from '../../@core/data/skills.service';
 
-
 const moment = _moment;
 
 export const MY_FORMATS = {
@@ -44,6 +43,7 @@ export const MY_FORMATS = {
 })
 export class VacancyFormComponent implements OnInit {
 
+  public user_id: string;
   public cv_id: string;
   public today = new Date();
   public educStartMax = false;
@@ -103,7 +103,6 @@ export class VacancyFormComponent implements OnInit {
   public newSkill: string;
   public newLang: string;
 
-
   optionsSkils: string[] = [];
 
   optionsLanguages: string[] = ['Armenian', 'Russian', 'English', 'German', 'French', 'Flutter'];
@@ -131,6 +130,8 @@ export class VacancyFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.user_id = localStorage.getItem("user-id")
     this.activeRoute.queryParams.subscribe((params) => {
       if (params.cv_email) {
         this.form.setValue({
@@ -506,6 +507,7 @@ export class VacancyFormComponent implements OnInit {
     let date = new Date();
     let date_Now = this.datepipe.transform(date, 'yyyy-MM-dd, h:mm');
     this.form.value._id = this.cv_id;
+    this.form.value.user_id = this.user_id;
     this.form.value.position = this.selectedPosition;
     this.form.value.fileName = this.uploadFileName;
     this.form.value.photoName = this.uploadPhotoName;

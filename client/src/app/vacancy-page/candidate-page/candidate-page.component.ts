@@ -10,7 +10,7 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class CandidatePageComponent implements OnInit, OnDestroy {
 
-  public candidate_mail = localStorage.getItem("user-email");
+  public user_id = localStorage.getItem("user-id");
   public candidates: Array<any>;
 
   constructor(private router: Router, private auth: AuthService, private vacancyService: VacancyService,) { }
@@ -27,7 +27,7 @@ export class CandidatePageComponent implements OnInit, OnDestroy {
   }
 
   getVacancies() {
-    this.vacancyService.getVacancies('', '', this.candidate_mail).subscribe(
+    this.vacancyService.getVacancies('', '', this.user_id).subscribe(
       (data: Array<any>) => {
         this.candidates = data;
         console.log(this.candidates)
@@ -40,7 +40,7 @@ export class CandidatePageComponent implements OnInit, OnDestroy {
   }
 
   createCV() {
-    this.router.navigate(['/vacancy'], { queryParams: { cv_email: this.candidates[0].email } });
+    this.router.navigate(['/vacancy'], { queryParams: { user_id: this.user_id} });
   }
 
   updateCV(id: string) {

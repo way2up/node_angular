@@ -32,7 +32,7 @@ class vacancyController {
     async getVacancies(req, res) {
         try {
             let vacancies;
-            if(req.query[`statusId`] || req.query[`email`] || req.query[`_id`] ) {
+            if(req.query[`statusId`] || req.query[`user_id`] || req.query[`_id`] ) {
                 vacancies = await Vacancy.find(req.query)
             } else {
                 vacancies = await Vacancy.find()
