@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private auth: AuthService) { }
 
   ngOnInit(): void {
-    this.loggedUser = this.auth.isAuthenticated() && this.router.url === '/vacancy/candidatePage';
+    this.loggedUser = this.auth.isAuthenticated();
     this.contextMenu = false
   }
 
