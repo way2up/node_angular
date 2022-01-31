@@ -21,6 +21,7 @@ export class AuthService {
                     localStorage.setItem('auth-token', token)
                     localStorage.setItem('user-role', user.role)
                     localStorage.setItem('user-email', user.email)
+                    localStorage.setItem('user-fullName', user.fullName)
                     this.setToken(token, user.role)
                 })
             )
@@ -52,7 +53,6 @@ export class AuthService {
     register(user: User): Observable<{ token: string }> {
         return this.http.post<{ token: string }>('/api/registration', user);
     }
-
 
     getUsers() {
         return this.http.get(`/api/getUsers`)

@@ -1,61 +1,62 @@
 <nav class="navbar navbar-expand-lg navbar-light ">
-    <div class="container nav-header-container">
-      <div class="row header_row">
-          <div class="col-12 logo_block col-lg-2">
-            <div class="logo_section">
-              <a href="https://way2up.am/index" class="align-items-center">
-                <!-- <img src="images/logo-red-text.png" class="logo-dark" alt="way2up"> -->
-                <img src="assets/images/logo-red-text.png" alt="way2up" class="logo-light default">
-              </a>
-            </div>
-             
-          </div>
-          
-          <div class="col-12 col-lg-10" >
-            <button class="navbar-toggler toogleMenu" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                      <a class="nav-link"  href="https://way2up.am/index">HOME</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://way2up.am/about">ABOUT</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://way2up.am/services">SERVICES</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://way2up.am/projects">PROJECTS</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://way2up.am/projects?type=own">OUR PRODUCTS</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://way2up.am/career">CAREER</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://way2up.am/contact">CONTACT</a>
-                    </li>
-                    <li class="nav-item" *ngIf="loggedUser" (click)="toggleContext()">
-                      <div class="logged_User">
-                        <img src="assets/images/Ashkhen.jpg" alt="Your Photo">
-                        <span>Ashkhen Movsesyan</span>
-                        <div class="context_menu" *ngIf="contextMenu">
-                          <ul class="menu-items">
-                            <li class="menu-item" (click)="logout()">Log out</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="nav-item login-btn" *ngIf="!loggedUser">
-                      <button type="button" routerLink="auth" class="btn btn-light ">Login</button>
-                    </li>
+  <div class="container nav-header-container">
+    <div class="row header_row">
+      <div class="col-12 logo_block col-lg-2">
+        <div class="logo_section">
+          <a href="https://way2up.am/index" class="align-items-center">
+            <!-- <img src="images/logo-red-text.png" class="logo-dark" alt="way2up"> -->
+            <img src="assets/images/logo-red-text.png" alt="way2up" class="logo-light default">
+          </a>
+        </div>
 
+      </div>
+
+      <div class="col-12 col-lg-10">
+        <button class="navbar-toggler toogleMenu" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="https://way2up.am/index">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://way2up.am/about">ABOUT</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://way2up.am/services">SERVICES</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://way2up.am/projects">PROJECTS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://way2up.am/projects?type=own">OUR PRODUCTS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://way2up.am/career">CAREER</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://way2up.am/contact">CONTACT</a>
+            </li>
+            <li class="nav-item" *ngIf="loggedUser" (click)="toggleContext()">
+              <div class="logged_User">
+                <img src="assets/images/Users/icon-1.jpg" alt="Your Photo">
+                <span>{{ fullName }}</span>
+                <div class="context_menu" *ngIf="contextMenu">
+                  <ul class="menu-items">
+                    <li class="menu-item" (click)="logout()">Log out</li>
                   </ul>
-            </div>
-          </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item login-btn" *ngIf="!loggedUser">
+              <button type="button" routerLink="auth" class="btn btn-light ">Login</button>
+            </li>
+
+          </ul>
+        </div>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>

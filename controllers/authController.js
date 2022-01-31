@@ -13,13 +13,13 @@ class authController {
             if (!errors.isEmpty()) {
                 return res.status(400).json({message: "Ошибка при регистрации", errors})
             }
-            const {email, password} = req.body;
+            const {fullName, email, password} = req.body;
             const candidate = await User.findOne({email})
             if (candidate) {
                 return res.status(400).json({message: "Пользователь с таким именем уже существует"})
             }
             const hashPassword = bcrypt.hashSync(password, 10);
-            const user = new User({email, password: hashPassword, role: 'Candidate'})
+            const user = new User({fullName, email, password: hashPassword, role: 'Candidate'})
             await user.save()
             return res.json({message: "Пользователь успешно зарегистрирован"})
         } catch (e) {
@@ -41,6 +41,7 @@ class authController {
             }
             const token = jwt.sign({
                 email: user.email,
+                fullName: user.fullName,
                 userId: user._id,
             }, keys.jwt , {expiresIn: "4h"})
             return res.status(200).json({token,user})

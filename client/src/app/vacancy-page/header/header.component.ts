@@ -11,11 +11,13 @@ export class HeaderComponent implements OnInit {
 
   public loggedUser: boolean;
   public contextMenu: boolean;
+  public fullName: string;
 
   constructor(private router: Router, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.loggedUser = this.auth.isAuthenticated();
+    this.fullName = localStorage.getItem("user-fullName")
     this.contextMenu = false
   }
 
