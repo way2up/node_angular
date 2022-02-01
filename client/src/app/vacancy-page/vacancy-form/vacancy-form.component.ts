@@ -397,6 +397,12 @@ export class VacancyFormComponent implements OnInit {
   }
 
   fileChange(element) {
+    if (!element) {
+      const file = document.querySelector('.file');
+      file[`value`] = '';
+      return;
+    }
+
     this.uploadedFiles = element.target.files;
 
     const formData = new FormData();
@@ -532,6 +538,12 @@ export class VacancyFormComponent implements OnInit {
     this.convertWorkExperience();
     console.log(this.form.value);
     this.putVacancy();
+  }
+
+  removeCV() {
+    this.uploadFileName = null;
+    this.cutingFileName = null;
+    this.fileChange(null)
   }
 
   convertEducation() {

@@ -462,7 +462,9 @@
             <label class="mr-4">Upload your CV:
             </label>
             <div class="file_Name">{{cutingFileName}}</div>
-            <input type="file" name="file" (change)="fileChange($event)" accept=".pdf, .doc, .docx">
+            <input type="file" name="file" class="file" (change)="fileChange($event)" accept=".pdf, .doc, .docx">
+            <p *ngIf="uploadFileName && cv_id"><strong>CV: </strong> <a [href]="uploadFileName" download>Download</a> </p>
+            <div *ngIf="uploadFileName && cv_id"><button type="button" (click)="removeCV()" class="btn btn-danger">Reove CV</button></div>
           </div>
           <button type="submit" [disabled]="isDisabled" nbButton status="success"> {{cv_id ? 'Save' : 'Send'}}</button><br><br>
         </form>
