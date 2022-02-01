@@ -41,7 +41,7 @@
             </li>
             <li class="nav-item" *ngIf="loggedUser" (click)="toggleContext()">
               <div class="logged_User">
-                <img src="assets/images/Users/icon-1.jpg" alt="Your Photo">
+                <img [src]="user_photo ? user_photo : 'assets/images/Users/icon-1.jpg'" alt="Your Photo">
                 <span>{{ fullName }}</span>
                 <div class="context_menu" *ngIf="contextMenu">
                   <ul class="menu-items">

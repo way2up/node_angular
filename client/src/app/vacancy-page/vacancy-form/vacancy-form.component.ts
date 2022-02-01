@@ -133,22 +133,11 @@ export class VacancyFormComponent implements OnInit {
 
     this.user_id = localStorage.getItem("user-id")
     this.activeRoute.queryParams.subscribe((params) => {
-      if (params.cv_email) {
-        this.form.setValue({
-          firstName: null,
-          lastName: null,
-          email: params.cv_email,
-          city: null,
-          address: null,
-          telephone: null,
-        });
-      }
       if (params.cv_id) {
         this.cv_id = params.cv_id;
         this.vacancyService.getVacancies(params.cv_id, '', '').subscribe(
           (data: Array<any>) => {
             const cv = data[0];
-            console.log(cv, 'my cv')
 
             this.form.setValue({
               firstName: cv.firstName,
