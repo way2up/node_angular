@@ -270,10 +270,17 @@ export class VacancyFormComponent implements OnInit {
   selectSkill(name: string, index: number): void {
     const scaleRating = window.prompt("On a scale of 1 to 10, please indicate how well you master the skill․", "");
     var x = Number(scaleRating)
-    if (!scaleRating || x.toString() === 'NaN' || x < 1 || x > 10) {
-      alert('Write number 1 - 10');
+    if(!scaleRating) {
+      this.skillAndRatingArr[index].myControlSkils = new FormControl();
+      this.skillAndRatingArr[index].rating = 'Select Rating';
       return;
     }
+    if (x.toString() === 'NaN' || x < 1 || x > 10) {
+      alert('Write number 1 - 10');
+      this.selectSkill(name,index);
+      return;
+    }
+
     this.skillAndRatingArr[index].skill = name;
     this.skillAndRatingArr[index].rating = scaleRating;
     let newRow = { skill: 'Select Skill', myControlSkils: new FormControl(), rating: 'Select Rating' };
@@ -286,10 +293,18 @@ export class VacancyFormComponent implements OnInit {
   selectLang(name: string, index: number): void {
     const scaleRating = window.prompt("On a scale of 1 to 10, please indicate how well you master the language․", "");
     var x = Number(scaleRating)
-    if (!scaleRating || x.toString() === 'NaN' || x < 1 || x > 10) {
-      alert('Write number 1 - 10');
+    if(!scaleRating) {
+      this.languageAndRatingArr[index].myControlLang = new FormControl();
+      this.languageAndRatingArr[index].rating = 'Select Rating';
       return;
     }
+   
+    if (x.toString() === 'NaN' || x < 1 || x > 10) {
+      alert('Write number 1 - 10');
+      this.selectLang(name,index);
+      return;
+    }
+
     this.languageAndRatingArr[index].lang = name;
     this.languageAndRatingArr[index].rating = scaleRating;
     let newRow = { lang: 'Select Skill', myControlLang: new FormControl(), rating: 'Select Rating' };
@@ -511,12 +526,12 @@ export class VacancyFormComponent implements OnInit {
     this.form.value.date = date_Now;
     this.form.value.dateOfBirth = this.DateOfBirth;
 
-    this.skillAndRatingArr.pop();
     this.skillAndRatingArr.map(item => delete item.myControlSkils);
+    this.skillAndRatingArr = this.skillAndRatingArr.filter(item => item.rating !== 'Select Rating');
     this.form.value.skills = this.skillAndRatingArr;
 
-    this.languageAndRatingArr.pop();
     this.languageAndRatingArr.map(item => delete item.myControlLang);
+    this.languageAndRatingArr = this.languageAndRatingArr.filter(item => item.rating !== 'Select Rating');
     this.form.value.languages = this.languageAndRatingArr;
     this.form.value.socialLinks = this.socialLInksArr;
 
