@@ -27,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { AuthGuardAdmin } from './auth/auth.guard';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { AuthGuardAdmin } from './auth/auth.guard';
     CoreModule.forRoot(),
     // ThemeModule.forRoot(),
     FormsModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgbModule
   ],
   providers: [AuthGuardAdmin],
   bootstrap: [AppComponent],

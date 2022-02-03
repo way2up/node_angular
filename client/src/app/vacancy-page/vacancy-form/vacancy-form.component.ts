@@ -12,6 +12,7 @@ import * as _moment from 'moment';
 import { Moment } from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SkillService } from '../../@core/data/skills.service';
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 const moment = _moment;
 
@@ -37,6 +38,7 @@ export const MY_FORMATS = {
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
+    NgbModalConfig, NgbModal,
 
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
@@ -112,11 +114,13 @@ export class VacancyFormComponent implements OnInit {
   filteredLanguagesOptions: Array<Observable<string[]>> = [];
 
   saveResponseMessage: string;
-  isDisabled = false;
 
   constructor(private vacancyService: VacancyService, private skillService: SkillService,
-    public router: Router, public datepipe: DatePipe, private activeRoute: ActivatedRoute) {
+    public router: Router, public datepipe: DatePipe, private activeRoute: ActivatedRoute,
+    config: NgbModalConfig, private modalService: NgbModal) {
 
+    config.backdrop = 'static';
+    config.keyboard = false;
     this.form = new FormGroup({
       firstName: new FormControl(null, [Validators.required]),
       lastName: new FormControl(null, [Validators.required]),
@@ -127,6 +131,10 @@ export class VacancyFormComponent implements OnInit {
       // file: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     });
 
+  }
+
+  open(content) {
+    this.modalService.open(content);
   }
 
   ngOnInit(): void {
@@ -270,14 +278,14 @@ export class VacancyFormComponent implements OnInit {
   selectSkill(name: string, index: number): void {
     const scaleRating = window.prompt("On a scale of 1 to 10, please indicate how well you master the skill․", "");
     var x = Number(scaleRating)
-    if(!scaleRating) {
+    if (!scaleRating) {
       this.skillAndRatingArr[index].myControlSkils = new FormControl();
       this.skillAndRatingArr[index].rating = 'Select Rating';
       return;
     }
     if (x.toString() === 'NaN' || x < 1 || x > 10) {
       alert('Write number 1 - 10');
-      this.selectSkill(name,index);
+      this.selectSkill(name, index);
       return;
     }
 
@@ -293,15 +301,15 @@ export class VacancyFormComponent implements OnInit {
   selectLang(name: string, index: number): void {
     const scaleRating = window.prompt("On a scale of 1 to 10, please indicate how well you master the language․", "");
     var x = Number(scaleRating)
-    if(!scaleRating) {
+    if (!scaleRating) {
       this.languageAndRatingArr[index].myControlLang = new FormControl();
       this.languageAndRatingArr[index].rating = 'Select Rating';
       return;
     }
-   
+
     if (x.toString() === 'NaN' || x < 1 || x > 10) {
       alert('Write number 1 - 10');
-      this.selectLang(name,index);
+      this.selectLang(name, index);
       return;
     }
 
@@ -386,11 +394,18 @@ export class VacancyFormComponent implements OnInit {
   }
 
   photoChange(element) {
+    let image = document.getElementById('output');
+    if (!element) {
+      const file = document.querySelector('.photoFile');
+      file[`value`] = '';
+      image['src'] = null;
+      return;
+    }
     if (element.target.files[0].size > 2097152) {
       alert('The photo is too big (Max Size 2MB)');
       return;
     }
-    let image = document.getElementById('output');
+    
     image['src'] = URL.createObjectURL(element.target.files[0]);
 
     this.uploadedPhotos = element.target.files;
@@ -507,7 +522,7 @@ export class VacancyFormComponent implements OnInit {
     this.workExperienceArr[index].stillNow = event.target.checked
   }
 
-  sendForm() {
+  sendForm(contentPopup) {
     // this.form.disable();
     if (this.selectedPosition === 'Select Position') {
       alert('Select Your Position');
@@ -552,7 +567,7 @@ export class VacancyFormComponent implements OnInit {
     this.convertEducation();
     this.convertWorkExperience();
     console.log(this.form.value);
-    this.putVacancy();
+    this.putVacancy(contentPopup);
   }
 
   removeCV() {
@@ -589,18 +604,63 @@ export class VacancyFormComponent implements OnInit {
     this.form.value.workExperience = workExperience;
   }
 
-  putVacancy() {
+  closePopup() {
+    if (localStorage.getItem("auth-token")) {
+      this.router.navigate(['/vacancy/candidatePage']);
+    } else {
+      this.form.reset();
+      this.myControlPosition = new FormControl();
+      this.selectedPosition = 'Select Position';
+      this.cutingPotoName = '';
+      this.photoChange(null);
+      this.uploadFileName = null;
+      this.cutingFileName = null;
+      this.fileChange(null);
+      this.DateOfBirth = null
+      this.skillAndRatingArr = [
+        { skill: 'Select Skill', myControlSkils: new FormControl(), rating: 'Select Rating' }
+      ];
+      this.languageAndRatingArr = [
+        { lang: 'Select Language', myControlLang: new FormControl(), rating: 'Select Rating' }
+      ];
+      this.educationArr = [
+        {
+          name: '',
+          dateStart: new FormControl(moment()),
+          dateEnd: new FormControl(moment()),
+          startDate: null,
+          endDate: null,
+          stillNow: false
+        }
+      ];
+      this.workExperienceArr = [
+        {
+          name: '',
+          description: '',
+          position: '',
+          dateStart: new FormControl(moment()),
+          dateEnd: new FormControl(moment()),
+          startDate: null,
+          endDate: null,
+          stillNow: false
+        }
+      ];
+      this.Interests_hobby = null;
+      this.motivation_letter = null;
+      this.socialLInksArr = [{
+        link: null
+      }];
+
+    }
+  }
+
+  putVacancy(contentPopup) {
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {
-        this.isDisabled = true;
         console.log(data)
         this.saveResponseMessage = data[`message`];
         this.vacancyService.sendMail({ email: this.form.value.email }).subscribe(data => console.log(data));
-
-        setTimeout(() => {
-          this.router.navigate(['/vacancy/candidatePage']);
-        }, 3000);
-
+        this.open(contentPopup);
       },
       error => {
         console.warn(error);
