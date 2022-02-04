@@ -281,6 +281,7 @@ export class VacancyFormComponent implements OnInit {
     if (!scaleRating) {
       this.skillAndRatingArr[index].myControlSkils = new FormControl();
       this.skillAndRatingArr[index].rating = 'Select Rating';
+      this._filterSkils(index);
       return;
     }
     if (x.toString() === 'NaN' || x < 1 || x > 10) {
@@ -304,6 +305,7 @@ export class VacancyFormComponent implements OnInit {
     if (!scaleRating) {
       this.languageAndRatingArr[index].myControlLang = new FormControl();
       this.languageAndRatingArr[index].rating = 'Select Rating';
+      this._filterLanguages(index);
       return;
     }
 
