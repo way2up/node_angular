@@ -67,7 +67,7 @@ export class AllCandidatesTableComponent implements OnInit {
   ngOnInit() {
     this.source.onChanged().subscribe((change) => {
       if (change.action === 'filter' || change.action === 'sort') {
-        this.getVacancies(this.statusId);
+        this.getVacancies('', this.statusId);
       }
     });
 
@@ -88,6 +88,7 @@ export class AllCandidatesTableComponent implements OnInit {
     this.skillService.getStatuses(id).subscribe(
       (data: Array<any>) => {
         if (data.length) {
+
           this.candidates[index].statusName = `<span class="a${data[0]['backgroundColor']}">${data[0]['name']}</span>`;
           setTimeout(() => {
             let spanBack = Array.from(document.getElementsByClassName(`a${data[0]['backgroundColor']}`) as HTMLCollectionOf<HTMLElement>);
@@ -95,7 +96,7 @@ export class AllCandidatesTableComponent implements OnInit {
               spanBack[i].style.backgroundColor = `${data[0]['backgroundColor']}`;
               spanBack[i].style.color = data[0]['colorWhite'] ? 'white' : 'black';
             }
-          }, 250);
+          }, 1000);
           this.source.load(this.candidates);
         }
       },
@@ -108,7 +109,7 @@ export class AllCandidatesTableComponent implements OnInit {
   selectStatus(status) {
     this.filterByStatus = status.name;
     this.statusId = status._id;
-    this.getVacancies(this.statusId);
+    this.getVacancies('', this.statusId);
   }
 
   cancelFilter() {
@@ -117,8 +118,8 @@ export class AllCandidatesTableComponent implements OnInit {
     this.getVacancies();
   }
 
-  getVacancies(statusId?) {
-    this.vacancyService.getVacancies(statusId).subscribe(
+  getVacancies(_id?: string, statusId?: string, user_id?: string) {
+    this.vacancyService.getVacancies(null, statusId, null).subscribe(
       (data: Array<any>) => {
         this.candidates = data;
         if (!this.candidates.length) {
@@ -130,7 +131,9 @@ export class AllCandidatesTableComponent implements OnInit {
         })
         this.candidates = this.candidates.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
         for (let i = 0; i < this.candidates.length; i++) {
-          this.getStatusById(this.candidates[i].statusId, i);
+          if (this.candidates[i].statusId) {
+            this.getStatusById(this.candidates[i].statusId, i);
+          }
         }
       },
       error => {
