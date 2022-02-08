@@ -15,10 +15,11 @@ export class NgxRegisterComponent extends NbRegisterComponent {
     super(service, options, cd, router)
   }
   register() {
+    this.user.email = this.user.email.toLowerCase();
     this.auth.register(this.user).subscribe(
       (data) => {
         localStorage.setItem("reloadPage", "true");
-        this.router.navigate(['/vacancy/candidatePage']);
+        this.router.navigate(['auth']);
       },
       err => {
         console.log(err)

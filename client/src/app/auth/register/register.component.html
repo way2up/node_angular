@@ -13,7 +13,6 @@
     <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
   </ul>
 </nb-alert>
-
 <form (ngSubmit)="register()" #form="ngForm" aria-labelledby="title">
 
   <div class="form-control-group">
@@ -24,9 +23,9 @@
            id="input-name"
            name="fullName"
            placeholder="Full name"
-           autofocus
+           
            fullWidth
-           [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+           [status]="fullName.dirty ? (fullName.invalid  ? 'danger' : 'success') : ''"
            [required]="getConfigValue('forms.validation.fullName.required')"
            [minlength]="getConfigValue('forms.validation.fullName.minLength')"
            [maxlength]="getConfigValue('forms.validation.fullName.maxLength')"

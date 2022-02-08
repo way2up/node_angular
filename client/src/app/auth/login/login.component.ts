@@ -29,6 +29,7 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
     this.service.authenticate(this.strategy, this.user).subscribe((result: NbAuthResult) => {
       this.submitted = false;
 
+      this.user.email = this.user.email.toLowerCase();
       this.auth.login(this.user).subscribe(
         (data) => {
           this.messages = result.getMessages();
@@ -36,7 +37,7 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
             return this.router.navigateByUrl('/pages');
           } else if (data.user.role === 'Candidate') {
             localStorage.setItem("reloadPage", "true");
-            this.router.navigate(['/vacancy/candidatePage']);
+            this.router.navigate(['vacancy/candidatePage']);
           }
         },
         err => {
@@ -45,4 +46,5 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
       )
     });
   }
+
 }
