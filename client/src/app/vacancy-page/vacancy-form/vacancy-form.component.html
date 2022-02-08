@@ -1,11 +1,10 @@
 <div class="container-fluid nb-theme-default form_block">
 
   <div class="container">
-    <div class="row ">
-      
+    <div class="row "> 
       <div class="col-xs-12 col-md-12  mt-5">
         <h1>Job Application Form</h1>
-        <form [formGroup]="form" (ngSubmit)="sendForm(content)">
+        <form [formGroup]="form" (ngSubmit)="sendForm()">
 
           <div class="row">
             <div class="col-12 col-md-6">
@@ -467,21 +466,6 @@
             <p *ngIf="uploadFileName && cv_id"><strong>CV: </strong> <a [href]="uploadFileName" download>Download</a> </p>
             <div *ngIf="uploadFileName && cv_id"><button type="button" (click)="removeCV()" class="btn btn-danger">Reove CV</button></div>
           </div>
-
-          <ng-template #content let-c="close" let-d="dismiss">
-            <div class="modal-header">
-              <h4 class="modal-title" id="modal-basic-title">Hi User</h4>
-              <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <span aria-hidden="true">&times;</span>
-              </button> -->
-            </div>
-            <div class="modal-body">
-              <p>{{saveResponseMessage}}</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-dark" (click)="c('Save click'); closePopup()">Ok</button>
-            </div>
-          </ng-template>
           
           <button type="submit" nbButton status="success"> {{cv_id ? 'Save' : 'Send'}}</button><br><br>
         </form>

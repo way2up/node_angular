@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VacancyService } from '../../@core/data/vacancy.service';
 import { DatePipe } from '@angular/common'
@@ -12,7 +12,7 @@ import * as _moment from 'moment';
 import { Moment } from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SkillService } from '../../@core/data/skills.service';
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalConfig, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 const moment = _moment;
 
@@ -28,6 +28,28 @@ export const MY_FORMATS = {
   },
 };
 
+@Component({
+  selector: 'ngbd-modal-content',
+  template: `
+    <div class="modal-body">
+      <h2>{{name}}</h2>
+      <div class="input-group" *ngIf="promptAlert">
+          <input class="form-control" [(ngModel)]="promptText">
+      </div>
+    </div>
+    <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(promptText)">Ok</button>
+    <button type="button" *ngIf="promptAlert" class="btn btn-outline-secondary" (click)="activeModal.close('cancel')">Cancel</button>
+    </div>
+  `
+})
+export class NgbdModalContent {
+  @Input() name: string;
+  @Input() promptAlert: false;
+  @Input() promptText: string;
+
+  constructor(public activeModal: NgbActiveModal) { }
+}
 @Component({
   selector: 'vacancy-form',
   templateUrl: './vacancy-form.component.html',
@@ -113,11 +135,9 @@ export class VacancyFormComponent implements OnInit {
 
   filteredLanguagesOptions: Array<Observable<string[]>> = [];
 
-  saveResponseMessage: string;
-
   constructor(private vacancyService: VacancyService, private skillService: SkillService,
     public router: Router, public datepipe: DatePipe, private activeRoute: ActivatedRoute,
-    config: NgbModalConfig, private modalService: NgbModal) {
+    config: NgbModalConfig, private _modalService: NgbModal, public activeModal: NgbActiveModal) {
 
     config.backdrop = 'static';
     config.keyboard = false;
@@ -133,9 +153,6 @@ export class VacancyFormComponent implements OnInit {
 
   }
 
-  open(content) {
-    this.modalService.open(content);
-  }
 
   ngOnInit(): void {
 
@@ -275,53 +292,85 @@ export class VacancyFormComponent implements OnInit {
     this.selectedPosition = data;
   }
 
-  selectSkill(name: string, index: number): void {
-    const scaleRating = window.prompt("On a scale of 1 to 10, please indicate how well you master the skill․", "");
-    var x = Number(scaleRating)
-    if (!scaleRating) {
-      this.skillAndRatingArr[index].myControlSkils = new FormControl();
-      this.skillAndRatingArr[index].rating = 'Select Rating';
-      this._filterSkils(index);
-      return;
-    }
-    if (x.toString() === 'NaN' || x < 1 || x > 10) {
-      alert('Write number 1 - 10');
-      this.selectSkill(name, index);
-      return;
+  async openAlert(alertText: string, alertType?: string, name?: string, index?: number) {
+    const modalRef = this._modalService.open(NgbdModalContent);
+    modalRef.componentInstance.name = alertText;
+
+    if (alertType === 'SkillPrompt' || alertType === 'LangPrompt') {
+      modalRef.componentInstance.promptAlert = true;
     }
 
-    this.skillAndRatingArr[index].skill = name;
-    this.skillAndRatingArr[index].rating = scaleRating;
-    let newRow = { skill: 'Select Skill', myControlSkils: new FormControl(), rating: 'Select Rating' };
-    if ((index + 1) === this.skillAndRatingArr.length) {
-      this.skillAndRatingArr.push(newRow);
-      this._filterSkils(index + 1);
-    }
+    await modalRef.result.then(res => {
+
+      if (alertType === 'SkillPrompt') {
+        if (res === 'cancel') {
+          this.skillAndRatingArr[index].myControlSkils = new FormControl();
+          this.skillAndRatingArr[index].rating = 'Select Rating';
+          this._filterSkils(index);
+          return;
+        }
+
+        const x = Number(res);
+        if (x.toString() === 'NaN' || x < 1 || x > 10) {
+          this.openAlert('Write number 1 - 10', 'SkillAlert', name, index);
+          return;
+        }
+
+        this.skillAndRatingArr[index].skill = name;
+        this.skillAndRatingArr[index].rating = res;
+        let newRow = { skill: 'Select Skill', myControlSkils: new FormControl(), rating: 'Select Rating' };
+        if ((index + 1) === this.skillAndRatingArr.length) {
+          this.skillAndRatingArr.push(newRow);
+          this._filterSkils(index + 1);
+        }
+
+      }
+
+      if (alertType === 'LangPrompt') {
+        if (res === 'cancel') {
+          this.languageAndRatingArr[index].myControlLang = new FormControl();
+          this.languageAndRatingArr[index].rating = 'Select Rating';
+          this._filterLanguages(index);
+          return;
+        }
+
+        const x = Number(res);
+        if (x.toString() === 'NaN' || x < 1 || x > 10) {
+          this.openAlert('Write number 1 - 10', 'LangAlert', name, index);
+          return;
+        }
+
+        this.languageAndRatingArr[index].lang = name;
+        this.languageAndRatingArr[index].rating = res;
+        let newRow = { lang: 'Select Skill', myControlLang: new FormControl(), rating: 'Select Rating' };
+        if ((index + 1) === this.languageAndRatingArr.length) {
+          this.languageAndRatingArr.push(newRow);
+          this._filterLanguages(index + 1);
+        }
+      }
+
+    }, rej => {
+      console.log('rej', rej)
+    });
+
+    setTimeout(() => {
+      if (alertType === 'SkillAlert') {
+        this.selectSkill(name, index);
+      } else if (alertType === 'LangAlert') {
+        this.selectLang(name, index);
+      } else if (alertType === 'putForm') {
+        this.closePopup();
+      }
+    }, 100);
+
+  }
+
+  selectSkill(name: string, index: number): void {
+    this.openAlert('On a scale of 1 to 10, please indicate how well you master the skill․', 'SkillPrompt', name, index);
   }
 
   selectLang(name: string, index: number): void {
-    const scaleRating = window.prompt("On a scale of 1 to 10, please indicate how well you master the language․", "");
-    var x = Number(scaleRating)
-    if (!scaleRating) {
-      this.languageAndRatingArr[index].myControlLang = new FormControl();
-      this.languageAndRatingArr[index].rating = 'Select Rating';
-      this._filterLanguages(index);
-      return;
-    }
-
-    if (x.toString() === 'NaN' || x < 1 || x > 10) {
-      alert('Write number 1 - 10');
-      this.selectLang(name, index);
-      return;
-    }
-
-    this.languageAndRatingArr[index].lang = name;
-    this.languageAndRatingArr[index].rating = scaleRating;
-    let newRow = { lang: 'Select Skill', myControlLang: new FormControl(), rating: 'Select Rating' };
-    if ((index + 1) === this.languageAndRatingArr.length) {
-      this.languageAndRatingArr.push(newRow);
-      this._filterLanguages(index + 1);
-    }
+    this.openAlert('On a scale of 1 to 10, please indicate how well you master the skill․', 'LangPrompt', name, index);
   }
 
   removeRowSkill(index: number): void {
@@ -404,10 +453,10 @@ export class VacancyFormComponent implements OnInit {
       return;
     }
     if (element.target.files[0].size > 2097152) {
-      alert('The photo is too big (Max Size 2MB)');
+      this.openAlert('The photo is too big (Max Size 2MB)');
       return;
     }
-    
+
     image['src'] = URL.createObjectURL(element.target.files[0]);
 
     this.uploadedPhotos = element.target.files;
@@ -524,10 +573,10 @@ export class VacancyFormComponent implements OnInit {
     this.workExperienceArr[index].stillNow = event.target.checked
   }
 
-  sendForm(contentPopup) {
+  sendForm() {
     // this.form.disable();
     if (this.selectedPosition === 'Select Position') {
-      alert('Select Your Position');
+      this.openAlert('Select Your Position');
       // this.form.enable();
       return;
     }
@@ -554,14 +603,14 @@ export class VacancyFormComponent implements OnInit {
 
     for (const element of this.educationArr) {
       if (element.dateStart.status === 'INVALID' || element.dateEnd.status === 'INVALID' || !element.startDate || !element.endDate) {
-        alert('Please note valid date, in education fields');
+        this.openAlert('Please note valid date, in education fields');
         return false;
       }
     }
 
     for (const element of this.workExperienceArr) {
       if (element.dateStart.status === 'INVALID' || element.dateEnd.status === 'INVALID' || !element.startDate || !element.endDate) {
-        alert('Please note valid date, in work experience fields');
+        this.openAlert('Please note valid date, in work experience fields');
         return false;
       }
     }
@@ -569,13 +618,13 @@ export class VacancyFormComponent implements OnInit {
     this.convertEducation();
     this.convertWorkExperience();
     console.log(this.form.value);
-    this.putVacancy(contentPopup);
+    this.putVacancy();
   }
 
   removeCV() {
     this.uploadFileName = null;
     this.cutingFileName = null;
-    this.fileChange(null)
+    this.fileChange(null);
   }
 
   convertEducation() {
@@ -656,13 +705,11 @@ export class VacancyFormComponent implements OnInit {
     }
   }
 
-  putVacancy(contentPopup) {
+  putVacancy() {
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {
-        console.log(data)
-        this.saveResponseMessage = data[`message`];
         this.vacancyService.sendMail({ email: this.form.value.email }).subscribe(data => console.log(data));
-        this.open(contentPopup);
+        this.openAlert(data[`message`], 'putForm');
       },
       error => {
         console.warn(error);
