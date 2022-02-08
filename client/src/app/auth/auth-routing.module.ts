@@ -17,10 +17,10 @@ export const routes: Routes = [
                 path: '',
                 component: NgxLoginComponent,
             },
-            {
-                path: 'login',
-                component: NgxLoginComponent,
-            },
+            // {
+            //     path: 'login',
+            //     component: NgxLoginComponent,
+            // },
             {
                 path: 'register',
                 component: NgxRegisterComponent,

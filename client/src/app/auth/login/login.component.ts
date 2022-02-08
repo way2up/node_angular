@@ -9,16 +9,12 @@ import { AuthService } from '../../shared/services/auth.service';
   templateUrl: './login.component.html',
 })
 export class NgxLoginComponent extends NbLoginComponent implements OnInit {
-  public route = 'register';
 
   constructor(service: NbAuthService, @Inject(NB_AUTH_OPTIONS) protected options = {}, cd: ChangeDetectorRef, router: Router, private auth: AuthService) {
     super(service, options, cd, router)
   }
 
   ngOnInit(): void {
-    if (this.router.url === '/auth/login') {
-      this.route = '../register';
-    }
   }
 
   login(): void {
