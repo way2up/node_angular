@@ -81,6 +81,7 @@
           [class.btn-pulse]="submitted">
     Log In
   </button>
+  <p class="error_message">{{errorMessage}}</p>
 </form>
 
 <section *ngIf="socialLinks && socialLinks.length > 0" class="links" aria-label="Social sign in">

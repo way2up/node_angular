@@ -7,8 +7,11 @@ import { AuthService } from '../../shared/services/auth.service';
 @Component({
   selector: 'ngx-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class NgxLoginComponent extends NbLoginComponent implements OnInit {
+
+  public errorMessage: string;
 
   constructor(service: NbAuthService, @Inject(NB_AUTH_OPTIONS) protected options = {}, cd: ChangeDetectorRef, router: Router, private auth: AuthService) {
     super(service, options, cd, router)
@@ -18,31 +21,26 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
   }
 
   login(): void {
+    this.errorMessage = '';
     this.errors = [];
     this.messages = [];
     this.submitted = true;
 
     this.service.authenticate(this.strategy, this.user).subscribe((result: NbAuthResult) => {
       this.submitted = false;
-      if (result.isSuccess()) {
-        this.messages = result.getMessages();
-      } else {
-        this.errors = result.getErrors();
-      }
 
       this.auth.login(this.user).subscribe(
         (data) => {
+          this.messages = result.getMessages();
           if (data.user.role === 'Admin') {
             return this.router.navigateByUrl('/pages');
           } else if (data.user.role === 'Candidate') {
-           
             localStorage.setItem("reloadPage", "true");
             this.router.navigate(['/vacancy/candidatePage']);
           }
-
         },
         err => {
-          console.log(err)
+          this.errorMessage = err.error.message;
         }
       )
     });
