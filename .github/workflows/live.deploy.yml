@@ -111,6 +111,6 @@ jobs:
           script: |
             ln -s -n -f ${RELEASE_PATH} $ACTIVE_RELEASE_PATH
             ln -s -f ${BASE_PATH}/.env $RELEASE_PATH
-            cd $ACTIVE_RELEASE_PATH && chmod +x ./pm2_runner.sh && bash ./pm2_runner.sh
+            cd $BASE_PATH && chmod +x ./pm2_runner.sh && bash ./pm2_runner.sh
             cd $ARTIFACTS_PATH && ls -t -1 | tail -n +4 | xargs rm -rf
             cd $RELEASES_PATH && ls -t -1 | tail -n +2 | xargs rm -rf
