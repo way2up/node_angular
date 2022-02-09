@@ -99,6 +99,7 @@ jobs:
         env:
           RELEASE_PATH: ${{ matrix.server.live_path }}/releases/${{ github.sha }}
           ACTIVE_RELEASE_PATH: ${{ matrix.server.live_path }}/live
+          BASE_PATH: ${{ matrix.server.live_path }}
           RELEASES_PATH: ${{ matrix.server.live_path }}/releases
           ARTIFACTS_PATH: ${{ matrix.server.live_path }}/artifacts
         with:
@@ -106,9 +107,10 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           key: ${{ secrets.PRIVATE_KEY }}
           port: ${{ matrix.server.port }}
-          envs: RELEASE_PATH,ACTIVE_RELEASE_PATH,RELEASES_PATH,ARTIFACTS_PATH
+          envs: RELEASE_PATH,ACTIVE_RELEASE_PATH,RELEASES_PATH,ARTIFACTS_PATH,BASE_PATH
           script: |
             ln -s -n -f ${RELEASE_PATH} $ACTIVE_RELEASE_PATH
+            ln -s -f ${BASE_PATH}/.env $RELEASE_PATH
             cd $ACTIVE_RELEASE_PATH && chmod +x ./pm2_runner.sh && bash ./pm2_runner.sh
             cd $ARTIFACTS_PATH && ls -t -1 | tail -n +4 | xargs rm -rf
             cd $RELEASES_PATH && ls -t -1 | tail -n +2 | xargs rm -rf
