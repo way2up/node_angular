@@ -34,7 +34,7 @@ conn.once("open", function () {
 
 app.use("/api/file", upload);
 
-app.get("/file/:filename", async (req, res) => {
+app.get("/api/file/:filename", async (req, res) => {
   try {
       const file = await gfs.files.findOne({ filename: req.params.filename });
       const readStream = gfs.createReadStream(file.filename);
@@ -44,7 +44,7 @@ app.get("/file/:filename", async (req, res) => {
   }
 });
 
-app.delete("/file/:filename", async (req, res) => {
+app.delete("/api/file/:filename", async (req, res) => {
   try {
       await gfs.files.deleteOne({ filename: req.params.filename });
       res.send("foto is deleted");
