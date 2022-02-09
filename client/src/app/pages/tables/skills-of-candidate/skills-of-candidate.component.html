@@ -6,7 +6,7 @@
             </nb-card-header>
         
             <nb-card-body>
-                <ng2-smart-table [settings]="settings" [source]="source" 
+                <ng2-smart-table [settings]="settingsSkills" [source]="source" 
                 (deleteConfirm)="onDeleteSkill($event)"
                 (editConfirm)="onEditSkill($event)"
                 (createConfirm)="onCreateSkill($event)"
@@ -23,7 +23,7 @@
             </nb-card-header>
         
             <nb-card-body>
-                <ng2-smart-table [settings]="settings" [source]="sourcePosition" 
+                <ng2-smart-table [settings]="settingsPositions" [source]="sourcePosition" 
                 (deleteConfirm)="onDeletePosiotion($event)"
                 (editConfirm)="onEditPosiotion($event)"
                 (createConfirm)="onCreatePosiotion($event)"

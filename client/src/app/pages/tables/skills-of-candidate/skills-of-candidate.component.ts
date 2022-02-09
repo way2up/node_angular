@@ -9,7 +9,32 @@ import { SkillService } from '../../../@core/data/skills.service';
 })
 export class SkillsOfCandidateComponent implements OnInit {
 
-  settings = {
+  settingsSkills = {
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+      confirmCreate: true
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
+    },
+    columns: {
+      name: {
+        title: 'Name',
+        type: 'string',
+      },
+    },
+  };
+
+  settingsPositions = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -38,7 +63,7 @@ export class SkillsOfCandidateComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   sourcePosition: LocalDataSource = new LocalDataSource();
 
-  constructor(private skillService: SkillService) { 
+  constructor(private skillService: SkillService) {
   }
 
   ngOnInit(): void {
@@ -59,7 +84,7 @@ export class SkillsOfCandidateComponent implements OnInit {
 
   onDeleteSkill(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
-      this.skillService.deleteSkill( event.data._id).subscribe(
+      this.skillService.deleteSkill(event.data._id).subscribe(
         data => {
           this.getSkills();
         },
@@ -74,7 +99,10 @@ export class SkillsOfCandidateComponent implements OnInit {
   }
 
   onEditSkill(event): void {
-    this.skillService.setSkill( event.newData._id, {name: event.newData.name}).subscribe(
+    if (!event.newData.name) {
+      return;
+    }
+    this.skillService.setSkill(event.newData._id, { name: event.newData.name }).subscribe(
       data => {
         this.getSkills();
       },
@@ -86,7 +114,10 @@ export class SkillsOfCandidateComponent implements OnInit {
   }
 
   onCreateSkill(event): void {
-    this.skillService.createSkill({name: event.newData.name}).subscribe(
+    if (!event.newData.name) {
+      return;
+    }
+    this.skillService.createSkill({ name: event.newData.name }).subscribe(
       data => {
         this.getSkills();
       },
@@ -97,7 +128,7 @@ export class SkillsOfCandidateComponent implements OnInit {
     event.confirm.resolve();
   }
 
-// Positions
+  // Positions
   getPositions() {
     this.skillService.getPositions().subscribe(
       (data: Array<any>) => {
@@ -111,7 +142,7 @@ export class SkillsOfCandidateComponent implements OnInit {
 
   onDeletePosiotion(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
-      this.skillService.deletePosition( event.data._id).subscribe(
+      this.skillService.deletePosition(event.data._id).subscribe(
         data => {
           this.getPositions();
         },
@@ -126,7 +157,10 @@ export class SkillsOfCandidateComponent implements OnInit {
   }
 
   onEditPosiotion(event): void {
-    this.skillService.setPosition( event.newData._id, {name: event.newData.name}).subscribe(
+    if (!event.newData.name) {
+      return;
+    }
+    this.skillService.setPosition(event.newData._id, { name: event.newData.name }).subscribe(
       data => {
         this.getPositions();
       },
@@ -138,7 +172,10 @@ export class SkillsOfCandidateComponent implements OnInit {
   }
 
   onCreatePosiotion(event): void {
-    this.skillService.createPosition({name: event.newData.name}).subscribe(
+    if (!event.newData.name) {
+      return;
+    }
+    this.skillService.createPosition({ name: event.newData.name }).subscribe(
       data => {
         this.getPositions();
       },
@@ -148,5 +185,5 @@ export class SkillsOfCandidateComponent implements OnInit {
     );
     event.confirm.resolve();
   }
- 
+
 }
