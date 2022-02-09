@@ -11,17 +11,17 @@ class authController {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({message: "Ошибка при регистрации", errors})
+                return res.status(400).json({message: "Registration error", errors})
             }
             const {fullName, email, password} = req.body;
             const candidate = await User.findOne({email})
             if (candidate) {
-                return res.status(400).json({message: "Пользователь с таким именем уже существует"})
+                return res.status(400).json({message: "A user with the same name already exists"})
             }
             const hashPassword = bcrypt.hashSync(password, 10);
             const user = new User({fullName, email, password: hashPassword, role: 'Candidate'})
             await user.save()
-            return res.json({message: "Пользователь успешно зарегистрирован"})
+            return res.json({message: "User successfully registered"})
         } catch (e) {
             console.log(e)
             res.status(400).json({message: 'Registration error'})
@@ -33,11 +33,11 @@ class authController {
             const {email, password} = req.body
             const user = await User.findOne({email})
             if (!user) {
-                return res.status(400).json({message: `Пользователь ${email} не найден`})
+                return res.status(400).json({message: `User ${email} not found`})
             }
             const validPassword = bcrypt.compareSync(password, user.password)
             if (!validPassword) {
-                return res.status(400).json({message: `Введен неверный пароль`})
+                return res.status(400).json({message: `Wrong password entered`})
             }
             const token = jwt.sign({
                 email: user.email,
