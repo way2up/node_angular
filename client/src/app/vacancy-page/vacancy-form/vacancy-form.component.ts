@@ -94,7 +94,7 @@ export class VacancyFormComponent implements OnInit {
       dateEnd: new FormControl(moment()),
       startDate: null,
       endDate: null,
-      stillNow: false
+      present: false
     }
   ];
   public workExperienceArr: Array<any> = [
@@ -106,7 +106,7 @@ export class VacancyFormComponent implements OnInit {
       dateEnd: new FormControl(moment()),
       startDate: null,
       endDate: null,
-      stillNow: false
+      present: false
     }
   ];
   public socialLInksArr: Array<any>;
@@ -205,14 +205,14 @@ export class VacancyFormComponent implements OnInit {
             this.educationArr = cv.education.map((item, index) => {
               item.dateStart = new FormControl(moment(item.startDate));
               item.dateEnd = new FormControl(moment(item.endDate));
-              item.stillNow = item.endDate ? false : true;
+              item.present = item.endDate ? false : true;
               return item;
             });
 
             this.workExperienceArr = cv.workExperience.map((item, index) => {
               item.dateStart = new FormControl(moment(item.startDate));
               item.dateEnd = new FormControl(moment(item.endDate));
-              item.stillNow = item.endDate ? false : true;
+              item.present = item.endDate ? false : true;
               return item;
             });
 
@@ -566,11 +566,11 @@ export class VacancyFormComponent implements OnInit {
   }
 
   checkValueEducationEndDate(event, index) {
-    this.educationArr[index].stillNow = event.target.checked
+    this.educationArr[index].present = event.target.checked
   }
 
   checkValueWorkEndDate(event, index) {
-    this.workExperienceArr[index].stillNow = event.target.checked
+    this.workExperienceArr[index].present = event.target.checked
   }
 
   sendForm() {
@@ -602,14 +602,14 @@ export class VacancyFormComponent implements OnInit {
     this.form.value.socialLinks = this.socialLInksArr;
 
     for (const element of this.educationArr) {
-      if (element.dateStart.status === 'INVALID' || element.dateEnd.status === 'INVALID' || !element.startDate || !element.endDate) {
+      if (element.dateStart.status === 'INVALID' || (element.dateEnd.status === 'INVALID' && !element.present) || !element.startDate || (!element.endDate && !element.present)) {
         this.openAlert('Please note valid date, in education fields');
         return false;
       }
     }
 
     for (const element of this.workExperienceArr) {
-      if (element.dateStart.status === 'INVALID' || element.dateEnd.status === 'INVALID' || !element.startDate || !element.endDate) {
+      if (element.dateStart.status === 'INVALID' || (element.dateEnd.status === 'INVALID' && !element.present) || !element.startDate || (!element.endDate && !element.present)) {
         this.openAlert('Please note valid date, in work experience fields');
         return false;
       }
@@ -628,12 +628,13 @@ export class VacancyFormComponent implements OnInit {
   }
 
   convertEducation() {
-    let education = [];
+    const dateNow = this.datepipe.transform(new Date(), 'yyyy-MM');
+    const education = [];
     this.educationArr.map((item, index) => {
       education[index] = {};
       education[index][`name`] = item.name;
       education[index][`startDate`] = item.startDate;
-      education[index][`endDate`] = item.endDate;
+      education[index][`endDate`] = item.present  ? dateNow : item.endDate;
       return item;
     });
 
@@ -641,14 +642,15 @@ export class VacancyFormComponent implements OnInit {
   }
 
   convertWorkExperience() {
-    let workExperience = [];
+    const dateNow = this.datepipe.transform(new Date(), 'yyyy-MM');
+    const workExperience = [];
     this.workExperienceArr.map((item, index) => {
       workExperience[index] = {};
       workExperience[index][`name`] = item.name;
       workExperience[index][`description`] = item.description;
       workExperience[index][`position`] = item.position;
       workExperience[index][`startDate`] = item.startDate;
-      workExperience[index][`endDate`] = item.endDate;
+      workExperience[index][`endDate`] = item.present  ? dateNow : item.endDate;
       return item;
     });
 
@@ -681,7 +683,7 @@ export class VacancyFormComponent implements OnInit {
           dateEnd: new FormControl(moment()),
           startDate: null,
           endDate: null,
-          stillNow: false
+          present: false
         }
       ];
       this.workExperienceArr = [
@@ -693,7 +695,7 @@ export class VacancyFormComponent implements OnInit {
           dateEnd: new FormControl(moment()),
           startDate: null,
           endDate: null,
-          stillNow: false
+          present: false
         }
       ];
       this.Interests_hobby = null;

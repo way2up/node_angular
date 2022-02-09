@@ -8,6 +8,10 @@
   .container {
     max-width: 1170px;
 
+    .lavel_present {
+      margin-bottom: 0;
+    }
+
     .photo_section {
       img {
         max-height: 160px;

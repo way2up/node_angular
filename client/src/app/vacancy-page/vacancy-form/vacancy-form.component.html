@@ -228,7 +228,7 @@
                             </mat-form-field>
                           </div>
 
-                          <div class="col-12  mt-3" *ngIf="!education.stillNow">
+                          <div class="col-12  mt-3" *ngIf="!education.present">
                             <mat-form-field appearance="fill">
                               <mat-label>End Date</mat-label>
                               <input matInput [matDatepicker]="ed" [min]="education.startDate" [max]="today"
@@ -245,9 +245,9 @@
                           <div class="col-12 mt-3">
                             <nb-checkbox (change)="checkValueEducationEndDate($event, i)" _nghost-awr-c62=""
                               class="status-basic nb-transition">
-                              <label _ngcontent-awr-c62="" class="label">
+                              <label _ngcontent-awr-c62="" class="label lavel_present">
                                 <input _ngcontent-awr-c62="" type="checkbox" class="native-input visually-hidden">
-                                <span _ngcontent-awr-c62="" class="text">Still now</span></label>
+                                <span _ngcontent-awr-c62="" class="text">Present</span></label>
                             </nb-checkbox>
                           </div>
 
@@ -306,7 +306,7 @@
                             </mat-form-field>
                           </div>
 
-                          <div class="col-12 mt-3" *ngIf="!work.stillNow">
+                          <div class="col-12 mt-3" *ngIf="!work.present">
                             <mat-form-field appearance="fill">
                               <mat-label>End Date</mat-label>
                               <input matInput [matDatepicker]="ed" [min]="work.startDate" [max]="today"
@@ -321,9 +321,9 @@
                           <div class="col-12 mt-3">
                             <nb-checkbox (change)="checkValueWorkEndDate($event, i)" _nghost-awr-c62=""
                               class="status-basic nb-transition">
-                              <label _ngcontent-awr-c62="" class="label">
+                              <label _ngcontent-awr-c62="" class="label lavel_present">
                                 <input _ngcontent-awr-c62="" type="checkbox" class="native-input visually-hidden">
-                                <span _ngcontent-awr-c62="" class="text">Still now</span></label>
+                                <span _ngcontent-awr-c62="" class="text">Present</span></label>
                             </nb-checkbox>
                           </div>
 
