@@ -60,7 +60,6 @@ export class AllCandidatesTableComponent implements OnInit {
 
   constructor(
     private vacancyService: VacancyService, private skillService: SkillService, public router: Router) {
-    this.getVacancies();
     this.getStatuses();
   }
 
@@ -77,6 +76,8 @@ export class AllCandidatesTableComponent implements OnInit {
     this.skillService.getStatuses().subscribe(
       (data: Array<any>) => {
         this.statusesArr = data;
+        this.getVacancies();
+        console.log(this.statusesArr);
       },
       error => {
         console.warn(error);
@@ -84,21 +85,32 @@ export class AllCandidatesTableComponent implements OnInit {
     )
   }
 
-  getStatusById(id: string, index: number) {
-    this.skillService.getStatuses(id).subscribe(
+  getVacancies(_id?: string, statusId?: string, user_id?: string) {
+    this.vacancyService.getVacancies(null, statusId, null).subscribe(
       (data: Array<any>) => {
-        if (data.length) {
+        this.candidates = data;
+        this.candidates = this.candidates.map(item => {
+          item.name = item.firstName + ' ' + item.lastName;
+          return item;
+        })
+        this.candidates = this.candidates.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        this.source.load(this.candidates);
+        for (let i = 0; i < this.candidates.length; i++) {
+          if (this.candidates[i].statusId) {
+            let status = this.statusesArr.find(item => item[`_id`] === this.candidates[i].statusId);
+            this.candidates[i].statusName = `<span class="a${status['backgroundColor']}">${status['name']}</span>`;
+            setTimeout(() => {
+              let spanBack = Array.from(document.getElementsByClassName(`a${status['backgroundColor']}`) as HTMLCollectionOf<HTMLElement>);
+              for (let j = 0; j < spanBack.length; j++) {
+                spanBack[j].style.backgroundColor = `${status['backgroundColor']}`;
+                spanBack[j].style.color = status['colorWhite'] ? 'white' : 'black';
+              }
+            }, 1000);
 
-          this.candidates[index].statusName = `<span class="a${data[0]['backgroundColor']}">${data[0]['name']}</span>`;
-          setTimeout(() => {
-            let spanBack = Array.from(document.getElementsByClassName(`a${data[0]['backgroundColor']}`) as HTMLCollectionOf<HTMLElement>);
-            for (let i = 0; i < spanBack.length; i++) {
-              spanBack[i].style.backgroundColor = `${data[0]['backgroundColor']}`;
-              spanBack[i].style.color = data[0]['colorWhite'] ? 'white' : 'black';
-            }
-          }, 1000);
-          this.source.load(this.candidates);
+          }
         }
+        this.source.load(this.candidates);
+
       },
       error => {
         console.warn(error);
@@ -116,30 +128,6 @@ export class AllCandidatesTableComponent implements OnInit {
     this.filterByStatus = 'Filter by Status';
     this.statusId = undefined;
     this.getVacancies();
-  }
-
-  getVacancies(_id?: string, statusId?: string, user_id?: string) {
-    this.vacancyService.getVacancies(null, statusId, null).subscribe(
-      (data: Array<any>) => {
-        this.candidates = data;
-        if (!this.candidates.length) {
-          this.source.load([]);
-        }
-        this.candidates = this.candidates.map(item => {
-          item.name = item.firstName + ' ' + item.lastName;
-          return item;
-        })
-        this.candidates = this.candidates.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        for (let i = 0; i < this.candidates.length; i++) {
-          if (this.candidates[i].statusId) {
-            this.getStatusById(this.candidates[i].statusId, i);
-          }
-        }
-      },
-      error => {
-        console.warn(error);
-      }
-    )
   }
 
   seeMoreInfo(user) {
