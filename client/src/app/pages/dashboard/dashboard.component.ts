@@ -20,7 +20,6 @@ export class DashboardComponent implements OnInit {
   getVacancies() {
     this.vacancyService.getVacancies().subscribe(
       (data) => {
-        console.log(data);
         this.bids = data[`length`];
       },
       error => {

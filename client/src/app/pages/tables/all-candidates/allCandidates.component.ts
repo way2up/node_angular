@@ -77,7 +77,6 @@ export class AllCandidatesTableComponent implements OnInit {
       (data: Array<any>) => {
         this.statusesArr = data;
         this.getVacancies();
-        console.log(this.statusesArr);
       },
       error => {
         console.warn(error);
@@ -93,7 +92,6 @@ export class AllCandidatesTableComponent implements OnInit {
           item.name = item.firstName + ' ' + item.lastName;
           return item;
         })
-        this.candidates = this.candidates.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
         this.source.load(this.candidates);
         for (let i = 0; i < this.candidates.length; i++) {
           if (this.candidates[i].statusId) {

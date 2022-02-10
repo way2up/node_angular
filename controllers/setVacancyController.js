@@ -37,6 +37,8 @@ class vacancyController {
             } else {
                 vacancies = await Vacancy.find()
             }
+
+            vacancies = vacancies.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
              
             res.status(200).json(vacancies)
         } catch (e) {
