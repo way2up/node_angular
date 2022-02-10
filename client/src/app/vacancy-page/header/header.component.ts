@@ -43,6 +43,10 @@ export class HeaderComponent implements OnInit {
     this.contextMenu = !this.contextMenu;
   }
 
+  goToProfilePage() {
+    this.router.navigate(['/vacancy/candidatePage']);
+  }
+
   logout() {
     this.auth.logout();
     this.router.navigate(['/auth']);

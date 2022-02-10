@@ -85,6 +85,7 @@
            position: absolute;
            left: -4px;
            top: 45px;
+           z-index: 999;
            background-color: #ECF0F6;
            border-radius: 0.25rem;
            overflow: hidden;
@@ -105,6 +106,10 @@
                font-size: 0.9375rem;
                font-weight: 400;
                line-height: 1.25rem;
+             }
+
+             .logout {
+               margin-top: 10px;
              }
            }
          }

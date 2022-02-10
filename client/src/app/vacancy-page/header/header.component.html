@@ -45,7 +45,8 @@
                 <span>{{ fullName }}</span>
                 <div class="context_menu" *ngIf="contextMenu">
                   <ul class="menu-items">
-                    <li class="menu-item" (click)="logout()">Log out</li>
+                    <li class="menu-item" (click)="goToProfilePage()">Profile</li>
+                    <li class="menu-item logout" (click)="logout()">Logout</li>
                   </ul>
                 </div>
               </div>
