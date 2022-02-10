@@ -78,7 +78,11 @@ export class StatusesComponent implements OnInit {
   getStatuses() {
     this.skillService.getStatuses().subscribe(
       (data: Array<any>) => {
+        for(let i = 0; i< data.length; i++) {
+          data[i].name = data[i].name.toUpperCase();
+        }
         this.statusesData = data;
+        data = data.sort((a: any, b: any) => (a.name >  b.name) ? 1 : -1);
         this.sourceStatus.load(this.statusesData);
       },
       error => {

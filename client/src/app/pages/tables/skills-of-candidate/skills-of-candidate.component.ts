@@ -74,6 +74,10 @@ export class SkillsOfCandidateComponent implements OnInit {
   getSkills() {
     this.skillService.getSkills().subscribe(
       (data: Array<any>) => {
+        for(let i = 0; i< data.length; i++) {
+          data[i].name = data[i].name.toUpperCase();
+        }
+        data = data.sort((a: any, b: any) => (a.name >  b.name) ? 1 : -1);
         this.source.load(data);
       },
       error => {
@@ -132,6 +136,10 @@ export class SkillsOfCandidateComponent implements OnInit {
   getPositions() {
     this.skillService.getPositions().subscribe(
       (data: Array<any>) => {
+        for(let i = 0; i< data.length; i++) {
+          data[i].name = data[i].name.toUpperCase();
+        }
+        data = data.sort((a: any, b: any) => (a.name >  b.name) ? 1 : -1);
         this.sourcePosition.load(data);
       },
       error => {
