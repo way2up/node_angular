@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 
@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AuthGuardAdmin } from './auth/auth.guard';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthInterceptor } from './auth/auth.inerceptor';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,11 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatNativeDateModule,
     NgbModule
   ],
-  providers: [AuthGuardAdmin, NgbActiveModal],
+  providers: [
+     AuthGuardAdmin,
+     NgbActiveModal,
+     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

@@ -33,12 +33,12 @@ class vacancyController {
         try {
             let vacancies;
             if(req.query[`statusId`] || req.query[`user_id`] || req.query[`_id`] ) {
-                vacancies = await Vacancy.find(req.query)
+                vacancies = await Vacancy.find(req.query).sort({date: -1})
             } else {
-                vacancies = await Vacancy.find()
+                vacancies = await Vacancy.find().sort({date: -1})
             }
 
-            vacancies = vacancies.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            // vacancies = vacancies.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
              
             res.status(200).json(vacancies)
         } catch (e) {

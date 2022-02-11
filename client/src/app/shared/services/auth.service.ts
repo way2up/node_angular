@@ -43,7 +43,7 @@ export class AuthService {
     }
 
     isAuthenticated(): boolean {
-        return !localStorage.getItem("auth-token") || localStorage.getItem("user-role") !== 'Candidate' ? false : true; ;
+        return !localStorage.getItem("auth-token") || !localStorage.getItem("user-role") ? false : true; ;
     }
 
     logout(): void {
