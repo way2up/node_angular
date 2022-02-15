@@ -131,7 +131,7 @@ export class AllCandidatesTableComponent implements OnInit {
   }
 
   seeMoreInfo(user) {
-    this.router.navigate(['/pages/tables/candidateInfo'], { queryParams: { data: JSON.stringify(user[`data`]) } });
+    this.router.navigate(['/pages/tables/candidateInfo'], { queryParams: { data: JSON.stringify(user[`data`]) }, skipLocationChange: true });
   }
 
 }
