@@ -103,7 +103,6 @@ class authController {
 
 
     async refreshTokens(req, res) {
-        console.log(987)
         const {
             refreshToken
         } = req.body;
