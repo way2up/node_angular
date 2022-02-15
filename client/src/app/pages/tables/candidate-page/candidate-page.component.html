@@ -71,7 +71,7 @@
                 <p><strong>Start Date:</strong> {{education.startDate | date:'MM/dd'}}</p>
                 <p><strong>End Date:</strong> {{education.endDate | date:'MM/dd'}}</p>
             </div>
-            <p><strong>CV: </strong> <a [href]="candidateInfo.fileName" download>Download</a> </p>
+            <p *ngIf="candidateInfo.fileName"><strong>CV: </strong> <a [href]="candidateInfo.fileName" download>Download</a> </p>
         </div>
     </div>
 
