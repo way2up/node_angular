@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+const { uuid } = require('uuidv4');
 const jwt = require('jsonwebtoken');
 const {
     secret,
@@ -24,7 +24,7 @@ const generateAccessToken = (user) => {
 
 const generateRefrshToken = (user) => {
     const payload = {
-        id: uuid.v4(),
+        id: uuid(),
         userId: user._id,
         type: tokens.refresh.type,
     };
