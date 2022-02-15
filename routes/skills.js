@@ -2,10 +2,11 @@ const { Router } = require('express')
 const router = Router()
 const controllerSkill = require('../controllers/skillController')
 const passport = require('passport');
+const authMiddleware = require('../middleware/auth');
 
-router.get('/getSkills', passport.authenticate('jwt', { session: false}), controllerSkill.getSkills);
-router.post('/createSkill', passport.authenticate('jwt', { session: false}), controllerSkill.createSkill);
-router.put('/setSkill/:id', passport.authenticate('jwt', { session: false}), controllerSkill.setSkill);
-router.delete('/delSkill/:id', passport.authenticate('jwt', { session: false}), controllerSkill.delSkill);
+router.get('/getSkills', authMiddleware, controllerSkill.getSkills);
+router.post('/createSkill', authMiddleware, controllerSkill.createSkill);
+router.put('/setSkill/:id', authMiddleware, controllerSkill.setSkill);
+router.delete('/delSkill/:id', authMiddleware, controllerSkill.delSkill);
 
 module.exports = router

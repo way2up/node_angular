@@ -9,9 +9,12 @@ const {
 const mongoose = require('mongoose');
 const Token = require('../models/token');
 
-const generateAccessToken = (userId) => {
+const generateAccessToken = (user) => {
     const payload = {
-        userId,
+        id: user._id,
+        email: user.email,
+        fullName: user.fullName,
+        // userId: user._id,
         type: tokens.access.type,
     };
     const options = {
@@ -21,9 +24,10 @@ const generateAccessToken = (userId) => {
     return jwt.sign(payload, secret, options);
 };
 
-const generateRefrshToken = () => {
+const generateRefrshToken = (user) => {
     const payload = {
         id: uuidv4(),
+        userId: user._id,
         type: tokens.refresh.type,
     };
     const options = {

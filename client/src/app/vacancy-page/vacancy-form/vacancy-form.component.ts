@@ -658,7 +658,7 @@ export class VacancyFormComponent implements OnInit {
   }
 
   closePopup() {
-    if (localStorage.getItem("auth-token")) {
+    if (localStorage.getItem("accessToken")) {
       this.router.navigate(['/vacancy/candidatePage']);
     } else {
       this.form.reset();

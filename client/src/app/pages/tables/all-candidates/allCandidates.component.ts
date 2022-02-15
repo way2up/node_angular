@@ -5,6 +5,7 @@ import { SkillService } from '../../../@core/data/skills.service';
 
 // import { SmartTableData } from '../../../@core/data/smart-table';
 import { VacancyService } from '../../../@core/data/vacancy.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'ngx-smart-table',
@@ -58,7 +59,7 @@ export class AllCandidatesTableComponent implements OnInit {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(
+  constructor( private auth: AuthService,
     private vacancyService: VacancyService, private skillService: SkillService, public router: Router) {
     this.getStatuses();
   }
@@ -71,6 +72,7 @@ export class AllCandidatesTableComponent implements OnInit {
     });
 
   }
+
 
   getStatuses() {
     this.skillService.getStatuses().subscribe(

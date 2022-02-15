@@ -20,7 +20,9 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
   login(): void {
+    this.user.rememberMe ? localStorage.setItem('remember', 'true') : localStorage.setItem('remember', 'false');
     this.errorMessage = '';
     this.errors = [];
     this.messages = [];
@@ -46,5 +48,6 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
       )
     });
   }
+
 
 }

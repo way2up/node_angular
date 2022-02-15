@@ -14,16 +14,17 @@ export class AuthService {
 
     constructor(private http: HttpClient) { }
 
-    login(user: User): Observable<{ token: string, user: User}> {
-        return this.http.post<{ token: string, user: User }>('/api/login', user).pipe(
+    login(user: User): Observable<{ tokens: any, user: User}> {
+        return this.http.post<{ tokens: any, user: User }>('/api/login', user).pipe(
             tap(
-                ({token, user}) => {
-                    localStorage.setItem('auth-token', token)
+                ({tokens, user}) => {
+                    localStorage.setItem('accessToken', tokens[`accessToken`])
+                    localStorage.setItem('refreshToken', tokens[`refreshToken`])
                     localStorage.setItem('user-id', user._id)
                     localStorage.setItem('user-role', user.role)
                     localStorage.setItem('user-email', user.email)
                     localStorage.setItem('user-fullName', user.fullName)
-                    this.setToken(token, user.role)
+                    this.setToken(tokens, user.role)
                 })
             )
         
@@ -35,15 +36,15 @@ export class AuthService {
     }
 
     getToken(): string {
-       return localStorage.getItem("auth-token")
+       return localStorage.getItem("accessToken")
     }
 
     isAuthenticatedAdmin(): boolean {
-        return !localStorage.getItem("auth-token") || localStorage.getItem("user-role") !== 'Admin' ? false : true;
+        return !localStorage.getItem("accessToken") || localStorage.getItem("user-role") !== 'Admin' ? false : true;
     }
 
     isAuthenticated(): boolean {
-        return !localStorage.getItem("auth-token") || !localStorage.getItem("user-role") ? false : true; ;
+        return !localStorage.getItem("accessToken") || !localStorage.getItem("user-role") ? false : true; ;
     }
 
     logout(): void {
@@ -53,6 +54,21 @@ export class AuthService {
 
     register(user: User): Observable<{ token: string }> {
         return this.http.post<{ token: string }>('/api/registration', user);
+    }
+
+    refreshToken(refToken: String): Observable<{ tokens: any, user: User}> {
+        return this.http.post<{ tokens: any, user: User }>('/api/refresh-tokens', { refreshToken: refToken }).pipe(
+            tap(
+                ({tokens, user}) => {
+                    localStorage.setItem('accessToken', tokens[`accessToken`])
+                    localStorage.setItem('refreshToken', tokens[`refreshToken`])
+                    localStorage.setItem('user-id', user._id)
+                    localStorage.setItem('user-role', user.role)
+                    localStorage.setItem('user-email', user.email)
+                    localStorage.setItem('user-fullName', user.fullName)
+                    this.setToken(tokens, user.role)
+                })
+            );
     }
 
     getUsers() {

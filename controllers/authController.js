@@ -5,22 +5,25 @@ const {
     validationResult
 } = require('express-validator')
 const keys = require('../config/keys')
+
 const authHelper = require('../helpers/authHelper')
 const Token = require('../models/token');
 
+updateTokens = async (userId) => {
+    const user = await User.findOne({
+        _id: userId
+    })
+    const accessToken = authHelper.generateAccessToken(user);
+    const refreshToken = authHelper.generateRefrshToken(user);
+
+    return authHelper.replaceDbRefreshToken(refreshToken.id, userId)
+        .then(() => ({
+            accessToken,
+            refreshToken: refreshToken.token
+        }))
+}
 
 class authController {
-
-    updateTokens = (userId) => {
-        const accessToken = authHelper.generateAccessToken(userId);
-        const refreshToken = authHelper.generateRefrshToken();
-
-        return authHelper.replaceDbRefreshToken(refreshToken.id, userId)
-            .then(() => ({
-                accessToken,
-                refreshToken: refreshToken.token
-            }))
-    }
 
     async registration(req, res) {
 
@@ -85,14 +88,11 @@ class authController {
                 })
             }
 
-            this.updateTokens(user._id).then(tokens => res.json(tokens));
+            updateTokens(user._id).then(tokens => res.json({
+                tokens,
+                user
+            }));
 
-            // const token = jwt.sign({
-            //     email: user.email,
-            //     fullName: user.fullName,
-            //     userId: user._id,
-            // }, keys.jwt.secret , {expiresIn: "4h"})
-            // return res.status(200).json({token: `Bearer ${token}`,user})
         } catch (e) {
             console.log(e)
             res.status(400).json({
@@ -103,31 +103,59 @@ class authController {
 
 
     async refreshTokens(req, res) {
-        const { refreshToken } = req.body;
+        console.log(987)
+        const {
+            refreshToken
+        } = req.body;
         let payload;
+        let user;
 
         try {
-            payload = jwt.verify(refreshToken, secret);
-            if ( payload.type !== 'refresh') {
-                return res.status(400).json({message: 'Invalid token!'});
+            payload = jwt.verify(refreshToken, keys.jwt.secret);
+            user = await User.findOne({
+                _id: payload.userId
+            })
+            if (payload.type !== 'refresh') {
+                return res.status(400).json({
+                    message: 'Invalid token!'
+                });
             }
         } catch (e) {
-            if ( e instanceof jwt.TokenExpiredError) {
-                return res.status(400).json({ message: 'Token expired!' })
-            } else if ( e instanceof jwt.JsonWebTokenError) {
-                return res.status(400).json({ message: 'Invalid token!' });
+            if (e instanceof jwt.TokenExpiredError) {
+                return res.status(400).json({
+                    message: 'Token expired!'
+                })
+            } else if (e instanceof jwt.JsonWebTokenError) {
+                return res.status(400).json({
+                    message: 'Invalid token!'
+                });
             }
-
         }
+
+        Token.findOne({
+                tokenId: payload.id
+            })
+            .exec().then((token) => {
+                if (token === null) {
+                    throw new Error('Invalid token!');
+                }
+                return updateTokens(token.userId);
+            }).then(tokens => res.json({
+                tokens,
+                user
+            }))
+            .catch(err => res.status(400).json({
+                message: err.message
+            }));
 
     }
 
     async getUsers(req, res) {
         try {
             const users = await User.find()
-            res.status(200).json(users)
+           return res.status(200).json(users)
         } catch (e) {
-            console.log(e)
+            return res.status(400).json({message: e.message})
         }
     }
 }

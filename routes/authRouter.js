@@ -4,14 +4,16 @@ const router = Router()
 const controllerAuth = require('../controllers/authController')
 const controllerVacancy = require('../controllers/setVacancyController')
 const passport = require('passport');
+const authMiddleware = require('../middleware/auth');
 
 router.post('/registration', controllerAuth.registration);
 router.post('/login', controllerAuth.login);
-router.get('/getUsers', passport.authenticate('jwt', { session: false}), controllerAuth.getUsers);
-router.post('/setVacancy', passport.authenticate('jwt', { session: false}), controllerVacancy.setVacancy);
-router.post('/updateVacancy', passport.authenticate('jwt', { session: false}), controllerVacancy.updateVacancy);
-router.get('/getVacancies', passport.authenticate('jwt', { session: false}), controllerVacancy.getVacancies);
-router.delete('/deleteVacancie/:id', passport.authenticate('jwt', { session: false}), controllerVacancy.deleteVacancies);
+router.post('/refresh-tokens', controllerAuth.refreshTokens);
+router.get('/getUsers', authMiddleware, controllerAuth.getUsers);
+router.post('/setVacancy', authMiddleware, controllerVacancy.setVacancy);
+router.post('/updateVacancy', authMiddleware, controllerVacancy.updateVacancy);
+router.get('/getVacancies', authMiddleware, controllerVacancy.getVacancies);
+router.delete('/deleteVacancie/:id', authMiddleware, controllerVacancy.deleteVacancies);
 
 
 module.exports = router

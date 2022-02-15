@@ -2,10 +2,11 @@ const { Router } = require('express')
 const router = Router()
 const controllerPosition = require('../controllers/positionController')
 const passport = require('passport');
+const authMiddleware = require('../middleware/auth');
 
-router.get('/getPositions', passport.authenticate('jwt', { session: false}), controllerPosition.getPositions);
-router.post('/createPosition', passport.authenticate('jwt', { session: false}), controllerPosition.createPosition);
-router.put('/setPosition/:id', passport.authenticate('jwt', { session: false}), controllerPosition.setPosition);
-router.delete('/delPosition/:id', passport.authenticate('jwt', { session: false}), controllerPosition.delPosition);
+router.get('/getPositions', authMiddleware, controllerPosition.getPositions);
+router.post('/createPosition', authMiddleware, controllerPosition.createPosition);
+router.put('/setPosition/:id', authMiddleware, controllerPosition.setPosition);
+router.delete('/delPosition/:id', authMiddleware, controllerPosition.delPosition);
 
 module.exports = router
