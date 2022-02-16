@@ -18,6 +18,7 @@ import { CandidatePageComponent } from './candidate-page/candidate-page.componen
 import { AuthGuard } from './candidate.guard';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgbdModalContent, VacancyFormComponent } from './vacancy-form/vacancy-form.component';
+import { BtDataPickerComponent } from './vacancy-form/bt-data-picker/bt-data-picker.component';
 
 const routes: Routes = [
     {
@@ -62,7 +63,8 @@ const routes: Routes = [
         HeaderComponent,
         FooterComponent,
         CandidatePageComponent,
-        NgbdModalContent
+        NgbdModalContent,
+        BtDataPickerComponent
     ],
     providers: [NbStatusService, AuthGuard],
 })

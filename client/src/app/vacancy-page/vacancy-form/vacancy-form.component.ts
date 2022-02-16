@@ -292,6 +292,10 @@ export class VacancyFormComponent implements OnInit {
     this.selectedPosition = data;
   }
 
+  cahageDateOfBirth(val) {
+    this.DateOfBirth = val;
+  }
+
   async openAlert(alertText: string, alertType?: string, name?: string, index?: number) {
     const modalRef = this._modalService.open(NgbdModalContent);
     modalRef.componentInstance.name = alertText;

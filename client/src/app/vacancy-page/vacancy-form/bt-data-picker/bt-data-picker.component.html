@@ -1,0 +1,7 @@
+<mat-form-field appearance="fill">
+    <mat-label>Date of birth</mat-label>
+    <input matInput [matDatepicker]="picker" (ngModelChange)="chnageValue($event)" [ngModelOptions]="{standalone: true}"
+      [(ngModel)]="DateOfBirth" [max]="DateOfBirthMax">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
