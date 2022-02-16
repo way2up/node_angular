@@ -42,7 +42,7 @@ export class AuthInterceptor implements HttpInterceptor {
                                   console.log(err)
                                 }
                               );
-                        } else {
+                        } else if(localStorage.getItem("remember") === 'false') {
                             this.auth.logout();
                             this.router.navigate(['auth']);
                         }
