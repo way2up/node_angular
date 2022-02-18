@@ -68,8 +68,4 @@ export class VacancyService {
         return this.http.post('/api/sendCandidateMail', mail);
     }
 
-    sendMailAdmin(mail) {
-        return this.http.post('/api/sendAdminMail', mail);
-    }
-
 }
