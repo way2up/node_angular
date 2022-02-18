@@ -16,4 +16,16 @@ router.post('/sendCandidateMail', authMiddleware, (req, res) => {
 
 })
 
+router.post('/sendAdminMail', authMiddleware, (req, res) => {
+    if(!req.body.email) return res.sendStatus(400)
+    const message = {
+        to: `${req.body.email}`, // and , superAdmin@gmail.com
+        subject: 'Dear admin you got new request from candidate .',
+        text: `Dear admin you got new request from candidate .`
+    }
+    mailer(message)
+    return res.status(200).json({message: "Admin successfully got info!"})
+
+})
+
 module.exports = router

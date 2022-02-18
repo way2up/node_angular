@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport(
     }
    },
    {
-       from: 'Mailer Test <sargis.sargsyan7890@gmail.com>',
+       from: `Mailer Test <${process.env.EMAIL_USER}>`,
    }
 );
 
