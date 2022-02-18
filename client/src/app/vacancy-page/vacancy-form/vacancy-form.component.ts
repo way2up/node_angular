@@ -712,6 +712,7 @@ export class VacancyFormComponent implements OnInit {
     }
   }
 
+
   putVacancy() {
     this.vacancyService.setVacancy(this.form.value).subscribe(
       (data) => {
