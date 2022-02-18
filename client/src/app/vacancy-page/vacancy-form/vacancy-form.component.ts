@@ -135,6 +135,7 @@ export class VacancyFormComponent implements OnInit {
   filteredSkilsOptions: Array<Observable<string[]>> = [];
 
   filteredLanguagesOptions: Array<Observable<string[]>> = [];
+  adminEmail = admin_email
 
   constructor(private vacancyService: VacancyService, private skillService: SkillService,
     public router: Router, public datepipe: DatePipe, private activeRoute: ActivatedRoute,
@@ -718,7 +719,7 @@ export class VacancyFormComponent implements OnInit {
       (data) => {
         this.vacancyService.sendMail({ email: this.form.value.email }).subscribe(data =>{
           console.log(data);
-          this.vacancyService.sendMailAdmin({ email: admin_email }).subscribe(data => console.log(data));
+          // this.vacancyService.sendMailAdmin({ email: admin_email }).subscribe(data => console.log(data));
         });
         this.openAlert(data[`message`], 'putForm');
       },
