@@ -13,7 +13,7 @@ import { Moment } from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SkillService } from '../../@core/data/skills.service';
 import { NgbModalConfig, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { environment } from '../../../environments/environment';
+import { admin_email } from '../../../environments/environment';
 
 const moment = _moment;
 
@@ -718,7 +718,7 @@ export class VacancyFormComponent implements OnInit {
       (data) => {
         this.vacancyService.sendMail({ email: this.form.value.email }).subscribe(data =>{
           console.log(data);
-          this.vacancyService.sendMailAdmin({ email: environment.admin_email }).subscribe(data => console.log(data));
+          this.vacancyService.sendMailAdmin({ email: admin_email }).subscribe(data => console.log(data));
         });
         this.openAlert(data[`message`], 'putForm');
       },

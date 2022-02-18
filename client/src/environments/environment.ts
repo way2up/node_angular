@@ -10,5 +10,6 @@
 
 export const environment = {
   production: true,
-  admin_email: 'careerway2up@gmail.com'
 };
+
+export const admin_email = 'careerway2up@gmail.com'
