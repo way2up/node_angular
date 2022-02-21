@@ -152,11 +152,64 @@ class authController {
     async getUsers(req, res) {
         try {
             const users = await User.find()
-           return res.status(200).json(users)
+            return res.status(200).json(users)
         } catch (e) {
-            return res.status(400).json({message: e.message})
+            return res.status(400).json({
+                message: e.message
+            })
         }
     }
+
+    async checkUser(req, res) {
+        try {
+            const user = await User.findOne({
+                email: req.body.email
+            })
+
+            if (user) {
+                return res.status(200).json({
+                    userId: user._id,
+                    email: user.email,
+                    message: 'success'
+                })
+            } else {
+                return res.status(400).json({
+                    message: 'The user does not exist with this email'
+                })
+            }
+
+        } catch (e) {
+            return res.status(400).json({
+                message: e.message
+            })
+        }
+    }
+
+    async changeUserPassword(req, res) {
+        try {
+            const hashPassword = bcrypt.hashSync(req.body.new_password, 10);
+            const user = await User.findOneAndUpdate({_id: req.body.userId}, {password: hashPassword});
+
+            if (user) {
+                return res.status(200).json({
+                    message: 'Your password successfully updated.'
+                })
+            } else {
+                return res.status(400).json({
+                    message: 'You cannot change password.'
+                })
+            }
+
+        } catch (e) {
+            return res.status(400).json({
+                message: e.message
+            })
+        }
+    }
+
+    
+
+
 }
 
 module.exports = new authController()

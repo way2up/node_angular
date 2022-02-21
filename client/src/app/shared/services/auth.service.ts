@@ -4,6 +4,12 @@ import { Observable } from 'rxjs';
 import { User } from '../interfaces/IAuth';
 import { tap } from 'rxjs/internal/operators';
 
+export interface UserChangePassword {
+    userId? : string,
+    message?: string,
+    email?: string
+   }
+
 @Injectable({
     providedIn: 'root'
 })
@@ -74,4 +80,17 @@ export class AuthService {
     getUsers() {
         return this.http.get(`/api/getUsers`)
     }
+
+    checkUser(emailData: any) {
+        return this.http.post(`/api/checkUser`, emailData);
+    }
+
+    sendEmailChangePassword(data: UserChangePassword) {
+        return this.http.post(`/api/sendMailResetPassword`, data);
+    }
+
+    userChangePassword(newPassData) {
+        return this.http.post(`/api/changeUserPassword`, newPassData);
+    }
+
 }

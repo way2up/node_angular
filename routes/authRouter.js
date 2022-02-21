@@ -10,6 +10,8 @@ router.post('/registration', controllerAuth.registration);
 router.post('/login', controllerAuth.login);
 router.post('/refresh-tokens', controllerAuth.refreshTokens);
 router.get('/getUsers', authMiddleware, controllerAuth.getUsers);
+router.post('/checkUser', controllerAuth.checkUser);
+router.post('/changeUserPassword', controllerAuth.changeUserPassword);
 router.post('/setVacancy', authMiddleware, controllerVacancy.setVacancy);
 router.post('/updateVacancy', authMiddleware, controllerVacancy.updateVacancy);
 router.get('/getVacancies', authMiddleware, controllerVacancy.getVacancies);
