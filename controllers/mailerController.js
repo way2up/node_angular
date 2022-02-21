@@ -28,13 +28,16 @@ class mailerController {
     }
 
     async sendMailResetPassword(req, res) {
+        // http://career.way2up.am in live
+        // http://localhost:4200 in locale
         try {
+            const url = 'http://career.way2up.am';
             if (!req.body.email) return res.sendStatus(400)
             const message = {
                 to: `${req.body.email}`,
                 subject: 'You can change password.',
                 html: `
-                <h1>You can change password with <a href="http://localhost:4200/auth/reset-password?userId=${req.body.userId}">this link</a>.</h1>
+                <h1>You can change password with <a href="${url}/auth/reset-password?userId=${req.body.userId}">this link</a>.</h1>
                 `
             }
             mailer(message)
