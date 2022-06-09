@@ -24,3 +24,15 @@ nb-card-body {
 .demo-items {
   flex: 1 0 33%;
 }
+
+.date_Block {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.photo_section {
+  img {
+    max-height: 160px;
+    margin-bottom: 19px;
+  }
+}

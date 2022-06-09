@@ -17,8 +17,6 @@ export class StatusesComponent implements OnInit {
 
   settings = {
     rowClassFunction: (row) => {
-      // return 'Naushnik'
-      // console.log(row);
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',

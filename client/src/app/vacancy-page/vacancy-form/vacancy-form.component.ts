@@ -462,7 +462,6 @@ export class VacancyFormComponent implements OnInit {
     }
 
     image['src'] = URL.createObjectURL(element.target.files[0]);
-
     this.uploadedPhotos = element.target.files;
     const formData = new FormData();
     for (var i = 0; i < this.uploadedPhotos.length; i++) {
@@ -621,7 +620,6 @@ export class VacancyFormComponent implements OnInit {
 
     this.convertEducation();
     this.convertWorkExperience();
-    console.log(this.form.value);
     this.putVacancy();
   }
 

@@ -42,6 +42,7 @@ export class CheckboxComponent implements ViewCell, OnInit {
   changeBoolean() {
     this.checked = !this.checked;
     this.rowData.colorWhite = this.checked;
+    this.rowData.show = this.checked;
     this.onRetry();
   }
 

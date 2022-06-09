@@ -18,23 +18,32 @@ import { FormInputsComponent } from './form-inputs/form-inputs.component';
 import { FormLayoutsComponent } from './form-layouts/form-layouts.component';
 import { DatepickerComponent } from './datepicker/datepicker.component';
 import { ButtonsComponent } from './buttons/buttons.component';
-import { FormsModule as ngFormsModule } from '@angular/forms';
+import { FormsModule as ngFormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { CKEditorModule } from 'ng2-ckeditor';
 
 @NgModule({
   imports: [
     ThemeModule,
     NbInputModule,
+    MatDatepickerModule,
     NbCardModule,
     NbButtonModule,
     NbActionsModule,
     NbUserModule,
     NbCheckboxModule,
     NbRadioModule,
+    MatFormFieldModule,
     NbDatepickerModule,
     FormsRoutingModule,
     NbSelectModule,
     NbIconModule,
     ngFormsModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    CKEditorModule
   ],
   declarations: [
     FormsComponent,

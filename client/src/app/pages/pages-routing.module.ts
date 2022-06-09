@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
-import { SkillsOfCandidateComponent } from './tables/skills-of-candidate/skills-of-candidate.component';
 
 
 const routes: Routes = [{
@@ -19,6 +18,11 @@ const routes: Routes = [{
       path: 'tables',
       loadChildren: () => import('./tables/tables.module')
         .then(m => m.TablesModule),
+    },
+    {
+      path: 'forms',
+      loadChildren: () => import('./forms/forms.module')
+        .then(m => m.FormsModule),
     },
     {
       path: '',

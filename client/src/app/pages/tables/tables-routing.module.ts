@@ -7,6 +7,7 @@ import { TreeGridComponent } from './tree-grid/tree-grid.component';
 import { CandidatePageComponent } from './candidate-page/candidate-page.component';
 import { SkillsOfCandidateComponent } from './skills-of-candidate/skills-of-candidate.component';
 import { StatusesComponent } from './statuses/statuses.component';
+import { AllVacanciesComponent } from './all-vacancies/allVacancies.component';
 
 const routes: Routes = [{
   path: '',
@@ -32,6 +33,10 @@ const routes: Routes = [{
       path: 'candidateInfo',
       component: CandidatePageComponent,
     },
+    {
+      path: 'allVacancies',
+      component: AllVacanciesComponent,
+    },
   ],
 }];
 
@@ -44,6 +49,7 @@ export class TablesRoutingModule { }
 export const routedComponents = [
   TablesComponent,
   AllCandidatesTableComponent,
+  AllVacanciesComponent,
   TreeGridComponent,
   CandidatePageComponent,
   SkillsOfCandidateComponent,

@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class VacancyPageComponent implements OnInit {
 
-  constructor(private activeRoute: ActivatedRoute,) { }
+  constructor(private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     // this.activeRoute.queryParams.subscribe((params) => {

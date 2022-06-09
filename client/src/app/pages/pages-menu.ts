@@ -225,6 +225,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'award-outline',
     link: '/pages/tables/statuses',
   },
+  {
+    title: 'Vacancies',
+    icon: 'pie-chart-outline',
+    link: '/pages/tables/allVacancies',
+  },
   // {
   //   title: 'Miscellaneous',
   //   icon: 'shuffle-2-outline',
