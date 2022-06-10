@@ -72,6 +72,10 @@ const schema = new Schema({
         type: String,
         required: false
     },
+    desiredSalary: {
+        type: String,
+        required: false
+    },
     interests_hobby: {
         type: String,
         required: false

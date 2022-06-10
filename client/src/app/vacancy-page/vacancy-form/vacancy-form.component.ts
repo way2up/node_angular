@@ -148,6 +148,7 @@ export class VacancyFormComponent implements OnInit {
       city: new FormControl(null, [Validators.required]),
       address: new FormControl(null, [Validators.required]),
       telephone: new FormControl(null, [Validators.required]),
+      desiredSalary: new FormControl(null),
       // file: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     });
 
@@ -171,6 +172,7 @@ export class VacancyFormComponent implements OnInit {
               city: cv.city,
               address: cv.address,
               telephone: cv.telephone,
+              desiredSalary: cv.desiredSalary,
             });
             this.myControlPosition.setValue(cv.position);
             this.selectedPosition = cv.position;
