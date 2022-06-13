@@ -1,6 +1,6 @@
 <div class="container-fluid nb-theme-default form_block">
   <div class="container">
-    <div class="row "> 
+    <div class="row ">
       <div class="col-xs-12 col-md-12  mt-5">
         <h1>Job Application Form</h1>
         <form [formGroup]="form" (ngSubmit)="sendForm()">
@@ -35,15 +35,14 @@
                 <label class="mr-4">Upload your Photo:
                 </label>
                 <div class="photo_file">{{cutingPotoName}}</div>
-                <input type="file" name="file" class="photoFile" (change)="photoChange($event)" accept=".jpg, .jpeg, .png">
+                <input type="file" name="file" class="photoFile" (change)="photoChange($event)"
+                  accept=".jpg, .jpeg, .png">
               </div>
             </div>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
               <nb-card>
-                <nb-card-header><label for="exampleInputFirstName">First Name <span class="reqField">*</span></label>
-                </nb-card-header>
-                <nb-card-body>
+                <nb-card-body class="firstLastName">
                   <div class="form-group">
                     <input type="text" name="firstName" formControlName="firstName" class="form-control"
                       id="exampleInputFirstName" placeholder="Enter your first name" required="required">
@@ -52,11 +51,9 @@
               </nb-card>
             </div>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
               <nb-card>
-                <nb-card-header><label for="exampleInputLastName">Last Name <span class="reqField">*</span></label>
-                </nb-card-header>
-                <nb-card-body>
+                <nb-card-body class="firstLastName">
                   <div class="form-group">
                     <input type="text" name="lastName" formControlName="lastName" class="form-control"
                       id="exampleInputLastName" placeholder="Enter your last Name" required="required">
@@ -65,9 +62,10 @@
               </nb-card>
             </div>
 
-            <div class="col-12">
-              <div class="form-group">
-                <ngx-bt-data-picker [InPutDateOfBirth] = "DateOfBirth" (OutPutDateOfBirth) = "cahageDateOfBirth($event)"></ngx-bt-data-picker>
+            <div class="col-12 col-md-4">
+              <div class="form-group" class="dateOfBirth">
+                <ngx-bt-data-picker [InPutDateOfBirth]="DateOfBirth" (OutPutDateOfBirth)="cahageDateOfBirth($event)">
+                </ngx-bt-data-picker>
               </div>
             </div>
 
@@ -207,7 +205,7 @@
                               (click)="removeEducation(i)">X</button>
                           </div>
 
-                          <div class="col-12 mt-3">
+                          <div class="col-12 col-md-6 mt-3">
                             <mat-form-field appearance="fill">
                               <mat-label>Start Date</mat-label>
                               <input matInput [matDatepicker]="sd" [max]="educStartMax ? education.endDate : today"
@@ -221,7 +219,7 @@
                             </mat-form-field>
                           </div>
 
-                          <div class="col-12  mt-3" *ngIf="!education.present">
+                          <div class="col-12 col-md-6  mt-3" *ngIf="!education.present">
                             <mat-form-field appearance="fill">
                               <mat-label>End Date</mat-label>
                               <input matInput [matDatepicker]="ed" [min]="education.startDate" [max]="today"
@@ -237,13 +235,13 @@
 
                           <div class="col-12 mt-3">
                             <label _ngcontent-awr-c62="" class="label lavel_present">
-                            <nb-checkbox (change)="checkValueEducationEndDate($event, i)" _nghost-awr-c62=""
-                              class="status-basic nb-transition">
-                              
+                              <nb-checkbox (change)="checkValueEducationEndDate($event, i)" _nghost-awr-c62=""
+                                class="status-basic nb-transition">
+
                                 <input _ngcontent-awr-c62="" type="checkbox" class="native-input visually-hidden">
                                 <span _ngcontent-awr-c62="" class="text">Present</span>
-                            </nb-checkbox>
-                          </label>
+                              </nb-checkbox>
+                            </label>
                           </div>
 
                         </div>
@@ -289,7 +287,7 @@
                             </div>
                           </div>
 
-                          <div class="col-12 mt-3">
+                          <div class="col-12 col-md-6 mt-3">
                             <mat-form-field appearance="fill">
                               <mat-label>Start Date</mat-label>
                               <input matInput [matDatepicker]="sd" [max]="workStartMax ? work.endDate : today"
@@ -301,7 +299,7 @@
                             </mat-form-field>
                           </div>
 
-                          <div class="col-12 mt-3" *ngIf="!work.present">
+                          <div class="col-12 col-md-6 mt-3" *ngIf="!work.present">
                             <mat-form-field appearance="fill">
                               <mat-label>End Date</mat-label>
                               <input matInput [matDatepicker]="ed" [min]="work.startDate" [max]="today"
@@ -315,15 +313,15 @@
 
                           <div class="col-12 mt-3">
                             <label _ngcontent-awr-c62="" class="label lavel_present">
-                            <nb-checkbox (change)="checkValueWorkEndDate($event, i)" _nghost-awr-c62=""
-                              class="status-basic nb-transition">
+                              <nb-checkbox (change)="checkValueWorkEndDate($event, i)" _nghost-awr-c62=""
+                                class="status-basic nb-transition">
                                 <input _ngcontent-awr-c62="" type="checkbox" class="native-input visually-hidden">
                                 <span _ngcontent-awr-c62="" class="text">Present</span>
-                            </nb-checkbox>
-                          </label>
+                              </nb-checkbox>
+                            </label>
                           </div>
 
-                          <div class="col-12">
+                          <div class="col-12 mt-3">
                             <div class="form-group">
                               <label>Description</label>
                               <textarea class="form-control" [ngModelOptions]="{standalone: true}"
@@ -410,62 +408,65 @@
               </div>
             </div>
 
-          </div>
-
-          <div class="form-group">
-            <nb-card>
-              <nb-card-header><label>Social Links</label></nb-card-header>
-              <nb-card-body>
-                <ul class="list-group ">
-                  <li class="list-group-item" *ngFor="let soc of socialLInksArr; let i = index">
-                    <div class="row">
-                      <div class="col-8 col-md-11">
-                        <div class="input-group ">
-                          <input type="text" placeholder="Link" [(ngModel)]="soc.link"
-                            [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
+            <div class="col-6">
+              <div class="form-group">
+                <nb-card>
+                  <nb-card-header><label>Social Links</label></nb-card-header>
+                  <nb-card-body>
+                    <ul class="list-group ">
+                      <li class="list-group-item" *ngFor="let soc of socialLInksArr; let i = index">
+                        <div class="row">
+                          <div class="col-8 col-md-10">
+                            <div class="input-group ">
+                              <input type="text" placeholder="Link" [(ngModel)]="soc.link"
+                                [ngModelOptions]="{standalone: true}" class="form-control education_name__input">
+                            </div>
+                          </div>
+                          <div class="col-4 col-md-1">
+                            <button type="button" nbButton status="danger" class="education_remove__btn"
+                              (click)="removeSocialLInk(i)">X</button>
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-4 col-md-1">
-                        <button type="button" nbButton status="danger" class="education_remove__btn"
-                          (click)="removeSocialLInk(i)">X</button>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item">
-                    <div class="row">
-                      <div class="col-12">
-                        <button type="button" nbButton status="primary" class="education_add__btn"
-                          (click)="addSocialLInk()">Add</button>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </nb-card-body>
-            </nb-card>
-          </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="row">
+                          <div class="col-12">
+                            <button type="button" nbButton status="primary" class="education_add__btn"
+                              (click)="addSocialLInk()">Add</button>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </nb-card-body>
+                </nb-card>
+              </div>
+            </div>
 
-          <div class="form-group">
-            <nb-card>
-              <nb-card-header><label>Motivation letter</label></nb-card-header>
-              <nb-card-body>
-                <textarea class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="motivation_letter"
-                  maxlength="1000" rows="3"></textarea>
-              </nb-card-body>
-            </nb-card>
-          </div>
+            <div class="col-6">
+              <div class="form-group">
+                <nb-card>
+                  <nb-card-header><label>Motivation letter</label></nb-card-header>
+                  <nb-card-body>
+                    <textarea class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="motivation_letter"
+                      maxlength="1000" rows="3"></textarea>
+                  </nb-card-body>
+                </nb-card>
+              </div>
+            </div>
 
-          
-          <div class="col-12 col-md-6">
-            <nb-card>
-              <nb-card-header><label for="desiredSalary">Desired Salary</label>
-              </nb-card-header>
-              <nb-card-body>
-                <div class="form-group">
-                  <input type="text" name="desiredSalary" formControlName="desiredSalary" class="form-control"
-                    id="desiredSalary" placeholder="Enter your desired salary" >
-                </div>
-              </nb-card-body>
-            </nb-card>
+            <div class="col-12 col-md-6">
+              <nb-card>
+                <nb-card-header><label for="desiredSalary">Desired Salary</label>
+                </nb-card-header>
+                <nb-card-body>
+                  <div class="form-group">
+                    <input type="text" name="desiredSalary" formControlName="desiredSalary" class="form-control"
+                      id="desiredSalary" placeholder="Enter your desired salary">
+                  </div>
+                </nb-card-body>
+              </nb-card>
+            </div>
+
           </div>
 
           <div class="form-group mt-3 file_upload">
@@ -473,10 +474,12 @@
             </label>
             <div class="file_Name">{{cutingFileName}}</div>
             <input type="file" name="file" class="file" (change)="fileChange($event)" accept=".pdf, .doc, .docx">
-            <p *ngIf="uploadFileName && cv_id"><strong>CV: </strong> <a [href]="uploadFileName" download>Download</a> </p>
-            <div *ngIf="uploadFileName && cv_id"><button type="button" (click)="removeCV()" class="btn btn-danger">Reove CV</button></div>
+            <p *ngIf="uploadFileName && cv_id"><strong>CV: </strong> <a [href]="uploadFileName" download>Download</a>
+            </p>
+            <div *ngIf="uploadFileName && cv_id"><button type="button" (click)="removeCV()" class="btn btn-danger">Reove
+                CV</button></div>
           </div>
-          
+
           <button type="submit" nbButton status="success"> {{cv_id ? 'Save' : 'Send'}}</button><br><br>
         </form>
 
@@ -485,4 +488,3 @@
   </div>
 
 </div>
-
