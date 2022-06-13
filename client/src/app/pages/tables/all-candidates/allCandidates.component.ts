@@ -29,6 +29,10 @@ export class AllCandidatesTableComponent implements OnInit {
         title: 'Email',
         type: 'string',
       },
+      allSkills: {
+        title: 'Skills',
+        type: 'string',
+      },
       position: {
         title: 'Position',
         type: 'string',
@@ -59,7 +63,7 @@ export class AllCandidatesTableComponent implements OnInit {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor( private auth: AuthService,
+  constructor(private auth: AuthService,
     private vacancyService: VacancyService, private skillService: SkillService, public router: Router) {
     this.getStatuses();
   }
@@ -69,10 +73,25 @@ export class AllCandidatesTableComponent implements OnInit {
       if (change.action === 'filter' || change.action === 'sort') {
         this.getVacancies('', this.statusId);
       }
+      if (change.action === 'load' && change.filter.filters.length) {
+        if (change.filter.filters[0][`field`] === 'allSkills') {
+          const searchText = change.filter.filters[0][`search`];
+          const strArr = searchText.split(', ');
+          change.elements = this.candidates.filter(data => {
+            let num = 0;
+            strArr.forEach(v => {
+              if (data.allSkills.toLowerCase().includes(v.toLowerCase())) {
+                num++;
+              }
+            });
+            if (num === strArr.length) {
+              return data;
+            }
+          })
+        }
+      }
     });
-
   }
-
 
   getStatuses() {
     this.skillService.getStatuses().subscribe(
@@ -94,6 +113,13 @@ export class AllCandidatesTableComponent implements OnInit {
           item.name = item.firstName + ' ' + item.lastName;
           return item;
         })
+        for (let i = 0; i < this.candidates.length; i++) {
+          this.candidates[i][`allSkills`] = this.candidates[i].skills.reduce(
+            (previousValue, currentValue, index, array) => previousValue + currentValue[`skill`] + `${index === array.length - 1 ? '' : ','} `,
+            ''
+          );
+        }
+
         this.source.load(this.candidates);
         for (let i = 0; i < this.candidates.length; i++) {
           if (this.candidates[i].statusId) {
