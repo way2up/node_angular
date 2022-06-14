@@ -81,6 +81,7 @@ class authController {
                     message: `User ${email} not found`
                 })
             }
+
             const validPassword = bcrypt.compareSync(password, user.password)
             if (!validPassword) {
                 return res.status(400).json({
@@ -90,7 +91,11 @@ class authController {
 
             updateTokens(user._id).then(tokens => res.json({
                 tokens,
-                user
+                user: {
+                    email: user.email,
+                    fullName: user.fullName,
+                    role: user.role,
+                }
             }));
 
         } catch (e) {

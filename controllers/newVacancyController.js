@@ -16,6 +16,22 @@ class newVacancyController {
         }
     }
 
+    async getActiveVacancies(req, res) {
+        try {
+            let vacancies = await newVacancy.find({
+                    show: true,
+                    ...req.query
+                })
+                .sort({
+                    startDate: -1
+                }).select('-_id -__v -show');
+
+            return res.status(200).json(vacancies)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     async createNewVacancy(req, res) {
         try {
             // if (req.body._id) {
@@ -43,7 +59,10 @@ class newVacancyController {
 
     async updateNewVacancy(req, res) {
         try {
-            const position = await newVacancy.findByIdAndUpdate(req.body._id, req.body, { new:true, seFindAndModify: false });
+            const position = await newVacancy.findByIdAndUpdate(req.body._id, req.body, {
+                new: true,
+                seFindAndModify: false
+            });
             return res.status(200).json({
                 message: 'Vacancy successfully updated',
                 data: position
