@@ -116,6 +116,8 @@
       </p>
     </ng-container>
   </div>
+
+  <p class="error-message" *ngIf="errorText">{{errorText}}</p>
 <!-- 
   <div class="form-control-group accept-group" *ngIf="getConfigValue('forms.register.terms')">
     <nb-checkbox name="terms" [(ngModel)]="user.terms" [required]="getConfigValue('forms.register.terms')">

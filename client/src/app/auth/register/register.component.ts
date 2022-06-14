@@ -10,7 +10,8 @@ import { NbAuthService, NbRegisterComponent, NB_AUTH_OPTIONS } from '@nebular/au
   styleUrls: ['./register.component.scss']
 })
 export class NgxRegisterComponent extends NbRegisterComponent {
-  user: any
+  user: any;
+  public errorText;
   constructor(service: NbAuthService, @Inject(NB_AUTH_OPTIONS) protected options = {}, cd: ChangeDetectorRef, router: Router, private auth: AuthService) {
     super(service, options, cd, router)
   }
@@ -22,7 +23,7 @@ export class NgxRegisterComponent extends NbRegisterComponent {
         this.router.navigate(['auth']);
       },
       err => {
-        console.log(err)
+        this.errorText = err.error.message;
       }
     )
   }
