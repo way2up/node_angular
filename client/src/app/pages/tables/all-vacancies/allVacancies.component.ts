@@ -85,33 +85,6 @@ export class AllVacanciesComponent implements OnInit {
         this.updateVacancy(data);
     }
 
-    createNewVacancy() {
-        let data: newVacancy = {
-            metaTitle: 'User_7',
-            metaDescription: 'desmetetedes_2',
-            ogType: 'desmetetedes_2',
-            ogTitle: 'desmetetedes_2',
-            ogDescription: 'desmetetedes_2',
-            ogImage: 'desmetetedes_2',
-            vacancyTitle: 'desmetetedes_2',
-            startDate: '04.08.2023',
-            endDate: '07.10.2023',
-            smallImage: 'desmetetedes_2',
-            bigImage: 'desmetetedes_2',
-            shortDescription: 'desmetetedes_2',
-            longDescription: 'desmetetedes_2',
-            show: true
-        }
-        this.newVacancyService.createNewVacancy(data).subscribe(
-            (data) => {
-                console.log(data, 556985);
-            },
-            error => {
-                console.warn(error);
-            }
-        );
-    }
-
     updateVacancy(vacancy) {
         this.newVacancyService.updateNewVacancy(vacancy).subscribe(
             (data) => {

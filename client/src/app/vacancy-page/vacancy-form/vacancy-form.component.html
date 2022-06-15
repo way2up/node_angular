@@ -390,7 +390,7 @@
                   <nb-card-header><label for="inputAddress">Address</label></nb-card-header>
                   <nb-card-body>
                     <input type="text" name="address" formControlName="address" class="form-control" id="inputAddress"
-                      placeholder="1234 Main St, home">
+                      placeholder="Address">
                   </nb-card-body>
                 </nb-card>
               </div>
@@ -476,7 +476,7 @@
             <input type="file" name="file" class="file" (change)="fileChange($event)" accept=".pdf, .doc, .docx">
             <p *ngIf="uploadFileName && cv_id"><strong>CV: </strong> <a [href]="uploadFileName" download>Download</a>
             </p>
-            <div *ngIf="uploadFileName && cv_id"><button type="button" (click)="removeCV()" class="btn btn-danger">Reove
+            <div *ngIf="uploadFileName && cv_id"><button type="button" (click)="removeCV()" class="btn btn-danger">Remove
                 CV</button></div>
           </div>
 

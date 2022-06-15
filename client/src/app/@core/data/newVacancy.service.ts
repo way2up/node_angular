@@ -2,8 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 export interface newVacancy {
+    _id?: string,
     metaTitle?: string,
     metaDescription?: string,
+    url: string,
     ogType?: string,
     ogTitle?: string,
     ogDescription?: string,
@@ -15,7 +17,9 @@ export interface newVacancy {
     bigImage?: string,
     shortDescription?: string,
     longDescription?: string,
-    show?: boolean
+    show?: boolean,
+    startD?: any,
+    endD?: any
     
 }
 

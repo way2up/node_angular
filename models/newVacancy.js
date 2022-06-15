@@ -59,7 +59,12 @@ const schema = new Schema({
     show: {
         type: Boolean,
         default: false
-    }
+    },
+    url: {
+        type: String,
+        unique: true,
+        required: true
+    },
 })
 
 module.exports = model('newVacancies', schema)

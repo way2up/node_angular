@@ -87,7 +87,7 @@ const schema = new Schema({
     user_id: {
         type: String,
         required: false
-    },
+    }
 })
 
 module.exports = model('Vacancy', schema)

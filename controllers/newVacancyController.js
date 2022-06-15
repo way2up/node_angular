@@ -34,15 +34,6 @@ class newVacancyController {
 
     async createNewVacancy(req, res) {
         try {
-            // if (req.body._id) {
-            //     await Vacancy.findByIdAndUpdate(req.body._id, req.body, {
-            //         new: false,
-            //         seFindAndModify: true
-            //     });
-            //     return res.status(200).json({
-            //         message: "CV Updated"
-            //     })
-            // }
             const vacancy = new newVacancy(req.body)
             await vacancy.save()
             return res.status(200).json({

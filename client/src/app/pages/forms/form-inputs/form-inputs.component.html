@@ -3,8 +3,10 @@
     <nb-card>
       <nb-card-header>Vacancy</nb-card-header>
       <nb-card-body>
-        <input type="text" nbInput fullWidth [(ngModel)]="vacancy.metaTitle" placeholder="Meta title">
-        <input type="text" nbInput fullWidth [(ngModel)]="vacancy.metaDescription" placeholder="Meta description">
+        <div class="full-name-inputs">
+          <input type="text" nbInput fullWidth [(ngModel)]="vacancy.metaTitle" placeholder="Meta title">
+          <input type="text" nbInput fullWidth [(ngModel)]="vacancy.metaDescription" placeholder="Meta description">
+        </div>
         <div class="full-name-inputs">
           <input type="text" nbInput fullWidth [(ngModel)]="vacancy.ogType" placeholder="Og-type">
           <input type="text" nbInput fullWidth [(ngModel)]="vacancy.ogTitle" placeholder="Og-title">
@@ -14,6 +16,9 @@
           <input type="text" nbInput fullWidth [(ngModel)]="vacancy.ogImage" placeholder="Og-image">
         </div>
         <input type="text" nbInput fullWidth [(ngModel)]="vacancy.vacancyTitle" placeholder="Vacancy title">
+        <input type="text" nbInput fullWidth [(ngModel)]="vacancy.url" placeholder="Url" (input)="checkUrlReg()">
+        <p class="error-message" *ngIf="errorRegUrl">{{errorRegUrl}}</p>
+
         <!-- 
         (yearSelected)="chosenYearStart($event)"
         (monthSelected)="chosenMonthStart($event, sd)" -->
@@ -39,30 +44,36 @@
 
         <div class="date_Block">
           <div class="photo_upload">
-            <div class="photo_section"><img id="smallImage"/></div>
+            <div class="photo_section"><img id="smallImage" /></div>
             <label class="mr-4">Small image:
             </label>
-            <input type="file" name="file" class="photoFile" (change)="photoChange($event, 'small')" accept=".jpg, .jpeg, .png">
+            <input type="file" name="file" class="photoFile" (change)="photoChange($event, 'small')"
+              accept=".jpg, .jpeg, .png">
           </div>
-  
+
           <div class="photo_upload">
             <div class="photo_section"><img id="bigImage" /></div>
             <label class="mr-4">Big image:
             </label>
-            <input type="file" name="file" class="photoFile" (change)="photoChange($event, 'big')" accept=".jpg, .jpeg, .png">
+            <input type="file" name="file" class="photoFile" (change)="photoChange($event, 'big')"
+              accept=".jpg, .jpeg, .png">
           </div>
         </div>
 
-        <textarea rows="5" nbInput fullWidth shape="round" [(ngModel)]="vacancy.shortDescription" placeholder="Short description"></textarea>
+        <textarea rows="5" nbInput fullWidth shape="round" [(ngModel)]="vacancy.shortDescription"
+          placeholder="Short description"></textarea>
 
         <nb-card>
           <nb-card-header>
             Long description
           </nb-card-header>
           <nb-card-body>
-            <ckeditor [config]="{ extraPlugins: 'divarea', height: '320' }" [(ngModel)]="vacancy.longDescription"></ckeditor>
+            <ckeditor [config]="{ extraPlugins: 'divarea', height: '320' }" [(ngModel)]="vacancy.longDescription">
+            </ckeditor>
           </nb-card-body>
         </nb-card>
+
+        <p class="error-message" *ngIf="errorText">{{errorText}}</p>
 
         <button type="button" nbButton status="success" (click)="save()">SAVE</button>
 

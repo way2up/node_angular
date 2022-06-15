@@ -9,7 +9,7 @@ import { VacancyService } from '../../../@core/data/vacancy.service';
 import { MatDatepicker } from '@angular/material/datepicker';
 import './ckeditor.loader';
 import 'ckeditor';
-import { NewVacancyService } from '../../../@core/data/newVacancy.service';
+import { newVacancy, NewVacancyService } from '../../../@core/data/newVacancy.service';
 
 const moment = _moment;
 
@@ -33,10 +33,11 @@ export const MY_FORMATS = {
 })
 export class FormInputsComponent implements OnInit {
 
-  public editorData = 'fsdfsdf'
+  public errorText;
+  public errorRegUrl;
   public today = new Date();
   public startMaxDate = false;
-  public vacancy;
+  public vacancy: newVacancy;
   public form: FormGroup;
 
   constructor(private vacancyService: VacancyService, private skillService: SkillService, public newVacancyService: NewVacancyService,
@@ -56,6 +57,7 @@ export class FormInputsComponent implements OnInit {
         this.vacancy = {
           metaTitle: '',
           metaDescription: '',
+          url: '',
           ogType: '',
           ogTitle: '',
           ogDescription: '',
@@ -92,7 +94,7 @@ export class FormInputsComponent implements OnInit {
     image['src'] = URL.createObjectURL(element.target.files[0]);
     const formData = new FormData();
     formData.append('file', element.target.files[0]);
-    
+
     this.vacancyService.uploadPhoto(formData)
       .subscribe(
         (response) => {
@@ -105,16 +107,25 @@ export class FormInputsComponent implements OnInit {
       )
   }
 
+  checkUrlReg() {
+    const reg = /([A-Za-z\d]+-*)+$/;
+    this.errorRegUrl = reg.test(this.vacancy.url) ? '' : 'Url should be just latin letters, - and numbers.';
+  }
+
   save() {
+    if (this.errorRegUrl || !this.vacancy.url) {
+      alert('Url filed is required');
+      return;
+    }
     this.vacancy.startDate = this.datepipe.transform(this.vacancy.startD.value.toString(), 'yyyy-MM-dd');
     this.vacancy.endDate = this.datepipe.transform(this.vacancy.endD.value.toString(), 'yyyy-MM-dd');
 
-    const newData =  Object.assign({}, this.vacancy);
+    const newData = Object.assign({}, this.vacancy);
     delete newData.startD;
     delete newData.endD;
 
-    if ( this.vacancy._id ) {
-       this.newVacancyService.updateNewVacancy(newData).subscribe(
+    if (this.vacancy._id) {
+      this.newVacancyService.updateNewVacancy(newData).subscribe(
         (data) => {
           console.log(data);
           this.router.navigate(['/pages/tables/allVacancies']);
@@ -130,12 +141,11 @@ export class FormInputsComponent implements OnInit {
           console.log(data, 'new Vacancy Created');
           this.router.navigate(['/pages/tables/allVacancies']);
         },
-        error => {
-          console.warn(error);
+        err => {
+          this.errorText = err.error.message;
         }
       );
     }
-
 
   }
 
