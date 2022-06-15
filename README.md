@@ -18,3 +18,5 @@
     "dev": "concurrently \"npm run server\" \"npm run client\" "
   },`
   9) `$ npm run dev` for run app server  (localhost: 3000) and client (localhost: 4200) side 
+
+  10) `$ node seed/user-seeder.js`  for insert Data in users and skills Collections

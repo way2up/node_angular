@@ -1,0 +1,158 @@
+[
+    {
+        "name":"HTML"
+    },
+    {
+        "name":"CSS"
+    },
+    {
+        "name":"SASS"
+    },
+    {
+        "name":"Bootstrap 3"
+    },
+    {
+        "name":"Bootstrap 4"
+    },
+    {
+        "name":"Bootstrap 5"
+    },
+    {
+        "name":"JavaScript"
+    },
+    {
+        "name":"jQuery"
+    },
+    {
+        "name":"Photoshop"
+    },
+    {
+        "name":"NodeJS"
+    },
+    {
+        "name":"React"
+    },
+    {
+        "name":"Vue JS"
+    },
+    {
+        "name":"Java"
+    },
+    {
+        "name":"JavaFX"
+    },
+    {
+        "name":"Go"
+    },
+    {
+        "name":"Python"
+    },
+    {
+        "name":"NumPy"
+    },
+    {
+        "name":"Scrum"
+    },
+    {
+        "name":"Coaching"
+    },
+    {
+        "name":"Machine Learning"
+    },
+    {
+        "name":"UI/UX Design"
+    },
+    {
+        "name":"Search Engine Optimization"
+    },
+    {
+        "name":"Project Coordination"
+    },
+    {
+        "name":"Stakeholder Engagement"
+    },
+    {
+        "name":"Microsoft Excel"
+    },
+    {
+        "name":"Microsoft Outlook"
+    },
+    {
+        "name":"Microsoft Word"
+    },
+    {
+        "name":"Commercial Awareness"
+    },
+    {
+        "name":"Robot Framework"
+    },
+    {
+        "name":"Scaled Agile Framework"
+    },
+    {
+        "name":"Test-driven development"
+    },
+    {
+        "name":"Negotiation"
+    },
+    {
+        "name":"HR Policies"
+    },
+    {
+        "name":"Spring framework"
+    },
+    {
+        "name":"Git"
+    },
+    {
+        "name":"Docker"
+    },
+    {
+        "name":"Redis"
+    },
+    {
+        "name":"Jira"
+    },
+    {
+        "name":"PostgreSQL"
+    },
+    {
+        "name":"Facilitation"
+    },
+    {
+        "name":"Building Trust"
+    },
+    {
+        "name":"Professional Networking"
+    },
+    {
+        "name":"Identifying External Influences"
+    },
+    {
+        "name":"Angular JS"
+    },
+    {
+        "name":"Angular"
+    },
+    {
+        "name":"Mongo DB"
+    },
+    {
+        "name":"MySQL"
+    },
+    {
+        "name":"SQL"
+    },
+    {
+        "name":"Android"
+    },
+    {
+        "name":"Kotlin"
+    },
+    {
+        "name":"Swift"
+    },
+    {
+        "name":"Managing Talent"
+    }
+]
