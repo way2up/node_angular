@@ -111,7 +111,7 @@ export class FormInputsComponent implements OnInit {
     setTimeout(()=>{
       const reg = /([A-Za-z\d]+-*)+$/g;
       const space = this.vacancy.url.search(' ');
-      this.errorRegUrl = ( reg.test(this.vacancy.url) && space === -1 ) ? '' : 'Url should be just latin letters, - and numbers.';
+      this.errorRegUrl = ( reg.test(this.vacancy.url) && space === -1 ) ? '' : 'URL should contain only latin letters, numbers, "-" sign without spaces!';
     }, 200);
   }
 

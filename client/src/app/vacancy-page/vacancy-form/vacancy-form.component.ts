@@ -90,8 +90,8 @@ export class VacancyFormComponent implements OnInit {
   public educationArr: Array<any> = [
     {
       name: '',
-      dateStart: new FormControl(moment()),
-      dateEnd: new FormControl(moment()),
+      dateStart: new FormControl(),
+      dateEnd: new FormControl(),
       startDate: null,
       endDate: null,
       present: false
@@ -102,8 +102,8 @@ export class VacancyFormComponent implements OnInit {
       name: '',
       description: '',
       position: '',
-      dateStart: new FormControl(moment()),
-      dateEnd: new FormControl(moment()),
+      dateStart: new FormControl(),
+      dateEnd: new FormControl(),
       startDate: null,
       endDate: null,
       present: false
@@ -413,8 +413,8 @@ export class VacancyFormComponent implements OnInit {
   addEducation(): void {
     let newEducation = {
       name: '',
-      dateStart: new FormControl(moment()),
-      dateEnd: new FormControl(moment()),
+      dateStart: new FormControl(),
+      dateEnd: new FormControl(),
       startDate: null,
       endDate: null,
     }
@@ -430,8 +430,8 @@ export class VacancyFormComponent implements OnInit {
       name: '',
       description: '',
       position: '',
-      dateStart: new FormControl(moment()),
-      dateEnd: new FormControl(moment()),
+      dateStart: new FormControl(),
+      dateEnd: new FormControl(),
       startDate: null,
       endDate: null,
     }
@@ -508,38 +508,8 @@ export class VacancyFormComponent implements OnInit {
       )
   }
 
-  chosenYearWorkStart(normalizedYear: Moment, index: number) {
-    const ctrlValue = this.workExperienceArr[index].dateStart.value;
-    ctrlValue.year(normalizedYear.year());
-    this.workExperienceArr[index].dateStart.setValue(ctrlValue);
-    this.workExperienceArr[index].startDate = this.datepipe.transform(this.workExperienceArr[index].dateStart.value._d, 'yyyy-MM');
-  }
-
-  chosenMonthWorkStart(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>, index: number) {
-    const ctrlValue = this.workExperienceArr[index].dateStart.value;
-    ctrlValue.month(normalizedMonth.month());
-    this.workExperienceArr[index].dateStart.setValue(ctrlValue);
-    this.workExperienceArr[index].startDate = this.datepipe.transform(this.workExperienceArr[index].dateStart.value._d, 'yyyy-MM');
-    datepicker.close();
-  }
-
-  chosenYearWorkEnd(normalizedYear: Moment, index: number) {
-    this.workStartMax = true;
-    const ctrlValue = this.workExperienceArr[index].dateEnd.value;
-    ctrlValue.year(normalizedYear.year());
-    this.workExperienceArr[index].dateEnd.setValue(ctrlValue);
-    this.workExperienceArr[index].endDate = this.datepipe.transform(this.workExperienceArr[index].dateEnd.value._d, 'yyyy-MM');
-  }
-
-  chosenMonthWorkEnd(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>, index: number) {
-    const ctrlValue = this.workExperienceArr[index].dateEnd.value;
-    ctrlValue.month(normalizedMonth.month());
-    this.workExperienceArr[index].dateEnd.setValue(ctrlValue);
-    this.workExperienceArr[index].endDate = this.datepipe.transform(this.workExperienceArr[index].dateEnd.value._d, 'yyyy-MM');
-    datepicker.close();
-  }
-
   chosenYearEducationStart(normalizedYear: Moment, index: number) {
+    this.educationArr[index].dateStart.setValue(moment());
     const ctrlValue = this.educationArr[index].dateStart.value;
     ctrlValue.year(normalizedYear.year());
     this.educationArr[index].dateStart.setValue(ctrlValue);
@@ -555,6 +525,7 @@ export class VacancyFormComponent implements OnInit {
   }
 
   chosenYearEducationEnd(normalizedYear: Moment, index: number) {
+    this.educationArr[index].dateEnd.setValue(moment());
     this.educStartMax = true;
     const ctrlValue = this.educationArr[index].dateEnd.value;
     ctrlValue.year(normalizedYear.year());
@@ -567,6 +538,39 @@ export class VacancyFormComponent implements OnInit {
     ctrlValue.month(normalizedMonth.month());
     this.educationArr[index].dateEnd.setValue(ctrlValue);
     this.educationArr[index].endDate = this.datepipe.transform(this.educationArr[index].dateEnd.value._d, 'yyyy-MM');
+    datepicker.close();
+  }
+
+  chosenYearWorkStart(normalizedYear: Moment, index: number) {
+    this.workExperienceArr[index].dateStart.setValue(moment());
+    const ctrlValue = this.workExperienceArr[index].dateStart.value;
+    ctrlValue.year(normalizedYear.year());
+    this.workExperienceArr[index].dateStart.setValue(ctrlValue);
+    this.workExperienceArr[index].startDate = this.datepipe.transform(this.workExperienceArr[index].dateStart.value._d, 'yyyy-MM');
+  }
+
+  chosenMonthWorkStart(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>, index: number) {
+    const ctrlValue = this.workExperienceArr[index].dateStart.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.workExperienceArr[index].dateStart.setValue(ctrlValue);
+    this.workExperienceArr[index].startDate = this.datepipe.transform(this.workExperienceArr[index].dateStart.value._d, 'yyyy-MM');
+    datepicker.close();
+  }
+
+  chosenYearWorkEnd(normalizedYear: Moment, index: number) {
+    this.workExperienceArr[index].dateEnd.setValue(moment());
+    this.workStartMax = true;
+    const ctrlValue = this.workExperienceArr[index].dateEnd.value;
+    ctrlValue.year(normalizedYear.year());
+    this.workExperienceArr[index].dateEnd.setValue(ctrlValue);
+    this.workExperienceArr[index].endDate = this.datepipe.transform(this.workExperienceArr[index].dateEnd.value._d, 'yyyy-MM');
+  }
+
+  chosenMonthWorkEnd(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>, index: number) {
+    const ctrlValue = this.workExperienceArr[index].dateEnd.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.workExperienceArr[index].dateEnd.setValue(ctrlValue);
+    this.workExperienceArr[index].endDate = this.datepipe.transform(this.workExperienceArr[index].dateEnd.value._d, 'yyyy-MM');
     datepicker.close();
   }
 
@@ -632,13 +636,12 @@ export class VacancyFormComponent implements OnInit {
   }
 
   convertEducation() {
-    const dateNow = this.datepipe.transform(new Date(), 'yyyy-MM');
     const education = [];
     this.educationArr.map((item, index) => {
       education[index] = {};
       education[index][`name`] = item.name;
       education[index][`startDate`] = item.startDate;
-      education[index][`endDate`] = item.present  ? dateNow : item.endDate;
+      education[index][`endDate`] = item.present  ? null : item.endDate;
       return item;
     });
 
@@ -646,7 +649,6 @@ export class VacancyFormComponent implements OnInit {
   }
 
   convertWorkExperience() {
-    const dateNow = this.datepipe.transform(new Date(), 'yyyy-MM');
     const workExperience = [];
     this.workExperienceArr.map((item, index) => {
       workExperience[index] = {};
@@ -654,7 +656,7 @@ export class VacancyFormComponent implements OnInit {
       workExperience[index][`description`] = item.description;
       workExperience[index][`position`] = item.position;
       workExperience[index][`startDate`] = item.startDate;
-      workExperience[index][`endDate`] = item.present  ? dateNow : item.endDate;
+      workExperience[index][`endDate`] = item.present  ? null : item.endDate;
       return item;
     });
 
@@ -683,8 +685,8 @@ export class VacancyFormComponent implements OnInit {
       this.educationArr = [
         {
           name: '',
-          dateStart: new FormControl(moment()),
-          dateEnd: new FormControl(moment()),
+          dateStart: new FormControl(),
+          dateEnd: new FormControl(),
           startDate: null,
           endDate: null,
           present: false
@@ -695,8 +697,8 @@ export class VacancyFormComponent implements OnInit {
           name: '',
           description: '',
           position: '',
-          dateStart: new FormControl(moment()),
-          dateEnd: new FormControl(moment()),
+          dateStart: new FormControl(),
+          dateEnd: new FormControl(),
           startDate: null,
           endDate: null,
           present: false
