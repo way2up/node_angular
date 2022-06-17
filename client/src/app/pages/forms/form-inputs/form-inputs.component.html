@@ -16,7 +16,7 @@
           <input type="text" nbInput fullWidth [(ngModel)]="vacancy.ogImage" placeholder="Og-image">
         </div>
         <input type="text" nbInput fullWidth [(ngModel)]="vacancy.vacancyTitle" placeholder="Vacancy title">
-        <input type="text" nbInput fullWidth [(ngModel)]="vacancy.url" placeholder="Url" (input)="checkUrlReg()">
+        <input type="text" nbInput fullWidth [(ngModel)]="vacancy.url" placeholder="Url" (keyup)="checkUrlReg()">
         <p class="error-message" *ngIf="errorRegUrl">{{errorRegUrl}}</p>
 
         <!-- 

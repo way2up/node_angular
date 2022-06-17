@@ -108,8 +108,11 @@ export class FormInputsComponent implements OnInit {
   }
 
   checkUrlReg() {
-    const reg = /([A-Za-z\d]+-*)+$/;
-    this.errorRegUrl = reg.test(this.vacancy.url) ? '' : 'Url should be just latin letters, - and numbers.';
+    setTimeout(()=>{
+      const reg = /([A-Za-z\d]+-*)+$/g;
+      const space = this.vacancy.url.search(' ');
+      this.errorRegUrl = ( reg.test(this.vacancy.url) && space === -1 ) ? '' : 'Url should be just latin letters, - and numbers.';
+    }, 200);
   }
 
   save() {
