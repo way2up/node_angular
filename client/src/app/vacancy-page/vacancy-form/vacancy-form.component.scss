@@ -71,8 +71,15 @@ h1 {
 }
 
 .photo_upload {
-position: relative;
+  position: relative;
+
   .photo_file {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    line-height: 1.3em;
+    height: 1.4em;
     position: absolute;
     bottom: 7px;
     left: 262px;
@@ -82,12 +89,19 @@ position: relative;
 }
 
 .file_upload {
-position: relative;
+  position: relative;
+
   .file_Name {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    line-height: 1.3em;
+    height: 1.4em;
     position: absolute;
     top: 0px;
     left: 244px;
-    width: 75%;
+    width: 50%;
     background: #F0F8FF;
   }
 }
@@ -96,7 +110,7 @@ position: relative;
   width: 100%;
 }
 
-.firstLastName > .form-group {
+.firstLastName>.form-group {
   margin-bottom: 0;
 }
 
