@@ -92,6 +92,7 @@ class authController {
             updateTokens(user._id).then(tokens => res.json({
                 tokens,
                 user: {
+                    _id: user._id,
                     email: user.email,
                     fullName: user.fullName,
                     role: user.role,
