@@ -71,4 +71,4 @@ const schema = new Schema({
     },
 })
 
-module.exports = model('vacancie', schema)
+module.exports = model('Vacancy', schema)
