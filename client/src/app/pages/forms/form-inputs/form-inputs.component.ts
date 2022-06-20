@@ -9,7 +9,7 @@ import { CandidateService } from '../../../@core/data/candidate.service';
 import { MatDatepicker } from '@angular/material/datepicker';
 import './ckeditor.loader';
 import 'ckeditor';
-import { newVacancy, NewVacancyService } from '../../../@core/data/newVacancy.service';
+import { vacancy, NewVacancyService } from '../../../@core/data/newVacancy.service';
 
 const moment = _moment;
 
@@ -37,7 +37,7 @@ export class FormInputsComponent implements OnInit {
   public errorRegUrl;
   public today = new Date();
   public startMaxDate = false;
-  public vacancy: newVacancy;
+  public vacancy: vacancy;
   public form: FormGroup;
 
   constructor(private candidateService: CandidateService, private skillService: SkillService, public newVacancyService: NewVacancyService,
@@ -128,7 +128,7 @@ export class FormInputsComponent implements OnInit {
     delete newData.endD;
 
     if (this.vacancy._id) {
-      this.newVacancyService.updateNewVacancy(newData).subscribe(
+      this.newVacancyService.updateVacancy(newData).subscribe(
         (data) => {
           console.log(data);
           this.router.navigate(['/pages/tables/allVacancies']);
@@ -139,7 +139,7 @@ export class FormInputsComponent implements OnInit {
       );
 
     } else {
-      this.newVacancyService.createNewVacancy(newData).subscribe(
+      this.newVacancyService.createVacancy(newData).subscribe(
         (data) => {
           console.log(data, 'new Vacancy Created');
           this.router.navigate(['/pages/tables/allVacancies']);

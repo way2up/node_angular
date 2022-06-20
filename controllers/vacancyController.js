@@ -1,10 +1,10 @@
-const newVacancy = require('../models/newVacancy');
+const vacancy = require('../models/vacancy');
 
-class newVacancyController {
+class vacancyController {
 
-    async getNewVacancies(req, res) {
+    async getVacancies(req, res) {
         try {
-            let vacancies = await newVacancy.find()
+            let vacancies = await vacancy.find()
                 .sort({
                     startDate: -1
                 });
@@ -17,7 +17,7 @@ class newVacancyController {
 
     async getActiveVacancies(req, res) {
         try {
-            let vacancies = await newVacancy.find({
+            let vacancies = await vacancy.find({
                     show: true,
                     ...req.query
                 })
@@ -31,10 +31,10 @@ class newVacancyController {
         }
     }
 
-    async createNewVacancy(req, res) {
+    async createVacancy(req, res) {
         try {
-            const vacancy = new newVacancy(req.body)
-            await vacancy.save()
+            const newVac = new vacancy(req.body);
+            await newVac.save();
             return res.status(200).json({
                 message: "New Vacancy successfully created"
             })
@@ -47,9 +47,9 @@ class newVacancyController {
 
     }
 
-    async updateNewVacancy(req, res) {
+    async updateVacancy(req, res) {
         try {
-            const position = await newVacancy.findByIdAndUpdate(req.body._id, req.body, {
+            const position = await vacancy.findByIdAndUpdate(req.body._id, req.body, {
                 new: true,
                 seFindAndModify: false
             });
@@ -79,4 +79,4 @@ class newVacancyController {
 
 }
 
-module.exports = new newVacancyController()
+module.exports = new vacancyController()

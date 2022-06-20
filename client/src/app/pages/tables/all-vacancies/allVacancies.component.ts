@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalDataSource } from 'ng2-smart-table';
-import { newVacancy, NewVacancyService } from '../../../@core/data/newVacancy.service';
+import { vacancy, NewVacancyService } from '../../../@core/data/newVacancy.service';
 import { SkillService } from '../../../@core/data/skills.service';
 
 import { AuthService } from '../../../shared/services/auth.service';
@@ -75,7 +75,7 @@ export class AllVacanciesComponent implements OnInit {
     constructor(private auth: AuthService, public newVacancyService: NewVacancyService, public router: Router) { }
 
     ngOnInit() {
-        this.getNewVacancies();
+        this.getVacancies();
     }
 
     changeCheckbox(data) {
@@ -84,7 +84,7 @@ export class AllVacanciesComponent implements OnInit {
     }
 
     updateVacancy(vacancy) {
-        this.newVacancyService.updateNewVacancy(vacancy).subscribe(
+        this.newVacancyService.updateVacancy(vacancy).subscribe(
             (data) => {
                 console.log(data);
             },
@@ -94,8 +94,8 @@ export class AllVacanciesComponent implements OnInit {
         );
     }
 
-    getNewVacancies() {
-        this.newVacancyService.getNewVacancies().subscribe((data: Array<any>) => {
+    getVacancies() {
+        this.newVacancyService.getVacancies().subscribe((data: Array<any>) => {
             this.newVacancies = data;
             this.source.load(this.newVacancies);
         },

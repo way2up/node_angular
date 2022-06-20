@@ -51,7 +51,6 @@ class candidateController {
     async getCandidates(req, res) {
         try {
             let candidates;
-            console.log(444555666);
             if (req.query[`statusId`] || req.query[`user_id`] || req.query[`_id`]) {
                 candidates = await Candidate.find(req.query).sort({
                     date: -1
@@ -61,8 +60,6 @@ class candidateController {
                     date: -1
                 })
             }
-
-            console.log(candidates, 111);
 
             // vacancies = vacancies.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 

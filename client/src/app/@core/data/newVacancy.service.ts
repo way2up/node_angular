@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-export interface newVacancy {
+export interface vacancy {
     _id?: string,
     metaTitle?: string,
     metaDescription?: string,
@@ -31,16 +31,16 @@ export class NewVacancyService {
 
     constructor(private http: HttpClient) { }
 
-    getNewVacancies() {
-        return this.http.get(`/api/getNewVacancies`);
+    getVacancies() {
+        return this.http.get(`/api/getVacancies`);
     }
 
-    createNewVacancy(vacancy: newVacancy) {
-        return this.http.post('/api/createNewVacancy', vacancy);
+    createVacancy(vacancy: vacancy) {
+        return this.http.post('/api/createVacancy', vacancy);
     }
 
-    updateNewVacancy(data) {
-        return this.http.post('/api/updateNewVacancy', data);
+    updateVacancy(data) {
+        return this.http.post('/api/updateVacancy', data);
     }
 
 }
