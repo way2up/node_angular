@@ -67,7 +67,8 @@ export class FormInputsComponent implements OnInit {
           endD: new FormControl(moment()),
           startDate: '',
           endDate: '',
-          smallImage: '',
+          smallSquareImage: '',
+          smallRectangularImage: '',
           bigImage: '',
           shortDescription: '',
           longDescription: '',
@@ -80,8 +81,10 @@ export class FormInputsComponent implements OnInit {
         this.vacancy.endD = new FormControl(moment(this.vacancy.endDate));
         this.vacancy.startD.setValue(this.vacancy.startDate);
         this.vacancy.endD.setValue(this.vacancy.endDate);
-        let smallImage = document.getElementById('smallImage');
-        smallImage['src'] = this.vacancy.smallImage;
+        let smallSquareImage = document.getElementById('smallSquareImage');
+        smallSquareImage['src'] = this.vacancy.smallSquareImage;
+        let smallRectangularImage = document.getElementById('smallRectangularImage');
+        smallRectangularImage['src'] = this.vacancy.smallRectangularImage;
         let bigImage = document.getElementById('bigImage');
         bigImage['src'] = this.vacancy.bigImage;
       }
@@ -90,7 +93,8 @@ export class FormInputsComponent implements OnInit {
   }
 
   photoChange(element, type) {
-    let image = document.getElementById(type === 'small' ? 'smallImage' : 'bigImage');
+
+    let image = document.getElementById(type);
     image['src'] = URL.createObjectURL(element.target.files[0]);
     const formData = new FormData();
     formData.append('file', element.target.files[0]);
@@ -99,7 +103,18 @@ export class FormInputsComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('response received is ', response);
-          type === 'small' ? this.vacancy.smallImage = response[`fileName`] : this.vacancy.bigImage = response[`fileName`];
+          switch (type) {
+            case 'smallSquareImage':
+              this.vacancy.smallSquareImage = response[`fileName`];
+              break;
+            case 'smallRectangularImage':
+              this.vacancy.smallRectangularImage = response[`fileName`];
+              break;
+            case 'bigImage':
+              this.vacancy.bigImage = response[`fileName`];
+              break;
+          }
+
         },
         error => {
           console.error(error);
@@ -108,10 +123,10 @@ export class FormInputsComponent implements OnInit {
   }
 
   checkUrlReg() {
-    setTimeout(()=>{
+    setTimeout(() => {
       const reg = /([A-Za-z\d]+-*)+$/g;
       const space = this.vacancy.url.search(' ');
-      this.errorRegUrl = ( reg.test(this.vacancy.url) && space === -1 ) ? '' : 'URL should contain only latin letters, numbers, "-" sign without spaces!';
+      this.errorRegUrl = (reg.test(this.vacancy.url) && space === -1) ? '' : 'URL should contain only latin letters, numbers, "-" sign without spaces!';
     }, 200);
   }
 

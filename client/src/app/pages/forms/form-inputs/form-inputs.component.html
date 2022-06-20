@@ -44,10 +44,18 @@
 
         <div class="date_Block">
           <div class="photo_upload">
-            <div class="photo_section"><img id="smallImage" /></div>
-            <label class="mr-4">Small image:
+            <div class="photo_section"><img id="smallSquareImage" /></div>
+            <label class="mr-4">Small Square image:
             </label>
-            <input type="file" name="file" class="photoFile" (change)="photoChange($event, 'small')"
+            <input type="file" name="file" class="photoFile" (change)="photoChange($event, 'smallSquareImage')"
+              accept=".jpg, .jpeg, .png">
+          </div>
+          
+          <div class="photo_upload">
+            <div class="photo_section"><img id="smallRectangularImage" /></div>
+            <label class="mr-4">Small Rectangular image:
+            </label>
+            <input type="file" name="file" class="photoFile" (change)="photoChange($event, 'smallRectangularImage')"
               accept=".jpg, .jpeg, .png">
           </div>
 
@@ -55,7 +63,7 @@
             <div class="photo_section"><img id="bigImage" /></div>
             <label class="mr-4">Big image:
             </label>
-            <input type="file" name="file" class="photoFile" (change)="photoChange($event, 'big')"
+            <input type="file" name="file" class="photoFile" (change)="photoChange($event, 'bigImage')"
               accept=".jpg, .jpeg, .png">
           </div>
         </div>

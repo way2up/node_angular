@@ -40,7 +40,11 @@ const schema = new Schema({
         type: String,
         required: false
     },
-    smallImage: {
+    smallSquareImage: {
+        type: String,
+        required: false
+    },
+    smallRectangularImage: {
         type: String,
         required: false
     },

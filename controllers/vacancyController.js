@@ -1,4 +1,4 @@
-const vacancy = require('../models/vacancy');
+const vacancy = require('../models/Vacancy');
 
 class vacancyController {
 
