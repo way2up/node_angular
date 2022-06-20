@@ -5,7 +5,7 @@
 // @Injectable({
 //     providedIn: 'root'
 // })
-// export class VacancyService {
+// export class CandidateService {
 
 //     constructor(private http: HttpClient) { }
 

@@ -90,4 +90,4 @@ const schema = new Schema({
     }
 })
 
-module.exports = model('Vacancy', schema)
+module.exports = model('Candidate', schema)

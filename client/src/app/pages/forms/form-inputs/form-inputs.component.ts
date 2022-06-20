@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
 import { SkillService } from '../../../@core/data/skills.service';
-import { VacancyService } from '../../../@core/data/vacancy.service';
+import { CandidateService } from '../../../@core/data/candidate.service';
 import { MatDatepicker } from '@angular/material/datepicker';
 import './ckeditor.loader';
 import 'ckeditor';
@@ -40,7 +40,7 @@ export class FormInputsComponent implements OnInit {
   public vacancy: newVacancy;
   public form: FormGroup;
 
-  constructor(private vacancyService: VacancyService, private skillService: SkillService, public newVacancyService: NewVacancyService,
+  constructor(private candidateService: CandidateService, private skillService: SkillService, public newVacancyService: NewVacancyService,
     public router: Router, public datepipe: DatePipe, private route: ActivatedRoute
     // config: NgbModalConfig,  private _modalService: NgbModal, public activeModal: NgbActiveModal
   ) {
@@ -95,7 +95,7 @@ export class FormInputsComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', element.target.files[0]);
 
-    this.vacancyService.uploadPhoto(formData)
+    this.candidateService.uploadPhoto(formData)
       .subscribe(
         (response) => {
           console.log('response received is ', response);

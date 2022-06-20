@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { VacancyService } from '../../@core/data/vacancy.service';
+import { CandidateService } from '../../@core/data/candidate.service';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class CandidatePageComponent implements OnInit, OnDestroy {
   public user_id = localStorage.getItem("user-id");
   public candidates: Array<any>;
 
-  constructor(private router: Router, private auth: AuthService, private vacancyService: VacancyService,) { }
+  constructor(private router: Router, private auth: AuthService, private candidateService: CandidateService,) { }
 
   ngOnInit(): void {
 
@@ -27,7 +27,7 @@ export class CandidatePageComponent implements OnInit, OnDestroy {
   }
 
   getVacancies() {
-    this.vacancyService.getVacancies('', '', this.user_id).subscribe(
+    this.candidateService.getCandidates('', '', this.user_id).subscribe(
       (data: Array<any>) => {
         this.candidates = data;
         console.log(this.candidates)
@@ -51,7 +51,7 @@ export class CandidatePageComponent implements OnInit, OnDestroy {
     if (!confirm("You want delete cv, you can't restore this cv.")) {
       return;
     };
-    this.vacancyService.deleteVacancy(id).subscribe(
+    this.candidateService.deleteCandidate(id).subscribe(
       data => {
         this.getVacancies();
       },

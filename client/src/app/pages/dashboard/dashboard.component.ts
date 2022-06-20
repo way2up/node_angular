@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VacancyService } from '../../@core/data/vacancy.service';
+import { CandidateService } from '../../@core/data/candidate.service';
 
 @Component({
   selector: 'ngx-dashboard',
@@ -10,7 +10,7 @@ export class DashboardComponent implements OnInit {
 
   public bids: number;
 
-  constructor(private vacancyService: VacancyService) {
+  constructor(private candidateService: CandidateService) {
   }
 
   ngOnInit() {
@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getVacancies() {
-    this.vacancyService.getVacancies().subscribe(
+    this.candidateService.getCandidates().subscribe(
       (data) => {
         this.bids = data[`length`];
       },

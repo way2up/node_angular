@@ -1,11 +1,11 @@
-const Vacancy = require('../models/Vacancy')
+const Candidate = require('../models/Candidate')
 
-class vacancyController {
+class candidateController {
 
-    async setVacancy(req, res) {
+    async setCandidate(req, res) {
         try {
             if (req.body._id) {
-                await Vacancy.findByIdAndUpdate(req.body._id, req.body, {
+                await Candidate.findByIdAndUpdate(req.body._id, req.body, {
                     new: false,
                     seFindAndModify: true
                 });
@@ -13,8 +13,8 @@ class vacancyController {
                     message: "CV Updated"
                 })
             }
-            const vacancy = new Vacancy(req.body)
-            await vacancy.save()
+            const candidate = new Candidate(req.body)
+            await candidate.save()
             return res.status(200).json({
                 message: "CV successfully sent"
             })
@@ -27,51 +27,54 @@ class vacancyController {
 
     }
 
-    async updateVacancy(req, res) {
+    async updateCandidate(req, res) {
         try {
-            const position = await Vacancy.findByIdAndUpdate(req.body.id, {
+            const position = await Candidate.findByIdAndUpdate(req.body.id, {
                 statusId: req.body.statusId
             }, {
                 new: true,
                 seFindAndModify: false
             });
             res.status(200).json({
-                message: 'Vacancy successfully updated',
+                message: 'Candidate successfully updated',
                 data: position
             })
         } catch (e) {
             console.log(e)
             res.status(400).json({
-                message: 'Vacancy error'
+                message: 'Candidate error'
             })
         }
 
     }
 
-    async getVacancies(req, res) {
+    async getCandidates(req, res) {
         try {
-            let vacancies;
+            let candidates;
+            console.log(444555666);
             if (req.query[`statusId`] || req.query[`user_id`] || req.query[`_id`]) {
-                vacancies = await Vacancy.find(req.query).sort({
+                candidates = await Candidate.find(req.query).sort({
                     date: -1
                 })
             } else {
-                vacancies = await Vacancy.find().sort({
+                candidates = await Candidate.find().sort({
                     date: -1
                 })
             }
 
+            console.log(candidates, 111);
+
             // vacancies = vacancies.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-            return res.status(200).json(vacancies)
+            return res.status(200).json(candidates)
         } catch (e) {
             console.log(e)
         }
     }
 
-    async deleteVacancies(req, res) {
+    async deleteCandidates(req, res) {
         try {
-            await Vacancy.findByIdAndDelete(req.params.id);
+            await Candidate.findByIdAndDelete(req.params.id);
             res.status(200).json({
                 message: "CV removed"
             })
@@ -82,4 +85,4 @@ class vacancyController {
 
 }
 
-module.exports = new vacancyController()
+module.exports = new candidateController()

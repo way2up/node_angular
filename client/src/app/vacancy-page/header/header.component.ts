@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { VacancyService } from '../../@core/data/vacancy.service';
+import { CandidateService } from '../../@core/data/candidate.service';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   public user_id: string;
   public user_photo: string;
 
-  constructor(private router: Router, private auth: AuthService, private vacancyService: VacancyService,) { }
+  constructor(private router: Router, private auth: AuthService, private candidateService: CandidateService,) { }
 
   ngOnInit(): void {
     this.loggedUser = this.auth.isAuthenticated();
@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getVacancies() {
-    this.vacancyService.getVacancies('', '', this.user_id).subscribe(
+    this.candidateService.getCandidates('', '', this.user_id).subscribe(
       (data: Array<any>) => {
         if (data.length) {
           this.user_photo = data[0].photoName;

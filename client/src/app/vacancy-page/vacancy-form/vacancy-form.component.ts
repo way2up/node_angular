@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { VacancyService } from '../../@core/data/vacancy.service';
+import { CandidateService } from '../../@core/data/candidate.service';
 import { DatePipe } from '@angular/common'
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -136,7 +136,7 @@ export class VacancyFormComponent implements OnInit {
 
   filteredLanguagesOptions: Array<Observable<string[]>> = [];
 
-  constructor(private vacancyService: VacancyService, private skillService: SkillService,
+  constructor(private candidateService: CandidateService, private skillService: SkillService,
     public router: Router, public datepipe: DatePipe, private activeRoute: ActivatedRoute,
     config: NgbModalConfig, private _modalService: NgbModal, public activeModal: NgbActiveModal) {
 
@@ -162,7 +162,7 @@ export class VacancyFormComponent implements OnInit {
     this.activeRoute.queryParams.subscribe((params) => {
       if (params.cv_id) {
         this.cv_id = params.cv_id;
-        this.vacancyService.getVacancies(params.cv_id, '', '').subscribe(
+        this.candidateService.getCandidates(params.cv_id, '', '').subscribe(
           (data: Array<any>) => {
             const cv = data[0];
 
@@ -470,7 +470,7 @@ export class VacancyFormComponent implements OnInit {
     for (var i = 0; i < this.uploadedPhotos.length; i++) {
       formData.append('file', this.uploadedPhotos[i]);
     }
-    this.vacancyService.uploadPhoto(formData)
+    this.candidateService.uploadPhoto(formData)
       .subscribe(
         (response) => {
           console.log('response received is ', response);
@@ -496,7 +496,7 @@ export class VacancyFormComponent implements OnInit {
     for (var i = 0; i < this.uploadedFiles.length; i++) {
       formData.append('file', this.uploadedFiles[i]);
     }
-    this.vacancyService.uploadFile(formData)
+    this.candidateService.uploadFile(formData)
       .subscribe(
         (response) => {
           console.log('response received is ', response);
@@ -715,9 +715,9 @@ export class VacancyFormComponent implements OnInit {
   }
 
   putVacancy() {
-    this.vacancyService.setVacancy(this.form.value).subscribe(
+    this.candidateService.setCandidate(this.form.value).subscribe(
       (data) => {
-        this.vacancyService.sendMail({ email: this.form.value.email }).subscribe(data => console.log(data));
+        this.candidateService.sendMail({ email: this.form.value.email }).subscribe(data => console.log(data));
         this.openAlert(data[`message`], 'putForm');
       },
       err => {

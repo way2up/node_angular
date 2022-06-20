@@ -1,5 +1,4 @@
 const newVacancy = require('../models/newVacancy');
-const Vacancy = require('../models/Vacancy');
 
 class newVacancyController {
 

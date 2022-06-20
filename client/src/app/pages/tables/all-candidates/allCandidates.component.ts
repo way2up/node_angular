@@ -4,7 +4,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { SkillService } from '../../../@core/data/skills.service';
 
 // import { SmartTableData } from '../../../@core/data/smart-table';
-import { VacancyService } from '../../../@core/data/vacancy.service';
+import { CandidateService } from '../../../@core/data/candidate.service';
 import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
@@ -64,7 +64,7 @@ export class AllCandidatesTableComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private auth: AuthService,
-    private vacancyService: VacancyService, private skillService: SkillService, public router: Router) {
+    private candidateService: CandidateService, private skillService: SkillService, public router: Router) {
     this.getStatuses();
   }
 
@@ -106,7 +106,7 @@ export class AllCandidatesTableComponent implements OnInit {
   }
 
   getVacancies(_id?: string, statusId?: string, user_id?: string) {
-    this.vacancyService.getVacancies(null, statusId, null).subscribe(
+    this.candidateService.getCandidates(null, statusId, null).subscribe(
       (data: Array<any>) => {
         this.candidates = data;
         this.candidates = this.candidates.map(item => {

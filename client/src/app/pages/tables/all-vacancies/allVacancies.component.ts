@@ -4,8 +4,6 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { newVacancy, NewVacancyService } from '../../../@core/data/newVacancy.service';
 import { SkillService } from '../../../@core/data/skills.service';
 
-// import { SmartTableData } from '../../../@core/data/smart-table';
-import { VacancyService } from '../../../@core/data/vacancy.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { CheckboxComponent } from '../statuses/checkbox.component';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SkillService } from '../../../@core/data/skills.service';
-import { Vacancy, VacancyService } from '../../../@core/data/vacancy.service';
+import { Candidate, CandidateService } from '../../../@core/data/candidate.service';
 
 @Component({
   selector: 'ngx-candidate-page',
@@ -17,7 +17,7 @@ export class CandidatePageComponent implements OnInit {
   public selectedS: string;
 
   constructor(private activeRoute: ActivatedRoute,
-    private skillService: SkillService, private vacancyService: VacancyService) { }
+    private skillService: SkillService, private candidateService: CandidateService) { }
 
   ngOnInit(): void {
 
@@ -65,7 +65,7 @@ export class CandidatePageComponent implements OnInit {
       statusId: status._id,
     }
 
-    this.vacancyService.updateVacancy(newStatusData).subscribe(
+    this.candidateService.updateCandidate(newStatusData).subscribe(
       (data) => {
         console.log(data)
       },

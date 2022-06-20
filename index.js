@@ -14,6 +14,7 @@ const positions = require('./routes/positions')
 const uploadRoutes = require('./routes/upload')
 const mailerRoutes = require('./routes/mailer.Routes')
 const newVacancies = require('./routes/newVacancies.routes')
+const candidates = require('./routes/candidate.routes')
 const keys = require('./config/keys')
 const passport = require('passport')
 
@@ -77,6 +78,7 @@ app.use('/api', positions)
 app.use('/api', uploadRoutes)
 app.use('/api', mailerRoutes)
 app.use('/api', newVacancies)
+app.use('/api', candidates)
 
 async function start() {
   try {

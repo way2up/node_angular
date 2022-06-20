@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core'
-// import { Vacancy } from '../interfaces/IVacancy';
 
 
-export interface Vacancy {
+export interface Candidate {
     firstName: string,
     LastName: string,
     email: string,
@@ -28,32 +27,32 @@ export interface Vacancy {
 @Injectable({
     providedIn: 'root'
 })
-export class VacancyService {
+export class CandidateService {
 
     constructor(private http: HttpClient) { }
 
-    getVacancies(_id?: string, statusId?: string, user_id?: string) {
+    getCandidates(_id?: string, statusId?: string, user_id?: string) {
         
         let params = {};
         _id ? params[`_id`] = _id : '';
         statusId ? params[`statusId`] = statusId : '';
         user_id ? params[`user_id`] = user_id : '';
 
-        return this.http.get(`/api/getVacancies`, {
+        return this.http.get(`/api/getCandidates`, {
             params,
         });
     }
 
-    setVacancy(vacancy: Vacancy) {
-        return this.http.post('/api/setVacancy', vacancy);
+    setCandidate(vacancy: Candidate) {
+        return this.http.post('/api/setCandidate', vacancy);
     }
 
-    updateVacancy(data) {
-        return this.http.post('/api/updateVacancy', data);
+    updateCandidate(data) {
+        return this.http.post('/api/updateCandidate', data);
     }
 
-    deleteVacancy(id) {
-        return this.http.delete(`/api/deleteVacancie/${id}`);
+    deleteCandidate(id) {
+        return this.http.delete(`/api/deleteCandidate/${id}`);
     }
 
     uploadFile(file) {
