@@ -126,6 +126,7 @@ export class VacancyFormComponent implements OnInit {
 
   public newSkill: string;
   public newLang: string;
+  public errorText: string;
 
   optionsSkils: string[] = [];
 
@@ -719,8 +720,9 @@ export class VacancyFormComponent implements OnInit {
         this.vacancyService.sendMail({ email: this.form.value.email }).subscribe(data => console.log(data));
         this.openAlert(data[`message`], 'putForm');
       },
-      error => {
-        console.warn(error);
+      err => {
+        console.warn(err);
+        this.errorText = err.error.message;
       }
     );
   }

@@ -480,6 +480,7 @@
                 CV</button></div>
           </div>
 
+          <p class="error-message" *ngIf="errorText">{{errorText}}</p>
           <button type="submit" nbButton status="success"> {{cv_id ? 'Save' : 'Send'}}</button><br><br>
         </form>
 
