@@ -178,11 +178,11 @@ export class VacancyFormComponent implements OnInit {
             this.myControlPosition.setValue(cv.position);
             this.selectedPosition = cv.position;
             this.uploadFileName = cv.fileName;
-            this.cutingFileName = /[^/]*$/.exec(this.uploadFileName)[0];
+            this.cutingFileName = this.uploadFileName ? /[^/]*$/.exec(this.uploadFileName)[0] : null;
             this.uploadPhotoName = cv.photoName;
             let image = document.getElementById('output');
-            image['src'] = this.uploadPhotoName;
-            this.cutingPotoName = /[^/]*$/.exec(this.uploadPhotoName)[0];
+            image['src'] = this.uploadPhotoName ?? '';
+            this.cutingPotoName = this.cutingPotoName ? /[^/]*$/.exec(this.uploadPhotoName)[0] : null;
             this.motivation_letter = cv.motivation_letter;
             this.Interests_hobby = cv.interests_hobby;
             this.DateOfBirth = cv.dateOfBirth;

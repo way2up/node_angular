@@ -34,7 +34,7 @@
                 <div class="photo_section"><img id="output" /></div>
                 <label class="mr-4">Upload your Photo:
                 </label>
-                <div class="photo_file">{{cutingPotoName}}</div>
+                <div class="photo_file" *ngIf="cutingPotoName">{{cutingPotoName}}</div>
                 <button type="button" class="control-button fakeBtn" nbButton ghost size="tiny" >
                   <nb-icon icon="cloud-upload" pack="eva"></nb-icon>
                 </button>
@@ -475,7 +475,7 @@
           <div class="form-group mt-3 file_upload">
             <label class="mr-4">Upload your CV:
             </label>
-            <div class="file_Name">{{cutingFileName}}</div>
+            <div class="file_Name" *ngIf="cutingFileName">{{cutingFileName}}</div>
             <button type="button" class="control-button fakeBtn" nbButton ghost size="tiny" >
               <nb-icon icon="cloud-upload" pack="eva"></nb-icon>
             </button>
