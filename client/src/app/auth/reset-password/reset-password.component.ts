@@ -25,16 +25,19 @@ export class NgxResetPasswordComponent extends NbResetPasswordComponent {
     })
   }
 
+
   resetPass(): void {
     const data = {
       userId: this.userId,
       new_password: this.user.confirmPassword
     }
+   
     this.auth.userChangePassword(data).subscribe(
       (data) => {
 
         if (data[`message`] === 'Your password successfully updated.') {
         this.successMessage = data[`message`];
+        this.router.navigateByUrl('/login');
         } else {
           this.errorMessage = data[`message`];
         }
