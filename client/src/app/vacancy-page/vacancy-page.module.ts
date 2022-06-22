@@ -1,5 +1,5 @@
 import { InjectionToken, NgModule } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFocusMonitor, NbInputModule, NbMenuModule, NbSelectModule, NbStatusService, NbTimepickerModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFocusMonitor, NbIconModule, NbInputModule, NbMenuModule, NbSelectModule, NbStatusService, NbTimepickerModule } from '@nebular/theme';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -43,6 +43,7 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         ThemeModule,
         NbMenuModule,
+        NbIconModule,
         MatDatepickerModule,
         MatSelectModule,
         MatAutocompleteModule,

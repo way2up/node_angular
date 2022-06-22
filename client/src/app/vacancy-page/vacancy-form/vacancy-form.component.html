@@ -35,6 +35,9 @@
                 <label class="mr-4">Upload your Photo:
                 </label>
                 <div class="photo_file">{{cutingPotoName}}</div>
+                <button type="button" class="control-button fakeBtn" nbButton ghost size="tiny" >
+                  <nb-icon icon="cloud-upload" pack="eva"></nb-icon>
+                </button>
                 <input type="file" name="file" class="photoFile" (change)="photoChange($event)"
                   accept=".jpg, .jpeg, .png">
               </div>
@@ -473,6 +476,9 @@
             <label class="mr-4">Upload your CV:
             </label>
             <div class="file_Name">{{cutingFileName}}</div>
+            <button type="button" class="control-button fakeBtn" nbButton ghost size="tiny" >
+              <nb-icon icon="cloud-upload" pack="eva"></nb-icon>
+            </button>
             <input type="file" name="file" class="file" (change)="fileChange($event)" accept=".pdf, .doc, .docx">
             <p *ngIf="uploadFileName && cv_id"><strong>CV: </strong> <a [href]="uploadFileName" download>Download</a>
             </p>
