@@ -155,6 +155,8 @@ export class VacancyFormComponent implements OnInit {
 
   }
 
+  get  email(){return this.form.get('email')};
+
 
   ngOnInit(): void {
 
