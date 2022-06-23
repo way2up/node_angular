@@ -155,12 +155,12 @@ export class VacancyFormComponent implements OnInit {
 
   }
 
-  get  email(){return this.form.get('email')};
+  get email() { return this.form.get('email') };
 
 
   ngOnInit(): void {
 
-    this.user_id = localStorage.getItem("user-id")
+    this.user_id = localStorage.getItem("user-id");
     this.activeRoute.queryParams.subscribe((params) => {
       if (params.cv_id) {
         this.cv_id = params.cv_id;
@@ -586,14 +586,17 @@ export class VacancyFormComponent implements OnInit {
   }
 
   sendForm() {
+    // debugger;
     // this.form.disable();
     if (this.selectedPosition === 'Select Position') {
       this.openAlert('Select Your Position');
       // this.form.enable();
+
+    }
+    if (this.email.invalid) {
+      this.openAlert('Email is required');
       return;
     }
-    let date = new Date();
-    let date_Now = this.datepipe.transform(date, 'yyyy-MM-dd, h:mm');
     this.form.value._id = this.cv_id;
     this.form.value.user_id = this.user_id;
     this.form.value.position = this.selectedPosition;
@@ -601,7 +604,7 @@ export class VacancyFormComponent implements OnInit {
     this.form.value.photoName = this.uploadPhotoName;
     this.form.value.motivation_letter = this.motivation_letter;
     this.form.value.interests_hobby = this.Interests_hobby;
-    this.form.value.date = date_Now;
+    this.form.value.date = this.datepipe.transform(new Date(), 'yyyy-MM-dd, h:mm');;
     this.form.value.dateOfBirth = this.DateOfBirth;
 
     this.skillAndRatingArr.map(item => delete item.myControlSkils);
@@ -644,7 +647,7 @@ export class VacancyFormComponent implements OnInit {
       education[index] = {};
       education[index][`name`] = item.name;
       education[index][`startDate`] = item.startDate;
-      education[index][`endDate`] = item.present  ? null : item.endDate;
+      education[index][`endDate`] = item.present ? null : item.endDate;
       return item;
     });
 
@@ -659,7 +662,7 @@ export class VacancyFormComponent implements OnInit {
       workExperience[index][`description`] = item.description;
       workExperience[index][`position`] = item.position;
       workExperience[index][`startDate`] = item.startDate;
-      workExperience[index][`endDate`] = item.present  ? null : item.endDate;
+      workExperience[index][`endDate`] = item.present ? null : item.endDate;
       return item;
     });
 
