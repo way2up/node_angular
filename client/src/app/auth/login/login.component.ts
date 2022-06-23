@@ -39,6 +39,7 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
             return this.router.navigateByUrl('/pages');
           } else if (data.user.role === 'Candidate') {
             localStorage.setItem("reloadPage", "true");
+            sessionStorage.setItem("rememberSession", 'true');
             this.router.navigate(['vacancy/candidatePage']);
           }
         },

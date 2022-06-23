@@ -50,7 +50,7 @@ export class AuthService {
     }
 
     isAuthenticated(): boolean {
-        return !localStorage.getItem("accessToken") || !localStorage.getItem("user-role") ? false : true; ;
+        return !localStorage.getItem("accessToken") || !localStorage.getItem("user-role") ? false : true;
     }
 
     logout(): void {

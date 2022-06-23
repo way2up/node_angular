@@ -30,7 +30,6 @@ export class CandidatePageComponent implements OnInit, OnDestroy {
     this.candidateService.getCandidates('', '', this.user_id).subscribe(
       (data: Array<any>) => {
         this.candidates = data;
-        console.log(this.candidates)
         // this.candidates = this.candidates.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
       },
       error => {

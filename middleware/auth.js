@@ -4,7 +4,6 @@ const User = require('../models/User');
 
 module.exports = (req, res, next) => {
     let token;
-    
     const authHeader = req.get('Authorization');
 
     if (!authHeader && req.get('remember')) {
