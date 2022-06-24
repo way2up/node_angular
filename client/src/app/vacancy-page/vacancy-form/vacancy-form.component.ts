@@ -375,10 +375,19 @@ export class VacancyFormComponent implements OnInit {
   }
 
   selectSkill(name: string, index: number): void {
+    if (this.skillAndRatingArr.find(s => s.skill === name)) {
+      this.openAlert('You have already selected this skill');
+      return
+    }
     this.openAlert('On a scale of 1 to 10, please indicate how well you master the skill․', 'SkillPrompt', name, index);
   }
 
   selectLang(name: string, index: number): void {
+
+    if (this.languageAndRatingArr.find(l => l.lang === name)) {
+      this.openAlert('You have already selected this language․');
+      return
+    }
     this.openAlert('On a scale of 1 to 10, please indicate how well you master the skill․', 'LangPrompt', name, index);
   }
 
