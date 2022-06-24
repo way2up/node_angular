@@ -2,8 +2,9 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } fr
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { AuthService } from '../shared/services/auth.service';
+import { LoaderService } from '../shared/services/loader.service';
 
 
 @Injectable()
@@ -11,10 +12,12 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(
         private auth: AuthService,
         public router: Router,
+        public loaderService: LoaderService
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (this.auth.isAuthenticated()) {
+            this.loaderService.subjectLoader.next(true);
             req = req.clone({
                 setHeaders: {
                     Authorization: `Bearer ${this.auth.getToken()}`,
@@ -25,6 +28,9 @@ export class AuthInterceptor implements HttpInterceptor {
         }
         return next.handle(req)
             .pipe(
+                finalize(() => {
+                    this.loaderService.subjectLoader.next(false);
+                }),
                 tap(event => {
                     // if (event instanceof HttpResponse) {
                     //     console.log(event.status, 4444);

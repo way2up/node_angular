@@ -29,10 +29,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AuthGuardAdmin } from './auth/auth.guard';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthInterceptor } from './auth/auth.inerceptor';
+import { LoaderComponent } from './loader/loader.component';
+import { LoaderService } from './shared/services/loader.service';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,7 @@ import { AuthInterceptor } from './auth/auth.inerceptor';
   ],
   providers: [
      AuthGuardAdmin,
+     LoaderService,
      NgbActiveModal,
      { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     ],
