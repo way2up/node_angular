@@ -17,14 +17,21 @@ const vacancies = require('./routes/vacancies.routes')
 const candidates = require('./routes/candidate.routes')
 const keys = require('./config/keys')
 const passport = require('passport')
+const cors = require('cors');
 
 const PORT = process.env.PORT || 3001
+
+
 
 const app = express()
 const hbs = exphbs.create({
   defaultLayout: 'main',
   extname: 'hbs'
 })
+
+app.use(cors({
+  origin: '*'
+}));
 
 // for file upload
 let gfs;
