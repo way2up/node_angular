@@ -10,7 +10,7 @@ class candidateController {
                     seFindAndModify: true
                 });
                 return res.status(200).json({
-                    message: "CV Updated"
+                    message: "Successfully Updated"
                 })
             }
             const candidate = new Candidate(req.body)
